@@ -1,0 +1,39 @@
+{
+  "name": "freibergergarcia/wordpress-related",
+  "description": "WordPress Related functionalities",
+  "license": "Apache-2.0",
+  "type": "wordpress-plugin",
+  "authors": [
+    {
+      "name": "Bruno",
+      "email": "freibergergarcia@gmail.com"
+    }
+  ],
+  "support": {
+    "src": "https://github.com/freibergergarcia/wordpress-related",
+    "issues": "https://github.com/freibergergarcia/wordpress-related/issues"
+  },
+  "require": {
+    "php": ">=8.0",
+    "psr/log": "~1.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "require-dev": {
+    "automattic/vipwpcs": "^3.0",
+    "phpunit/phpunit": "^10.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "WordPress_Related\\": "includes/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WordPress_Related\\Tests\\Unit\\": "tests/unit/"
+    }
+  }
+}
