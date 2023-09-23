@@ -1,11 +1,12 @@
 <?php
+
 /**
  * WordPress Related Plugin.
  *
- * @package      WORDPRESS_RELATED
- * @copyright    Copyright (C) 2023-2023, WordPress Related - freibergergarcia@gmail.com
- * @link         https://www.github.com/freibergergarcia/wordpress-related
- * @license      https://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @package   WORDPRESS_RELATED
+ * @copyright Copyright (C) 2023-2023, WordPress Related - freibergergarcia@gmail.com
+ * @link      https://www.github.com/freibergergarcia/wordpress-related
+ * @license   https://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  *
  * @wordpress-plugin
  * Plugin Name:       WordPress Related
@@ -21,7 +22,7 @@
  * License URI:       https://www.apache.org/licenses/LICENSE-2.0
  */
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
 use WordPress_Related\Plugin;
 use WordPress_Related\Plugin_Factory;
@@ -29,7 +30,6 @@ use WordPress_Related\Plugin_Factory;
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	die();
 }
-
 require_once __DIR__ . '/vendor/autoload.php';
 
 
