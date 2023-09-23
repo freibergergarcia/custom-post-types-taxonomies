@@ -5,6 +5,8 @@ _anything_ WordPress Related, starting with:
 - Custom Taxonomies
 - Custom Post Types
 
+![Unit Tests](https://github.com/freibergergarcia/wordpress-related/actions/workflows/run-phpunit.yml/badge.svg) ![PHP Code Sniffer](https://github.com/freibergergarcia/wordpress-related/actions/workflows/run-phpcs.yml/badge.svg)
+
 ## Why?
 
 I started helping a friend with a WordPress project with the idea of only using WordPress out-of-the-box
