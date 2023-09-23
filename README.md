@@ -19,3 +19,4 @@ and taxonomies, and if the plugin gains traction, who knows what we might build.
 
 Despite working with VIP WordPress Enterprise since 2020, I have never published a plugin, so that it will be a good learning
 exercise.
+
