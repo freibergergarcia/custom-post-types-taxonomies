@@ -7,6 +7,8 @@ _anything_ WordPress Related, starting with:
 
 ![Unit Tests](https://github.com/freibergergarcia/wordpress-related/actions/workflows/run-phpunit.yml/badge.svg) ![PHP Code Sniffer](https://github.com/freibergergarcia/wordpress-related/actions/workflows/run-phpcs.yml/badge.svg)
 
+[see the code coverage report](https://freibergergarcia.github.io/wordpress-related/html/)
+
 ## Why?
 
 I started helping a friend with a WordPress project with the idea of only using WordPress out-of-the-box
