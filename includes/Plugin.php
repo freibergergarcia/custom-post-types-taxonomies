@@ -1,8 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace WordPress_Related;
+
+use DI\Container;
 
 /**
  * Plugin class.
@@ -14,7 +16,10 @@ namespace WordPress_Related;
  */
 class Plugin {
 
-	public function __construct() {
+	protected Container $container;
+
+	public function __construct( Container $container ) {
+		$this->container = $container;
 	}
 
 	public function init(): void {

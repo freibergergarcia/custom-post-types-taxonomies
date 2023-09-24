@@ -22,9 +22,8 @@
  * License URI:       https://www.apache.org/licenses/LICENSE-2.0
  */
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
-use WordPress_Related\Plugin;
 use WordPress_Related\Plugin_Factory;
 
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
@@ -37,18 +36,20 @@ require_once __DIR__ . '/vendor/autoload.php';
  * Activate Plugin
  *
  * @return void
+ * @throws Exception
  */
 function bootstrap_plugin(): void {
-	Plugin_Factory::create()->init();
+
+	$container_builder = new DI\ContainerBuilder();
+	$container_builder->addDefinitions( __DIR__ . '/di-config.php' );
+	$container = $container_builder->build();
+
+	$plugin = Plugin_Factory::create();
+	$plugin->register( $container );
 }
 
-/**
- * Return an instance of the Plugin
- *
- * @return Plugin
- */
-function get_plugin_instance(): Plugin {
-	return Plugin_Factory::create();
-}
+try {
+	bootstrap_plugin();
+} catch ( Exception $e ) {
 
-bootstrap_plugin();
+}

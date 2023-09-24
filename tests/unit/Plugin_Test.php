@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace WordPress_Related\Tests\Unit;
 
+use DI\Container;
 use PHPUnit\Framework\TestCase;
 use WordPress_Related\Plugin;
-use WordPress_Related\Plugin_Factory;
 
 /**
  * Plugin Test.
@@ -15,9 +15,55 @@ use WordPress_Related\Plugin_Factory;
  */
 class Plugin_Test extends TestCase {
 
-	public function test_plugin_registers_services() {
-		$plugin = Plugin_Factory::create();
+	/**
+	 * Container.
+	 *
+	 * @since 0.0.1
+	 * @var Container
+	 */
+	protected Container $container;
 
-		$this->assertInstanceOf( Plugin::class, $plugin );
+	/**
+	 * Set up.
+	 *
+	 * @since 0.0.1
+	 * @return void
+	 */
+	public function setUp(): void {
+		parent::setUp();
+		$this->container = $this->createMock( 'DI\Container' );
+	}
+
+	/**
+	 * Test plugin constructor.
+	 *
+	 * @since 0.0.1
+	 * @return void
+	 */
+	public function test_plugin_constructor(): void {
+		$plugin = new Plugin( $this->container );
+		$this->assertInstanceOf( 'WordPress_Related\Plugin', $plugin );
+	}
+
+	/**
+	 * Test plugin init.
+	 *
+	 * @since 0.0.1
+	 * @return void
+	 */
+	public function test_plugin_init(): void {
+		$plugin = new Plugin( $this->container );
+		$this->assertNull( $plugin->init() );
+	}
+
+	/**
+	 * Tear down.
+	 *
+	 * @since 0.0.1
+	 * @return void
+	 */
+	public function tearDown(): void {
+		parent::tearDown();
+		unset( $this->container );
 	}
 }

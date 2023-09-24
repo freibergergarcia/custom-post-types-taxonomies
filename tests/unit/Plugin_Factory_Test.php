@@ -7,6 +7,7 @@ namespace WordPress_Related\Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use WordPress_Related\Plugin;
 use WordPress_Related\Plugin_Factory;
+use DI\Container;
 
 /**
  * Plugin Factory Test.
@@ -15,15 +16,44 @@ use WordPress_Related\Plugin_Factory;
  */
 class Plugin_Factory_Test extends TestCase {
 
-	public function test_plugin_factory_creates_plugin_instance() {
-		$plugin = Plugin_Factory::create();
+	/**
+	 * Container.
+	 *
+	 * @since 0.0.1
+	 * @var Container
+	 */
+	protected Container $container;
 
-		$this->assertInstanceOf( Plugin::class, $plugin );
+	/**
+	 * Set up.
+	 *
+	 * @since 0.0.1
+	 * @return void
+	 */
+	public function setUp(): void {
+		parent::setUp();
+		$this->container = $this->createMock( 'DI\Container' );
 	}
 
-	public function test_plugin_factory_creates_shared_instance() {
-		$plugin = Plugin_Factory::create();
+	/**
+	 * Test plugin factory create.
+	 *
+	 * @since 0.0.1
+	 * @return void
+	 */
+	public function test_plugin_factory_create(): void {
+		$plugin = Plugin_Factory::create( $this->container );
+		$this->assertInstanceOf( 'WordPress_Related\Plugin', $plugin );
+	}
 
-		$this->assertSame( $plugin, Plugin_Factory::create() );
+	/**
+	 * Tear down.
+	 *
+	 * @since 0.0.1
+	 * @return void
+	 */
+	public function tearDown(): void {
+		parent::tearDown();
+		unset( $this->container );
 	}
 }

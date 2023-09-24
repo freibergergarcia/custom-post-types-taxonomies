@@ -1,8 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace WordPress_Related;
+
+use DI\Container;
 
 /**
  * Plugin Factory class.
@@ -17,6 +19,8 @@ namespace WordPress_Related;
  */
 class Plugin_Factory {
 
+	protected Container $container;
+
 	/**
 	 * Create and return an instance of the plugin.
 	 *
@@ -24,11 +28,11 @@ class Plugin_Factory {
 	 *
 	 * @return Plugin Plugin instance.
 	 */
-	public static function create(): Plugin {
+	public static function create( Container $container ): Plugin {
 		static $plugin = null;
 
 		if ( null === $plugin ) {
-			$plugin = new Plugin();
+			$plugin = new Plugin( $container );
 		}
 
 		return $plugin;
