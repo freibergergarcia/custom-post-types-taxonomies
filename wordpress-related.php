@@ -1,33 +1,33 @@
 <?php
-
 /**
  * WordPress Related Plugin.
  *
  * @package   WORDPRESS_RELATED
  * @copyright Copyright (C) 2023-2023, WordPress Related - freibergergarcia@gmail.com
  * @link      https://www.github.com/freibergergarcia/wordpress-related
- * @license   https://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
  *
  * @wordpress-plugin
  * Plugin Name:       WordPress Related
- * Version:           0.0.1
+ * Version:           1.0.0
  * Plugin URI:        https://www.github.com/freibergergarcia/wordpress-related
- * Description:       WordPress Related functionalities
+ * Description:       Enhance your WordPress site with related post types and taxonomies functionality provided by the WordPress Related plugin.
  * Author:            Bruno Freiberger Garcia
  * Author URI:        https://www.github.com/freibergergarcia
  * Domain Path:       /languages
  * Requires PHP:      8.0
  * Text Domain:       wordpress-related
- * License:           Apache License 2.0
- * License URI:       https://www.apache.org/licenses/LICENSE-2.0
+ * License:           GNU General Public License v2.0
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
  */
+
 
 declare( strict_types=1 );
 
 use WordPress_Related\Plugin_Factory;
 
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
-	die();
+	die( 'Autoload file not found. Please run composer install.' );
 }
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -44,8 +44,8 @@ function bootstrap_plugin(): void {
 	$container_builder->addDefinitions( __DIR__ . '/di-config.php' );
 	$container = $container_builder->build();
 
-	$plugin = Plugin_Factory::create();
-	$plugin->register( $container );
+	$plugin = Plugin_Factory::create( $container );
+	$plugin->register();
 }
 
 try {

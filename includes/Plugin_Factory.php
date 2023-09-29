@@ -13,12 +13,17 @@ use DI\Container;
  * Read more about why this is preferable to a singleton
  *
  * @package WordPress_Related
- * @since 0.0.1
- * @version 0.0.1
+ * @since 1.0.0
+ * @version 1.0.0
  * @see https://www.alainschlesser.com/singletons-shared-instances/
  */
 class Plugin_Factory {
 
+	/**
+	 * Container instance.
+	 *
+	 * @var Container
+	 */
 	protected Container $container;
 
 	/**

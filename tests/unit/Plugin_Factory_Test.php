@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace WordPress_Related\Tests\Unit;
 
@@ -19,7 +19,7 @@ class Plugin_Factory_Test extends TestCase {
 	/**
 	 * Container.
 	 *
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 * @var Container
 	 */
 	protected Container $container;
@@ -27,8 +27,8 @@ class Plugin_Factory_Test extends TestCase {
 	/**
 	 * Set up.
 	 *
-	 * @since 0.0.1
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function setUp(): void {
 		parent::setUp();
@@ -38,8 +38,8 @@ class Plugin_Factory_Test extends TestCase {
 	/**
 	 * Test plugin factory create.
 	 *
-	 * @since 0.0.1
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function test_plugin_factory_create(): void {
 		$plugin = Plugin_Factory::create( $this->container );
@@ -49,8 +49,8 @@ class Plugin_Factory_Test extends TestCase {
 	/**
 	 * Tear down.
 	 *
-	 * @since 0.0.1
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function tearDown(): void {
 		parent::tearDown();

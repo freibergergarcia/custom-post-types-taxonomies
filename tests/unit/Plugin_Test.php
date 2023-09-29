@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace WordPress_Related\Tests\Unit;
 
@@ -18,7 +18,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Container.
 	 *
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 * @var Container
 	 */
 	protected Container $container;
@@ -26,8 +26,8 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Set up.
 	 *
-	 * @since 0.0.1
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function setUp(): void {
 		parent::setUp();
@@ -37,8 +37,8 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Test plugin constructor.
 	 *
-	 * @since 0.0.1
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function test_plugin_constructor(): void {
 		$plugin = new Plugin( $this->container );
@@ -48,8 +48,8 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Test plugin init.
 	 *
-	 * @since 0.0.1
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function test_plugin_init(): void {
 		$plugin = new Plugin( $this->container );
@@ -59,8 +59,8 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tear down.
 	 *
-	 * @since 0.0.1
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function tearDown(): void {
 		parent::tearDown();

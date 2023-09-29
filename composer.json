@@ -1,7 +1,7 @@
 {
   "name": "freibergergarcia/wordpress-related",
   "description": "WordPress Related functionalities",
-  "license": "Apache-2.0",
+  "license": "GPL-2.0-only",
   "type": "wordpress-plugin",
   "authors": [
     {
