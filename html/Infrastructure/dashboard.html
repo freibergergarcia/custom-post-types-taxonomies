@@ -2,7 +2,7 @@
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>Dashboard for /home/runner/work/wordpress-related/wordpress-related/includes/taxonomy</title>
+  <title>Dashboard for /home/runner/work/wordpress-related/wordpress-related/includes/Infrastructure</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../_css/bootstrap.min.css?v=10.1.5" rel="stylesheet" type="text/css">
   <link href="../_css/nv.d3.min.css?v=10.1.5" rel="stylesheet" type="text/css">
@@ -17,7 +17,7 @@
       <nav aria-label="breadcrumb">
        <ol class="breadcrumb">
          <li class="breadcrumb-item"><a href="../index.html">/home/runner/work/wordpress-related/wordpress-related/includes</a></li>
-         <li class="breadcrumb-item"><a href="index.html">taxonomy</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Infrastructure</a></li>
          <li class="breadcrumb-item active">(Dashboard)</li>
 
        </ol>
@@ -58,7 +58,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="Taxonomy.php.html#22">WordPress_Related\Taxonomy\Taxonomy</a></td><td class="text-right">0%</td></tr>
 
        </tbody>
       </table>
@@ -112,7 +111,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="Taxonomy.php.html#29"><abbr title="WordPress_Related\Taxonomy\Taxonomy::register">register</abbr></a></td><td class="text-right">0%</td></tr>
 
        </tbody>
       </table>
@@ -157,7 +155,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#classCoverageDistribution svg')
-      .datum(getCoverageDistributionData([1,0,0,0,0,0,0,0,0,0,0,0], "Class Coverage"))
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,0], "Class Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -175,7 +173,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#methodCoverageDistribution svg')
-      .datum(getCoverageDistributionData([1,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -225,7 +223,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Cyclomatic Complexity');
 
     d3.select('#classComplexity svg')
-      .datum(getComplexityData([[0,1,"<a href=\"Taxonomy.php.html#22\">WordPress_Related\\Taxonomy\\Taxonomy<\/a>"]], 'Class Complexity'))
+      .datum(getComplexityData([], 'Class Complexity'))
       .transition()
       .duration(500)
       .call(chart);
@@ -249,7 +247,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Method Complexity');
 
     d3.select('#methodComplexity svg')
-      .datum(getComplexityData([[0,1,"<a href=\"Taxonomy.php.html#29\">WordPress_Related\\Taxonomy\\Taxonomy::register<\/a>"]], 'Method Complexity'))
+      .datum(getComplexityData([], 'Method Complexity'))
       .transition()
       .duration(500)
       .call(chart);
