@@ -31,6 +31,13 @@ if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 require_once __DIR__ . '/vendor/autoload.php';
 
+if ( ! defined( 'WORDPRESS_RELATED_FILE' ) ) {
+	define( 'WORDPRESS_RELATED_FILE', __FILE__ );
+}
+
+if ( class_exists( 'WordPress_Related\Plugin' ) ) {
+	register_uninstall_hook( __FILE__, [ 'WordPress_Related\Plugin', 'on_uninstall' ] );
+}
 
 /**
  * Activate Plugin
@@ -45,7 +52,8 @@ function bootstrap_plugin(): void {
 	$container = $container_builder->build();
 
 	$plugin = Plugin_Factory::create( $container );
-	$plugin->register();
+	$plugin->boot();
+	$plugin->init();
 }
 
 try {

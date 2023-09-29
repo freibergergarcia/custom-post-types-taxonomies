@@ -41,7 +41,20 @@ class Plugin {
 	}
 
 	/**
-	 * Initialize the plugin.
+	 * Bootstraps the plugin, registers hooks and services.
+	 *
+	 * This method is intended to be called to kickstart the plugin setup.
+	 * It registers the necessary hooks and initializes the services required for the plugin to work.
+	 *
+	 * @throws Exception If a service fails to register.
+	 */
+	public function boot(): void {
+		$this->register_hooks();
+		$this->register_services();
+	}
+
+	/**
+	 * Initialize the plugin hooks | actions and filters.
 	 *
 	 * @return void
 	 */
@@ -54,7 +67,7 @@ class Plugin {
 	 * @return void
 	 * @throws Exception
 	 */
-	public function register(): void {
+	public function register_services(): void {
 		$services = $this->container->getKnownEntryNames();
 
 		foreach ( $services as $service ) {
@@ -69,5 +82,41 @@ class Plugin {
 				$service_instance->register();
 			}
 		}
+	}
+
+	/**
+	 * Register Infrastructure hooks.
+	 *
+	 * @return void
+	 */
+	public function register_hooks(): void {
+		register_activation_hook( WORDPRESS_RELATED_FILE, array( $this, 'on_activation' ) );
+		register_deactivation_hook( WORDPRESS_RELATED_FILE, array( $this, 'on_deactivation' ) );
+	}
+
+	/**
+	 * Activation hook callback.
+	 *
+	 * @return void
+	 */
+	public function on_activation(): void {
+	}
+
+	/**
+	 * Deactivation hook callback.
+	 *
+	 * @return void
+	 */
+	public function on_deactivation(): void {
+		wp_cache_flush();
+		wp_rewrite_flush();
+	}
+
+	/**
+	 * Uninstall hook callback.
+	 *
+	 * @return void
+	 */
+	public static function on_uninstall(): void {
 	}
 }
