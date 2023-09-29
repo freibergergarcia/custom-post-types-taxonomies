@@ -21,20 +21,27 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-
 declare( strict_types=1 );
 
 use WordPress_Related\Plugin_Factory;
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+// Check if composer autoload file exists
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	die( 'Autoload file not found. Please run composer install.' );
 }
 require_once __DIR__ . '/vendor/autoload.php';
 
+// Define plugin file
 if ( ! defined( 'WORDPRESS_RELATED_FILE' ) ) {
 	define( 'WORDPRESS_RELATED_FILE', __FILE__ );
 }
 
+// Register activation hook
 if ( class_exists( 'WordPress_Related\Plugin' ) ) {
 	register_uninstall_hook( __FILE__, [ 'WordPress_Related\Plugin', 'on_uninstall' ] );
 }

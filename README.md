@@ -1,24 +1,33 @@
-# WordPress-related plugin
+# WordPress-Related Plugin
 
-_anything_ WordPress Related, starting with:
+_anything_ WordPress Related, starting with Custom Taxonomies and Custom Post Types.
 
-- Custom Taxonomies
-- Custom Post Types
+![Unit Tests](https://github.com/freibergergarcia/wordpress-related/actions/workflows/run-phpunit.yml/badge.svg)
+![PHP Code Sniffer](https://github.com/freibergergarcia/wordpress-related/actions/workflows/run-phpcs.yml/badge.svg)
 
-![Unit Tests](https://github.com/freibergergarcia/wordpress-related/actions/workflows/run-phpunit.yml/badge.svg) ![PHP Code Sniffer](https://github.com/freibergergarcia/wordpress-related/actions/workflows/run-phpcs.yml/badge.svg)
-
-[see the code coverage report](https://freibergergarcia.github.io/wordpress-related/html/)
+[See the code coverage report](https://freibergergarcia.github.io/wordpress-related/html/)
 
 ## Why?
 
-I started helping a friend with a WordPress project with the idea of only using WordPress out-of-the-box
-functionalities. The first problem I faced was when I tried to create a custom taxonomy and realised I could only do it
-by code. The same is true for post types. Many plugins do that, but the ones I found were obsolete, not following best
-practices. 
+placeholder
 
-It would be good to have a reliable plugin maintained by the community with some basics; we will start with post-types
-and taxonomies, and if the plugin gains traction, who knows what we might build.
+## Features
 
-Despite working with VIP WordPress Enterprise since 2020, I have never published a plugin, so that it will be a good learning
-exercise.
+- Custom Taxonomies.
+- Custom Post Types.
 
+## Installation
+
+placeholder
+
+## Usage
+
+placeholder
+
+## Contributing
+
+placeholder
+
+## License
+
+This project is licensed under the GNU General Public License v2.0 - see the [LICENSE](LICENSE) file for details.
