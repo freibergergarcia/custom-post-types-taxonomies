@@ -4,7 +4,6 @@ declare( strict_types=1 );
 
 namespace WordPress_Related\Tests\Unit;
 
-use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use WordPress_Related\Plugin_Factory;
 use DI\Container;
@@ -17,44 +16,18 @@ use DI\Container;
 class Plugin_Factory_Test extends TestCase {
 
 	/**
-	 * Container.
-	 *
-	 * @since 1.0.0
-	 * @var Container
-	 */
-	protected Container $container;
-
-	/**
-	 * Set up.
-	 *
-	 * @return void
-	 * @throws Exception
-	 * @since 1.0.0
-	 */
-	public function setUp(): void {
-		parent::setUp();
-		$this->container = $this->createMock( 'DI\Container' );
-	}
-
-	/**
 	 * Test plugin factory create.
 	 *
 	 * @return void
-	 * @since 1.0.0
 	 */
 	public function test_plugin_factory_create(): void {
-		$plugin = Plugin_Factory::create( $this->container );
-		$this->assertInstanceOf( 'WordPress_Related\Plugin', $plugin );
-	}
+		$container = $this->createMock( Container::class );
 
-	/**
-	 * Tear down.
-	 *
-	 * @return void
-	 * @since 1.0.0
-	 */
-	public function tearDown(): void {
-		parent::tearDown();
-		unset( $this->container );
+		$plugin_instance_one = Plugin_Factory::create( $container );
+		$plugin_instance_two = Plugin_Factory::create( $container );
+
+		$this->assertInstanceOf( 'WordPress_Related\Plugin', $plugin_instance_one );
+		$this->assertInstanceOf( 'WordPress_Related\Plugin', $plugin_instance_two );
+		$this->assertSame( $plugin_instance_one, $plugin_instance_two );
 	}
 }
