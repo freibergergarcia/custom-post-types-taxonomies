@@ -4,8 +4,8 @@ declare( strict_types=1 );
 
 namespace WordPress_Related\Tests\Unit;
 
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
-use WordPress_Related\Plugin;
 use WordPress_Related\Plugin_Factory;
 use DI\Container;
 
@@ -28,6 +28,7 @@ class Plugin_Factory_Test extends TestCase {
 	 * Set up.
 	 *
 	 * @return void
+	 * @throws Exception
 	 * @since 1.0.0
 	 */
 	public function setUp(): void {

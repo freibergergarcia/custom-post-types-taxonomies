@@ -69,7 +69,6 @@ class Plugin {
 	 */
 	public function register_services(): void {
 		$services = $this->container->getKnownEntryNames();
-
 		foreach ( $services as $service ) {
 			try {
 				$service_instance = $this->container->get( $service );

@@ -19,6 +19,7 @@ namespace WordPress_Related;
 use function DI\create;
 
 return [
-	'taxonomy'  => create( 'WordPress_Related\Taxonomy\Taxonomy' ),
-	'post_type' => create( 'WordPress_Related\Post_Type\Post_Type' ),
+	'Admin_Menu' => create( 'WordPress_Related\Admin\Admin_Menu' ),
+	'Taxonomy'   => create( 'WordPress_Related\Taxonomy\Taxonomy' ),
+	'Post_Type'  => create( 'WordPress_Related\Post_Type\Post_Type' ),
 ];

@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  bootstrap="tests/unit/bootstrap.php"
-  backupGlobals="false"
-  colors="true"
-  beStrictAboutTestsThatDoNotTestAnything="true"
-  beStrictAboutOutputDuringTests="true"
-  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd"
-  cacheDirectory=".phpunit.cache"
->
-  <coverage>
-    <report>
-      <clover outputFile="coverage.xml" />
-      <html outputDirectory="coverage" />
-    </report>
-  </coverage>
-  <testsuites>
-    <testsuite name="Unit tests">
-      <directory suffix="test.php">./tests/unit</directory>
-    </testsuite>
-  </testsuites>
-  <logging />
-  <source>
-    <include>
-      <directory suffix=".php">includes</directory>
-    </include>
-    <exclude>
-      <directory>vendor</directory>
-    </exclude>
-  </source>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         bootstrap="tests/unit/bootstrap.php"
+         backupGlobals="false"
+         colors="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutOutputDuringTests="true"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd">
+
+    <!-- Coverage configuration -->
+    <coverage processUncoveredFiles="true">
+        <include>
+            <!-- Include the directories to be covered -->
+            <directory suffix=".php">./includes</directory>
+        </include>
+        <exclude>
+            <!-- Exclude the directories not to be covered -->
+            <directory suffix=".php">./vendor</directory>
+        </exclude>
+        <report>
+            <clover outputFile="coverage.xml"/>
+            <html outputDirectory="coverage"/>
+        </report>
+    </coverage>
+
+    <!-- Test suites configuration -->
+    <testsuites>
+        <testsuite name="Unit tests">
+            <directory suffix="Test.php">./tests/unit</directory>
+        </testsuite>
+    </testsuites>
+
+    <!-- Logging configuration -->
+    <logging>
+        <!-- You can specify logging preferences here -->
+    </logging>
+
 </phpunit>
