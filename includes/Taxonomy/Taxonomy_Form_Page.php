@@ -8,6 +8,7 @@ use Exception;
 use WordPress_Related\Config\Config_Loader;
 use WordPress_Related\Config\Config_Loader_Exception;
 use WordPress_Related\Infrastructure\Registerable;
+use WordPress_Related\Utilities;
 
 /**
  * Taxonomy_Form_Page Class
@@ -20,9 +21,17 @@ use WordPress_Related\Infrastructure\Registerable;
  */
 class Taxonomy_Form_Page implements Registerable {
 
+	use Utilities;
+
 	private Config_Loader $config_loader;
 
-	// Constructor injection of the config loader
+	/**
+	 * Constructor injection of the config loader
+	 *
+	 * @param Config_Loader $config_loader The config loader instance.
+	 *
+	 * @throws Exception If any other error occurs.
+	 */
 	public function __construct( Config_Loader $config_loader ) {
 		$this->config_loader = $config_loader;
 	}
@@ -80,10 +89,12 @@ class Taxonomy_Form_Page implements Registerable {
 
 			do_action( 'qm/debug', $key );
 
+			$title = $this->format_snake_case_to_title_case( $key );
+
 			// Dynamically add settings field based on config
 			add_settings_field(
 				'wordpress-related-' . $key,
-				__( 'wordpress-related-' . $key, 'wordpress-related' ),
+				__( $title, 'wordpress-related' ),
 				array( $this, 'render_field' ),
 				'wordpress_related_taxonomy_settings_page',
 				'wordpress_related_taxonomy_settings_section',
@@ -102,8 +113,6 @@ class Taxonomy_Form_Page implements Registerable {
 	 * @throws Exception
 	 */
 	public function add_form_page(): void {
-		do_action( 'qm/debug', 'add_form_page called' );
-
 		add_submenu_page(
 			'wordpress-related',  // Corrected parent slug
 			__( 'Add New Taxonomy', 'wordpress-related' ),
@@ -122,16 +131,16 @@ class Taxonomy_Form_Page implements Registerable {
 	 */
 	public function render_form(): void {
 		?>
-		<div class="wrap">
-			<h1><?php echo esc_html__( 'Add New Taxonomy', 'wordpress-related' ); ?></h1>
-			<form method="post" action="options.php">
+        <div class="wrap">
+            <h1><?php echo esc_html__( 'Add New Taxonomy', 'wordpress-related' ); ?></h1>
+            <form method="post" action="options.php">
 				<?php
 				settings_fields( 'wordpress_related_taxonomy_settings_group' );
 				do_settings_sections( 'wordpress_related_taxonomy_settings_page' );  // Updated this line
 				submit_button();
 				?>
-			</form>
-		</div>
+            </form>
+        </div>
 		<?php
 	}
 
