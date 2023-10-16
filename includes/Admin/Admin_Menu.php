@@ -6,6 +6,7 @@ namespace WordPress_Related\Admin;
 
 use Exception;
 use WordPress_Related\Infrastructure\Registerable;
+use WordPress_Related\Taxonomy\Taxonomy_List_Table;
 
 /**
  * Admin_Menu Class
@@ -88,7 +89,23 @@ class Admin_Menu implements Registerable {
 	 * @throws Exception
 	 */
 	public function render_taxonomies_page(): void {
-		echo '<h1>' . esc_html__( 'Custom Taxonomies', 'wordpress-related' ) . '</h1>';
+		?>
+		<div class="wrap">
+			<h1>
+				<?php echo esc_html__( 'Custom Taxonomies', 'wordpress-related' ); ?>
+				<a href="<?php echo esc_url( admin_url( 'admin.php?page=add-wordpress-related-taxonomies' ) ); ?>"
+					class="page-title-action">
+					<?php echo esc_html__( 'Add New', 'wordpress-related' ); ?>
+				</a>
+			</h1>
+
+			<?php
+			$taxonomy_list_table = new Taxonomy_List_Table();
+			$taxonomy_list_table->prepare_items();
+			$taxonomy_list_table->display();
+			?>
+		</div>
+		<?php
 	}
 
 	/**

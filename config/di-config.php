@@ -17,9 +17,14 @@ declare( strict_types=1 );
 namespace WordPress_Related;
 
 use function DI\create;
+use function DI\get;
 
 return [
-	'Admin_Menu' => create( 'WordPress_Related\Admin\Admin_Menu' ),
-	'Taxonomy'   => create( 'WordPress_Related\Taxonomy\Taxonomy' ),
-	'Post_Type'  => create( 'WordPress_Related\Post_Type\Post_Type' ),
+	'Admin_Menu'             => create( 'WordPress_Related\Admin\Admin_Menu' ),
+	'Taxonomy'               => create( 'WordPress_Related\Taxonomy\Taxonomy' ),
+	'Post_Type'              => create( 'WordPress_Related\Post_Type\Post_Type' ),
+	'Taxonomy_Config_Loader' => create( 'WordPress_Related\Config\Config_Loader' )
+		->constructor( __DIR__, 'taxonomy-config.json' ),
+	'Taxonomy_Form_Page'     => create( 'WordPress_Related\Taxonomy\Taxonomy_Form_Page' )
+		->constructor( get( 'Taxonomy_Config_Loader' ) ),
 ];

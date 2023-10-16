@@ -55,7 +55,7 @@ if ( class_exists( 'WordPress_Related\Plugin' ) ) {
 function bootstrap_plugin(): void {
 
 	$container_builder = new DI\ContainerBuilder();
-	$container_builder->addDefinitions( __DIR__ . '/di-config.php' );
+	$container_builder->addDefinitions( __DIR__ . '/config/di-config.php' );
 	$container = $container_builder->build();
 
 	$plugin = Plugin_Factory::create( $container );

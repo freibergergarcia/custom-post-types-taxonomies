@@ -1,0 +1,187 @@
+{
+  "taxonomy": {
+    "type": "string",
+    "description": "Taxonomy key. Must not exceed 32 characters and may only contain lowercase alphanumeric characters, dashes, and underscores.",
+    "default": "",
+    "required": true
+  },
+  "object_type": {
+    "type": "array|string",
+    "description": "Object type or array of object types with which the taxonomy should be associated.",
+    "default": [],
+    "required": true
+  },
+  "args": {
+    "type": [
+      "array",
+      "string"
+    ],
+    "description": "Array or query string of arguments for registering a taxonomy.",
+    "default": {},
+    "required": false,
+    "fields": {
+      "description": {
+        "type": "string",
+        "description": "A short descriptive summary of what the taxonomy is for.",
+        "default": ""
+      },
+      "labels": {
+        "type": "array",
+        "description": "An array of labels for this taxonomy.",
+        "default": {}
+      },
+      "public": {
+        "type": "bool",
+        "description": "Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users.",
+        "default": true,
+        "required": false
+      },
+      "publicly_queryable": {
+        "type": "bool",
+        "description": "Whether the taxonomy is publicly queryable.",
+        "default": true,
+        "required": false
+      },
+      "hierarchical": {
+        "type": "bool",
+        "description": "Whether the taxonomy is hierarchical.",
+        "default": false,
+        "required": false
+      },
+      "show_ui": {
+        "type": "bool",
+        "description": "Whether to generate and allow a UI for managing terms in this taxonomy in the admin.",
+        "default": true,
+        "required": false
+      },
+      "show_in_menu": {
+        "type": "bool",
+        "description": "Whether to show the taxonomy in the admin menu.",
+        "default": true,
+        "required": false
+      },
+      "show_in_nav_menus": {
+        "type": "bool",
+        "description": "Makes this taxonomy available for selection in navigation menus.",
+        "default": true,
+        "required": false
+      },
+      "show_in_rest": {
+        "type": "bool",
+        "description": "Whether to include the taxonomy in the REST API.",
+        "default": true,
+        "required": false
+      },
+      "rest_base": {
+        "type": "string",
+        "description": "To change the base url of REST API route.",
+        "default": "$taxonomy",
+        "required": false
+      },
+      "rest_namespace": {
+        "type": "string",
+        "description": "To change the namespace URL of REST API route.",
+        "default": "wp/v2",
+        "required": false
+      },
+      "rest_controller_class": {
+        "type": "string",
+        "description": "REST API Controller class name.",
+        "default": "WP_REST_Terms_Controller",
+        "required": false
+      },
+      "show_tagcloud": {
+        "type": "bool",
+        "description": "Whether to list the taxonomy in the Tag Cloud Widget controls.",
+        "default": true,
+        "required": false
+      },
+      "show_in_quick_edit": {
+        "type": "bool",
+        "description": "Whether to show the taxonomy in the quick/bulk edit panel.",
+        "default": true,
+        "required": false
+      },
+      "show_admin_column": {
+        "type": "bool",
+        "description": "Whether to display a column for the taxonomy on its post type listing screens.",
+        "default": false,
+        "required": false
+      },
+      "meta_box_cb": {
+        "type": "bool|callable",
+        "description": "Provide a callback function for the meta box display.",
+        "default": null,
+        "required": false
+      },
+      "meta_box_sanitize_cb": {
+        "type": "callable",
+        "description": "Callback function for sanitizing taxonomy data saved from a meta box.",
+        "default": null,
+        "required": false
+      },
+      "capabilities": {
+        "type": "array",
+        "description": "Array of capabilities for this taxonomy.",
+        "default": {
+          "manage_terms": "manage_categories",
+          "edit_terms": "manage_categories",
+          "delete_terms": "manage_categories",
+          "assign_terms": "edit_posts"
+        },
+        "required": false
+      },
+      "rewrite": {
+        "type": "bool|array",
+        "description": "Triggers the handling of rewrites for this taxonomy.",
+        "default": {
+          "slug": "$taxonomy",
+          "with_front": true,
+          "hierarchical": false,
+          "ep_mask": "EP_NONE"
+        },
+        "required": false
+      },
+      "query_var": {
+        "type": "string|bool",
+        "description": "Sets the query var key for this taxonomy.",
+        "default": "$taxonomy",
+        "required": false
+      },
+      "update_count_callback": {
+        "type": "callable",
+        "description": "Callback function for updating the count of terms.",
+        "default": "_update_post_term_count",
+        "required": false
+      },
+      "default_term": {
+        "type": "string|array",
+        "description": "Default term to be used for the taxonomy.",
+        "default": {
+          "name": "",
+          "slug": "",
+          "description": ""
+        },
+        "required": false
+      },
+      "sort": {
+        "type": "bool",
+        "description": "Whether terms in this taxonomy should be sorted.",
+        "default": null,
+        "required": false
+      },
+      "args": {
+        "type": "array",
+        "description": "Array of arguments to automatically use inside wp_get_object_terms() for this taxonomy.",
+        "default": [],
+        "required": false
+      },
+      "_builtin": {
+        "type": "bool",
+        "description": "This taxonomy is a 'built-in' taxonomy. INTERNAL USE ONLY!",
+        "default": false,
+        "required": false
+      }
+    }
+  }
+}
