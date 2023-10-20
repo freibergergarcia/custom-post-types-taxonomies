@@ -2,17 +2,17 @@
 
 declare( strict_types=1 );
 
-namespace WordPress_Related\Tests\Unit\Admin;
+namespace Custom_PTT\Tests\Unit\Admin;
 
 use Exception;
-use WordPress_Related\Admin\Admin_Menu;
+use Custom_PTT\Admin\Admin_Menu;
 use WP_Mock;
 use WP_Mock\Tools\TestCase;
 
 /**
  * Admin_Menu Test.
  *
- * @package WordPress_Related\Tests\Unit\Admin
+ * @package Custom_PTT\Tests\Unit\Admin
  */
 class Admin_Menu_Test extends TestCase {
 
@@ -24,8 +24,8 @@ class Admin_Menu_Test extends TestCase {
 	 */
 	public function setUp(): void {
 		parent::setUp();
-		if ( ! defined( 'WORDPRESS_RELATED_FILE' ) ) {
-			define( 'WORDPRESS_RELATED_FILE', __DIR__ . '/../../wordpress-related.php' );
+		if ( ! defined( 'Custom_PTT_FILE' ) ) {
+			define( 'Custom_PTT_FILE', __DIR__ . '/../../custom-post-types-taxonomies.php' );
 		}
 		WP_Mock::setUp();
 	}
@@ -60,10 +60,10 @@ class Admin_Menu_Test extends TestCase {
 			array(
 				'times' => 1,
 				'args'  => array(
-					__( 'WordPress Related', 'wordpress-related' ),
-					__( 'WordPress Related', 'wordpress-related' ),
+					__( 'Custom PTT', 'custom-post-types-taxonomies' ),
+					__( 'Custom PTT', 'custom-post-types-taxonomies' ),
 					'manage_options',
-					'wordpress-related',
+					'custom-post-types-taxonomies',
 					array( $admin_menu, 'render_plugin_page' ),
 					'dashicons-coffee',
 				),
@@ -94,7 +94,7 @@ class Admin_Menu_Test extends TestCase {
 		$admin_menu->render_plugin_page();
 		$output = ob_get_clean();
 
-		$this->assertSame( '<h1>WordPress Related</h1>', $output );
+		$this->assertSame( '<h1>Custom PTT</h1>', $output );
 	}
 
 	/**

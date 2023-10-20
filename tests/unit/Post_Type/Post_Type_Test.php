@@ -2,14 +2,14 @@
 
 declare( strict_types=1 );
 
-namespace WordPress_Related\Tests\Unit;
+namespace Custom_PTT\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
 /**
  * Post Type Test.
  *
- * @package WordPress_Related\Tests\Unit
+ * @package Custom_PTT\Tests\Unit
  */
 class Post_Type_Test extends TestCase {
 

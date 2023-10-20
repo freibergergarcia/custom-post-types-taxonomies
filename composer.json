@@ -1,6 +1,6 @@
 {
-  "name": "freibergergarcia/wordpress-related",
-  "description": "WordPress Related functionalities",
+  "name": "freibergergarcia/custom-post-types-taxonomies",
+  "description": "Custom Post Types and Taxonomies",
   "license": "GPL-2.0-only",
   "type": "wordpress-plugin",
   "authors": [
@@ -10,8 +10,8 @@
     }
   ],
   "support": {
-    "src": "https://github.com/freibergergarcia/wordpress-related",
-    "issues": "https://github.com/freibergergarcia/wordpress-related/issues"
+    "src": "https://github.com/freibergergarcia/custom-post-types-taxonomies",
+    "issues": "https://github.com/freibergergarcia/custom-post-types-taxonomies/issues"
   },
   "require": {
     "php": ">=8.0",
@@ -27,20 +27,21 @@
   "require-dev": {
     "phpunit/phpunit": "^9.6.13",
     "10up/wp_mock": "^1.0.0",
-    "phpcompatibility/phpcompatibility-wp": "*"
+    "phpcompatibility/phpcompatibility-wp": "*",
+    "wp-coding-standards/wpcs": "^3.0"
   },
   "autoload": {
     "psr-4": {
-      "WordPress_Related\\": "includes/"
+      "Custom_PTT\\": "includes/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "WordPress_Related\\Tests\\Unit\\": "tests/unit/"
+      "Custom_PTT\\Tests\\Unit\\": "tests/unit/"
     }
   },
   "scripts": {
-    "phpcs": "./vendor/bin/phpcs",
+    "phpcs": "./vendor/bin/phpcs --standard=WordPress-Core",
     "phpcbf": "./vendor/bin/phpcbf",
     "unit": "./vendor/bin/phpunit --no-coverage tests/unit",
     "coverage": "./vendor/bin/phpunit --coverage-html=coverage/html tests/unit"

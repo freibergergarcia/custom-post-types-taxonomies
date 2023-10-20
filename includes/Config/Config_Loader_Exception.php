@@ -1,6 +1,6 @@
 <?php
 
-namespace WordPress_Related\Config;
+namespace Custom_PTT\Config;
 
 use Exception;
 

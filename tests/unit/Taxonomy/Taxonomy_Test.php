@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
-namespace WordPress_Related\Tests\Unit;
+namespace Custom_PTT\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
 /**
  * Taxonomy Test.
  *
- * @package WordPress_Related\Tests\Unit
+ * @package Custom_PTT\Tests\Unit
  */
 class Taxonomy_Test extends TestCase {
 

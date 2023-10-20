@@ -1,8 +1,8 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
-namespace WordPress_Related;
+namespace Custom_PTT;
 
 use DI\Container;
 
@@ -12,7 +12,7 @@ use DI\Container;
  * It can decide if a new plugin instance is needed, or we can
  * Read more about why this is preferable to a singleton
  *
- * @package WordPress_Related
+ * @package Custom_PTT
  * @since 1.0.0
  * @version 1.0.0
  * @see https://www.alainschlesser.com/singletons-shared-instances/

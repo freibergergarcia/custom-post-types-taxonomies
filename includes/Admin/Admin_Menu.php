@@ -1,22 +1,21 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
-namespace WordPress_Related\Admin;
+namespace Custom_PTT\Admin;
 
 use Exception;
-use WordPress_Related\Infrastructure\Registerable;
-use WordPress_Related\Taxonomy\Taxonomy_List_Table;
+use Custom_PTT\Infrastructure\Registerable;
 
 /**
  * Admin_Menu Class
  *
  * This class is responsible for registering and rendering the admin menu and submenus
- * for the WordPress Related plugin within the WordPress admin interface.
+ * for the Custom PTT plugin within the WordPress admin interface.
  * It implements the Registerable interface to ensure its registration method is called
  * during the plugin's boot process.
  *
- * @package WordPress_Related\Admin
+ * @package Custom_PTT\Admin
  * @since 1.0.0
  * @version 1.0.0
  */
@@ -43,31 +42,31 @@ class Admin_Menu implements Registerable {
 	public function register_menu(): void {
 		// Adding Top-level menu
 		add_menu_page(
-			__( 'WordPress Related', 'wordpress-related' ),
-			__( 'WordPress Related', 'wordpress-related' ),
+			__( 'Custom PTT', 'custom-post-types-taxonomies' ),
+			__( 'Custom PTT', 'custom-post-types-taxonomies' ),
 			'manage_options',
-			'wordpress-related',
+			'custom-post-types-taxonomies',
 			array( $this, 'render_plugin_page' ),
 			'dashicons-coffee'
 		);
 
 		// Adding sub-menu for Custom Taxonomies
 		add_submenu_page(
-			'wordpress-related',
-			__( 'Custom Taxonomies', 'wordpress-related' ),
-			__( 'Custom Taxonomies', 'wordpress-related' ),
+			'custom-post-types-taxonomies',
+			__( 'Custom Taxonomies', 'custom-post-types-taxonomies' ),
+			__( 'Custom Taxonomies', 'custom-post-types-taxonomies' ),
 			'manage_options',
-			'wordpress-related-taxonomies',
+			'custom-post-types-taxonomies-taxonomies',
 			array( $this, 'render_taxonomies_page' )
 		);
 
 		// Adding sub-menu for Custom Post Types
 		add_submenu_page(
-			'wordpress-related',
-			__( 'Custom Post Types', 'wordpress-related' ),
-			__( 'Custom Post Types', 'wordpress-related' ),
+			'custom-post-types-taxonomies',
+			__( 'Custom Post Types', 'custom-post-types-taxonomies' ),
+			__( 'Custom Post Types', 'custom-post-types-taxonomies' ),
 			'manage_options',
-			'wordpress-related-post-types',
+			'custom-post-types-taxonomies-post-types',
 			array( $this, 'render_post_types_page' )
 		);
 	}
@@ -79,7 +78,7 @@ class Admin_Menu implements Registerable {
 	 * @throws Exception
 	 */
 	public function render_plugin_page(): void {
-		echo '<h1>' . esc_html__( 'WordPress Related', 'wordpress-related' ) . '</h1>';
+		echo '<h1>' . esc_html__( 'Custom PTT', 'custom-post-types-taxonomies' ) . '</h1>';
 	}
 
 	/**
@@ -89,23 +88,7 @@ class Admin_Menu implements Registerable {
 	 * @throws Exception
 	 */
 	public function render_taxonomies_page(): void {
-		?>
-		<div class="wrap">
-			<h1>
-				<?php echo esc_html__( 'Custom Taxonomies', 'wordpress-related' ); ?>
-				<a href="<?php echo esc_url( admin_url( 'admin.php?page=add-wordpress-related-taxonomies' ) ); ?>"
-					class="page-title-action">
-					<?php echo esc_html__( 'Add New', 'wordpress-related' ); ?>
-				</a>
-			</h1>
-
-			<?php
-			$taxonomy_list_table = new Taxonomy_List_Table();
-			$taxonomy_list_table->prepare_items();
-			$taxonomy_list_table->display();
-			?>
-		</div>
-		<?php
+		require __DIR__ . '/templates/custom-ptt-taxonomies.php';
 	}
 
 	/**
@@ -115,6 +98,6 @@ class Admin_Menu implements Registerable {
 	 * @throws Exception
 	 */
 	public function render_post_types_page(): void {
-		echo '<h1>' . esc_html__( 'Custom Post Types', 'wordpress-related' ) . '</h1>';
+		require __DIR__ . '/templates/custom-ptt-post-types.php';
 	}
 }

@@ -1,11 +1,11 @@
-# WordPress-Related Plugin
+# custom-post-types-taxonomies Plugin
 
-_anything_ WordPress Related, starting with Custom Taxonomies and Custom Post Types.
+_anything_ Custom PTT, starting with Custom Taxonomies and Custom Post Types.
 
-![Unit Tests](https://github.com/freibergergarcia/wordpress-related/actions/workflows/run-phpunit.yml/badge.svg)
-![PHP Code Sniffer](https://github.com/freibergergarcia/wordpress-related/actions/workflows/run-phpcs.yml/badge.svg)
+![Unit Tests](https://github.com/freibergergarcia/custom-post-types-taxonomies/actions/workflows/run-phpunit.yml/badge.svg)
+![PHP Code Sniffer](https://github.com/freibergergarcia/custom-post-types-taxonomies/actions/workflows/run-phpcs.yml/badge.svg)
 
-[See the code coverage report](https://freibergergarcia.github.io/wordpress-related/html/)
+[See the code coverage report](https://freibergergarcia.github.io/custom-post-types-taxonomies/html/)
 
 ## Why?
 

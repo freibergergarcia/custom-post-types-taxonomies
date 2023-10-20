@@ -5,3 +5,7 @@ composer.lock
 .phpunit.cache
 coverage
 coverage.xml
+.phpunit.result.cache
+.phpunit.cache
+*.sh
+*.txt

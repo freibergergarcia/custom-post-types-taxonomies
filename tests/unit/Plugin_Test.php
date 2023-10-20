@@ -2,19 +2,19 @@
 
 declare( strict_types=1 );
 
-namespace WordPress_Related\Tests\Unit;
+namespace Custom_PTT\Tests\Unit;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use WordPress_Related\Plugin;
+use Custom_PTT\Plugin;
 use WP_Mock;
 use DI\Container;
-use WordPress_Related\Infrastructure\Registerable;
+use Custom_PTT\Infrastructure\Registerable;
 
 /**
  * Plugin Test.
  *
- * @package WordPress_Related\Tests\Unit
+ * @package Custom_PTT\Tests\Unit
  */
 class Plugin_Test extends TestCase {
 
@@ -25,8 +25,8 @@ class Plugin_Test extends TestCase {
 	 */
 	public function setUp(): void {
 		parent::setUp();
-		if ( ! defined( 'WORDPRESS_RELATED_FILE' ) ) {
-			define( 'WORDPRESS_RELATED_FILE', __DIR__ . '/../../wordpress-related.php' );
+		if ( ! defined( 'Custom_PTT_FILE' ) ) {
+			define( 'Custom_PTT_FILE', __DIR__ . '/../../custom-post-types-taxonomies.php' );
 		}
 		WP_Mock::setUp();
 	}
@@ -67,7 +67,7 @@ class Plugin_Test extends TestCase {
 			'register_activation_hook',
 			array(
 				'times' => 1,
-				'args'  => array( WORDPRESS_RELATED_FILE, array( $plugin, 'on_activation' ) ),
+				'args'  => array( Custom_PTT_FILE, array( $plugin, 'on_activation' ) ),
 			)
 		);
 
@@ -75,7 +75,7 @@ class Plugin_Test extends TestCase {
 			'register_deactivation_hook',
 			array(
 				'times' => 1,
-				'args'  => array( WORDPRESS_RELATED_FILE, array( $plugin, 'on_deactivation' ) ),
+				'args'  => array( Custom_PTT_FILE, array( $plugin, 'on_deactivation' ) ),
 			)
 		);
 
@@ -99,7 +99,7 @@ class Plugin_Test extends TestCase {
 			'register_activation_hook',
 			array(
 				'times' => 1,
-				'args'  => array( WORDPRESS_RELATED_FILE, array( $plugin, 'on_activation' ) ),
+				'args'  => array( Custom_PTT_FILE, array( $plugin, 'on_activation' ) ),
 			)
 		);
 
@@ -107,7 +107,7 @@ class Plugin_Test extends TestCase {
 			'register_deactivation_hook',
 			array(
 				'times' => 1,
-				'args'  => array( WORDPRESS_RELATED_FILE, array( $plugin, 'on_deactivation' ) ),
+				'args'  => array( Custom_PTT_FILE, array( $plugin, 'on_deactivation' ) ),
 			)
 		);
 

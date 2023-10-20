@@ -2,23 +2,23 @@
 
 declare( strict_types=1 );
 
-namespace WordPress_Related;
+namespace Custom_PTT;
 
 use DI\Container;
 use DI\DependencyException;
 use DI\NotFoundException;
-use WordPress_Related\Infrastructure\Registerable;
+use Custom_PTT\Infrastructure\Registerable;
 use Exception;
 
 /**
- * Main plugin class for WordPress Related Plugin.
+ * Main plugin class for Custom PTT Plugin.
  *
  * This class is the primary entry point for the plugin, responsible for
  * initializing and managing the plugin's services and functionality.
  *
- * @package   WORDPRESS_RELATED
- * @copyright Copyright (C) 2023-2023, WordPress Related - freibergergarcia@gmail.com
- * @link      https://www.github.com/freibergergarcia/wordpress-related
+ * @package   Custom_PTT
+ * @copyright Copyright (C) 2023-2023, Custom PTT - freibergergarcia@gmail.com
+ * @link      https://www.github.com/freibergergarcia/custom-post-types-taxonomies
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
  * @since     1.0.0
  */
@@ -89,8 +89,8 @@ class Plugin {
 	 * @return void
 	 */
 	public function register_hooks(): void {
-		register_activation_hook( WORDPRESS_RELATED_FILE, array( $this, 'on_activation' ) );
-		register_deactivation_hook( WORDPRESS_RELATED_FILE, array( $this, 'on_deactivation' ) );
+		register_activation_hook( Custom_PTT_FILE, array( $this, 'on_activation' ) );
+		register_deactivation_hook( Custom_PTT_FILE, array( $this, 'on_deactivation' ) );
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Plugin {
 	 */
 	public function on_deactivation(): void {
 		wp_cache_flush();
-		wp_rewrite_flush();
+		flush_rewrite_rules();
 	}
 
 	/**

@@ -1,29 +1,29 @@
 <?php
 /**
- * WordPress Related Plugin.
+ * Custom PTT Plugin.
  *
- * @package   WORDPRESS_RELATED
- * @copyright Copyright (C) 2023-2023, WordPress Related - freibergergarcia@gmail.com
- * @link      https://www.github.com/freibergergarcia/wordpress-related
+ * @package   Custom_PTT
+ * @copyright Copyright (C) 2023-2023, Custom PTT - freibergergarcia@gmail.com
+ * @link      https://www.github.com/freibergergarcia/custom-post-types-taxonomies
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
  *
  * @wordpress-plugin
- * Plugin Name:       WordPress Related
+ * Plugin Name:       Custom PTT
  * Version:           1.0.0
- * Plugin URI:        https://www.github.com/freibergergarcia/wordpress-related
- * Description:       Enhance your WordPress site with related post types and taxonomies functionality provided by the WordPress Related plugin.
+ * Plugin URI:        https://www.github.com/freibergergarcia/custom-post-types-taxonomies
+ * Description:       Enhance your WordPress site with related post types and taxonomies functionality provided by the Custom PTT plugin.
  * Author:            Bruno Freiberger Garcia
  * Author URI:        https://www.github.com/freibergergarcia
  * Domain Path:       /languages
  * Requires PHP:      8.0
- * Text Domain:       wordpress-related
+ * Text Domain:       custom-post-types-taxonomies
  * License:           GNU General Public License v2.0
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 declare( strict_types=1 );
 
-use WordPress_Related\Plugin_Factory;
+use Custom_PTT\Plugin_Factory;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -37,13 +37,13 @@ if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Define plugin file
-if ( ! defined( 'WORDPRESS_RELATED_FILE' ) ) {
-	define( 'WORDPRESS_RELATED_FILE', __FILE__ );
+if ( ! defined( 'Custom_PTT_FILE' ) ) {
+	define( 'Custom_PTT_FILE', __FILE__ );
 }
 
 // Register activation hook
-if ( class_exists( 'WordPress_Related\Plugin' ) ) {
-	register_uninstall_hook( __FILE__, [ 'WordPress_Related\Plugin', 'on_uninstall' ] );
+if ( class_exists( 'Custom_PTT\Plugin' ) ) {
+	register_uninstall_hook( __FILE__, [ 'Custom_PTT\Plugin', 'on_uninstall' ] );
 }
 
 /**

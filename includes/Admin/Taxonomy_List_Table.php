@@ -1,6 +1,8 @@
 <?php
 
-namespace WordPress_Related\Taxonomy;
+declare(strict_types=1);
+
+namespace Custom_PTT\Admin;
 
 use Exception;
 use WP_List_Table;
@@ -12,7 +14,7 @@ use WP_List_Table;
  * a tabular format within the WordPress admin interface. It extends the WP_List_Table
  * class to leverage WordPress's built-in table rendering functionality.
  *
- * @package WordPress_Related\Taxonomy
+ * @package Custom_PTT\Taxonomy
  * @since 1.0.0
  * @version 1.0.0
  */
@@ -26,8 +28,8 @@ class Taxonomy_List_Table extends WP_List_Table {
 	public function __construct() {
 		parent::__construct(
 			array(
-				'singular' => __( 'Taxonomy', 'wordpress-related' ),
-				'plural'   => __( 'Taxonomies', 'wordpress-related' ),
+				'singular' => __( 'Taxonomy', 'custom-post-types-taxonomies' ),
+				'plural'   => __( 'Taxonomies', 'custom-post-types-taxonomies' ),
 				'ajax'     => false,
 			)
 		);
@@ -41,10 +43,10 @@ class Taxonomy_List_Table extends WP_List_Table {
 	 */
 	public function get_columns(): array {
 		return array(
-			'name'         => __( 'Name', 'wordpress-related' ),
-			'label'        => __( 'Label', 'wordpress-related' ),
-			'public'       => __( 'Public', 'wordpress-related' ),
-			'hierarchical' => __( 'Hierarchical', 'wordpress-related' ),
+			'name'         => __( 'Name', 'custom-post-types-taxonomies' ),
+			'label'        => __( 'Label', 'custom-post-types-taxonomies' ),
+			'public'       => __( 'Public', 'custom-post-types-taxonomies' ),
+			'hierarchical' => __( 'Hierarchical', 'custom-post-types-taxonomies' ),
 		);
 	}
 
@@ -88,7 +90,7 @@ class Taxonomy_List_Table extends WP_List_Table {
 	 */
 	public function column_name( object $item ): string {
 		$edit_query_args = array(
-			'page'     => wp_unslash( $_REQUEST['page'] ),
+			'page'     => wp_unslash( $_REQUEST['page'] ?? '' ),
 			'action'   => 'edit',
 			'taxonomy' => $item->name,
 		);
@@ -99,7 +101,7 @@ class Taxonomy_List_Table extends WP_List_Table {
 			'<strong><a class="row-title" href="%2$s" aria-label="%1$s (Edit)">%1$s</a></strong><div class="row-actions"><span class="edit"><a href="%2$s" title="%3$s">%3$s</a></span></div>',
 			esc_html( $item->label ), // Display the taxonomy label instead of the name
 			$edit_url,
-			__( 'Edit', 'wordpress-related' )
+			__( 'Edit', 'custom-post-types-taxonomies' )
 		);
 	}
 
@@ -115,8 +117,8 @@ class Taxonomy_List_Table extends WP_List_Table {
 	public function column_default( $item, $column_name ): string {
 		return match ( $column_name ) {
 			'label' => $item->label,
-			'public' => $item->public ? __( 'Yes', 'wordpress-related' ) : __( 'No', 'wordpress-related' ),
-			'hierarchical' => $item->hierarchical ? __( 'Yes', 'wordpress-related' ) : __( 'No', 'wordpress-related' ),
+			'public' => $item->public ? __( 'Yes', 'custom-post-types-taxonomies' ) : __( 'No', 'custom-post-types-taxonomies' ),
+			'hierarchical' => $item->hierarchical ? __( 'Yes', 'custom-post-types-taxonomies' ) : __( 'No', 'custom-post-types-taxonomies' ),
 			default => '',
 		};
 	}

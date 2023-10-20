@@ -1,21 +1,20 @@
 <?php
 
-
-namespace WordPress_Related\Config;
+namespace Custom_PTT\Config;
 
 use Exception;
-use WordPress_Related\Infrastructure\Registerable;
+use Custom_PTT\Infrastructure\Registerable;
 
 /**
  * Config_Loader Class
  *
- * This class is responsible for loading configuration files for the WordPress Related plugin.
+ * This class is responsible for loading configuration files for the Custom PTT plugin.
  * It implements the Registerable interface, which ensures its registration method is called
  * during the plugin's boot process. The class constructor accepts the path to the configuration
  * directory and the name of the configuration file to load, and provides a load method to load
  * the configuration file and return its contents as an array.
  *
- * @package WordPress_Related\Config
+ * @package Custom_PTT\Config
  * @since 1.0.0
  * @version 1.0.0
  */

@@ -2,16 +2,16 @@
 
 declare( strict_types=1 );
 
-namespace WordPress_Related\Tests\Unit;
+namespace Custom_PTT\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use WordPress_Related\Plugin_Factory;
+use Custom_PTT\Plugin_Factory;
 use DI\Container;
 
 /**
  * Plugin Factory Test.
  *
- * @package WordPress_Related\Tests\Unit
+ * @package Custom_PTT\Tests\Unit
  */
 class Plugin_Factory_Test extends TestCase {
 
@@ -26,8 +26,8 @@ class Plugin_Factory_Test extends TestCase {
 		$plugin_instance_one = Plugin_Factory::create( $container );
 		$plugin_instance_two = Plugin_Factory::create( $container );
 
-		$this->assertInstanceOf( 'WordPress_Related\Plugin', $plugin_instance_one );
-		$this->assertInstanceOf( 'WordPress_Related\Plugin', $plugin_instance_two );
+		$this->assertInstanceOf( 'Custom_PTT\Plugin', $plugin_instance_one );
+		$this->assertInstanceOf( 'Custom_PTT\Plugin', $plugin_instance_two );
 		$this->assertSame( $plugin_instance_one, $plugin_instance_two );
 	}
 }
