@@ -67,8 +67,7 @@ function bootstrap_plugin(): void {
 	$container = $container_builder->build();
 
 	Plugin_Factory::create( $container )
-		->boot()
-		->init();
+		->boot();
 }
 
 try {
