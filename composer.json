@@ -1,5 +1,6 @@
 {
   "name": "freibergergarcia/custom-post-types-taxonomies",
+  "version": "0.1.0-alpha",
   "description": "Custom Post Types and Taxonomies",
   "license": "GPL-2.0-only",
   "type": "wordpress-plugin",
@@ -28,7 +29,8 @@
     "phpunit/phpunit": "^9.6.13",
     "10up/wp_mock": "^1.0.0",
     "phpcompatibility/phpcompatibility-wp": "*",
-    "wp-coding-standards/wpcs": "^3.0"
+    "wp-coding-standards/wpcs": "^3.0",
+    "brain/monkey": "^2.6"
   },
   "autoload": {
     "psr-4": {
@@ -41,7 +43,7 @@
     }
   },
   "scripts": {
-    "phpcs": "./vendor/bin/phpcs --standard=WordPress-Core",
+    "phpcs": "./vendor/bin/phpcs",
     "phpcbf": "./vendor/bin/phpcbf",
     "unit": "./vendor/bin/phpunit --no-coverage tests/unit",
     "coverage": "./vendor/bin/phpunit --coverage-html=coverage/html tests/unit"

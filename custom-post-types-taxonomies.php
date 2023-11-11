@@ -9,7 +9,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Custom PTT
- * Version:           1.0.0
+ * Version:           0.1.0-alpha
  * Plugin URI:        https://www.github.com/freibergergarcia/custom-post-types-taxonomies
  * Description:       Enhance your WordPress site with related post types and taxonomies functionality provided by the Custom PTT plugin.
  * Author:            Bruno Freiberger Garcia
@@ -37,13 +37,21 @@ if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Define plugin file
-if ( ! defined( 'Custom_PTT_FILE' ) ) {
-	define( 'Custom_PTT_FILE', __FILE__ );
+if ( ! defined( 'CUSTOM_PTT_FILE' ) ) {
+	define( 'CUSTOM_PTT_FILE', __FILE__ );
+}
+
+if ( ! defined( 'CUSTOM_PTT_DIR' ) ) {
+	define( 'CUSTOM_PTT_DIR', __DIR__ );
+}
+
+if ( ! defined( 'CUSTOM_PTT_OPTION_NAME' ) ) {
+    define( 'CUSTOM_PTT_TAXONOMY_OPTION_NAME', 'custom_ptt_taxonomies' );
 }
 
 // Register activation hook
 if ( class_exists( 'Custom_PTT\Plugin' ) ) {
-	register_uninstall_hook( __FILE__, [ 'Custom_PTT\Plugin', 'on_uninstall' ] );
+	register_uninstall_hook( __FILE__, array( 'Custom_PTT\Plugin', 'on_uninstall' ) );
 }
 
 /**
@@ -58,9 +66,9 @@ function bootstrap_plugin(): void {
 	$container_builder->addDefinitions( __DIR__ . '/config/di-config.php' );
 	$container = $container_builder->build();
 
-	$plugin = Plugin_Factory::create( $container );
-	$plugin->boot();
-	$plugin->init();
+	Plugin_Factory::create( $container )
+		->boot()
+		->init();
 }
 
 try {

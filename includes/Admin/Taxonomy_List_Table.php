@@ -15,14 +15,14 @@ use WP_List_Table;
  * class to leverage WordPress's built-in table rendering functionality.
  *
  * @package Custom_PTT\Taxonomy
- * @since 1.0.0
- * @version 1.0.0
+ * @since 0.1.0-alpha
  */
 class Taxonomy_List_Table extends WP_List_Table {
 
 	/**
 	 * Constructor method.
 	 *
+	 * @since 0.1.0-alpha
 	 * @throws Exception
 	 */
 	public function __construct() {
@@ -38,6 +38,7 @@ class Taxonomy_List_Table extends WP_List_Table {
 	/**
 	 * Get a list of columns.
 	 *
+	 * @since 0.1.0-alpha
 	 * @return array
 	 * @throws Exception
 	 */
@@ -45,6 +46,7 @@ class Taxonomy_List_Table extends WP_List_Table {
 		return array(
 			'name'         => __( 'Name', 'custom-post-types-taxonomies' ),
 			'label'        => __( 'Label', 'custom-post-types-taxonomies' ),
+			'slug'         => __( 'Slug', 'custom-post-types-taxonomies' ),
 			'public'       => __( 'Public', 'custom-post-types-taxonomies' ),
 			'hierarchical' => __( 'Hierarchical', 'custom-post-types-taxonomies' ),
 		);
@@ -53,6 +55,7 @@ class Taxonomy_List_Table extends WP_List_Table {
 	/**
 	 * Get a list of sortable columns.
 	 *
+	 * @since 0.1.0-alpha
 	 * @return array
 	 */
 	public function get_sortable_columns(): array {
@@ -65,6 +68,7 @@ class Taxonomy_List_Table extends WP_List_Table {
 	/**
 	 * Prepare the items for the table to process.
 	 *
+	 * @since 0.1.0-alpha
 	 * @return void
 	 * @throws Exception
 	 */
@@ -75,8 +79,33 @@ class Taxonomy_List_Table extends WP_List_Table {
 
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
-		// Fetch only custom taxonomies by setting '_builtin' to false
-		$taxonomies  = get_taxonomies( array( '_builtin' => false ), 'objects' );
+		$orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'name';
+		$order   = isset( $_GET['order'] ) ? sanitize_text_field( $_GET['order'] ) : 'asc';
+
+		$taxonomies = get_taxonomies( array( '_builtin' => false ), 'objects' );
+
+		if ( empty( $taxonomies ) ) {
+			return;
+		}
+
+		usort(
+			$taxonomies,
+			function ( $a, $b ) use ( $orderby, $order ) {
+				if ( ! isset( $a->$orderby ) || ! isset( $b->$orderby ) ) {
+					return 0;
+				}
+
+				if ( $a->$orderby === $b->$orderby ) {
+					return 0;
+				}
+
+				if ( 'asc' === $order ) {
+					return ( $a->$orderby < $b->$orderby ) ? -1 : 1;
+				}
+				return ( $a->$orderby < $b->$orderby ) ? 1 : -1;
+			}
+		);
+
 		$this->items = $taxonomies;
 	}
 
@@ -85,12 +114,13 @@ class Taxonomy_List_Table extends WP_List_Table {
 	 *
 	 * @param object $item The current item.
 	 *
+	 * @since 0.1.0-alpha
 	 * @return string The Name column HTML.
 	 * @throws Exception
 	 */
 	public function column_name( object $item ): string {
 		$edit_query_args = array(
-			'page'     => wp_unslash( $_REQUEST['page'] ?? '' ),
+			'page'     => wp_unslash( 'add-custom-post-types-taxonomies-taxonomies' ),
 			'action'   => 'edit',
 			'taxonomy' => $item->name,
 		);
@@ -111,12 +141,14 @@ class Taxonomy_List_Table extends WP_List_Table {
 	 * @param object $item The current item.
 	 * @param string $column_name The name of the column.
 	 *
+	 * @since 0.1.0-alpha
 	 * @return string
 	 * @throws Exception
 	 */
 	public function column_default( $item, $column_name ): string {
 		return match ( $column_name ) {
 			'label' => $item->label,
+			'slug' => $item->rewrite['slug'] ?? '',
 			'public' => $item->public ? __( 'Yes', 'custom-post-types-taxonomies' ) : __( 'No', 'custom-post-types-taxonomies' ),
 			'hierarchical' => $item->hierarchical ? __( 'Yes', 'custom-post-types-taxonomies' ) : __( 'No', 'custom-post-types-taxonomies' ),
 			default => '',

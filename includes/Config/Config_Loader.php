@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Custom_PTT\Config;
 
 use Exception;
@@ -15,8 +17,7 @@ use Custom_PTT\Infrastructure\Registerable;
  * the configuration file and return its contents as an array.
  *
  * @package Custom_PTT\Config
- * @since 1.0.0
- * @version 1.0.0
+ * @since 0.1.0-alpha
  */
 class Config_Loader implements Registerable {
 
@@ -39,6 +40,8 @@ class Config_Loader implements Registerable {
 	 *
 	 * @param string $config_dir The path to the configuration directory.
 	 * @param string $file The name of the configuration file to load.
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function __construct( string $config_dir, string $file ) {
 		$this->config_dir = $config_dir;
@@ -48,6 +51,7 @@ class Config_Loader implements Registerable {
 	/**
 	 * Registers the Config_Loader with the WordPress hook system.
 	 *
+	 * @since 0.1.0-alpha
 	 * @return void
 	 */
 	public function register(): void {
@@ -60,6 +64,7 @@ class Config_Loader implements Registerable {
 	 *
 	 * @throws Config_Loader_Exception If the configuration file could not be loaded.
 	 * @throws Exception
+	 * @since 0.1.0-alpha
 	 */
 	public function load(): array {
 		$path = $this->config_dir . '/' . $this->file;

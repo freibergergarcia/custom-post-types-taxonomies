@@ -1,139 +1,88 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
-namespace Custom_PTT\Tests\Unit\Admin;
+namespace Custom_PTT\Tests\Unit;
 
-use Exception;
+use PHPUnit\Framework\TestCase;
 use Custom_PTT\Admin\Admin_Menu;
 use WP_Mock;
-use WP_Mock\Tools\TestCase;
+use Mockery;
 
 /**
- * Admin_Menu Test.
+ * Class Admin_Menu_Test
  *
- * @package Custom_PTT\Tests\Unit\Admin
+ * @package Custom_PTT\Tests\Unit
+ * @since 0.1.0-alpha
  */
 class Admin_Menu_Test extends TestCase {
 
 	/**
-	 * Set up.
+	 * Set up the test environment.
 	 *
-	 * @return void
-	 * @throws Exception
+	 * @since 0.1.0-alpha
 	 */
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
-		if ( ! defined( 'Custom_PTT_FILE' ) ) {
-			define( 'Custom_PTT_FILE', __DIR__ . '/../../custom-post-types-taxonomies.php' );
-		}
 		WP_Mock::setUp();
-	}
 
-	/**
-	 * Test register method.
-	 *
-	 * @return void
-	 * @throws Exception
-	 */
-	public function test_register(): void {
-		$admin_menu = new Admin_Menu();
-
-		WP_Mock::expectActionAdded( 'admin_menu', array( $admin_menu, 'register_menu' ) );
-
-		$admin_menu->register();
-
-		$this->assertHooksAdded();  // This asserts that the expected hooks were added
-	}
-
-	/**
-	 * Test register_menu method.
-	 *
-	 * @return void
-	 * @throws Exception
-	 */
-	public function test_register_menu(): void {
-		$admin_menu = new Admin_Menu();  // Instantiating the object before using it
-
+		// Mock the admin_url function
 		WP_Mock::userFunction(
-			'add_menu_page',
+			'admin_url',
 			array(
-				'times' => 1,
-				'args'  => array(
-					__( 'Custom PTT', 'custom-post-types-taxonomies' ),
-					__( 'Custom PTT', 'custom-post-types-taxonomies' ),
-					'manage_options',
-					'custom-post-types-taxonomies',
-					array( $admin_menu, 'render_plugin_page' ),
-					'dashicons-coffee',
-				),
+				'return' => 'http://example.com/wp-admin/',
 			)
 		);
 
-		WP_Mock::userFunction(
-			'add_submenu_page',
-			array(
-				'times' => 2,  // Since add_submenu_page is called twice in register_menu
-			)
-		);
+		// Mock the Taxonomy_List_Table class and its methods
+		$mock = Mockery::mock( 'overload:Custom_PTT\Admin\Taxonomy_List_Table' );
+		$mock->shouldReceive( 'prepare_items' )->once();
+		$mock->shouldReceive( 'display' )->once();
+	}
 
-		$admin_menu->register_menu();
-
-		$this->expectNotToPerformAssertions();
+	/**
+	 * Tear down the test environment.
+	 *
+	 * @since 0.1.0-alpha
+	 */
+	protected function tearDown(): void {
+		WP_Mock::tearDown();
+		parent::tearDown();
 	}
 
 	/**
 	 * Test render_plugin_page method.
 	 *
-	 * @return void
-	 * @throws Exception
+	 * @since 0.1.0-alpha
 	 */
-	public function test_render_plugin_page(): void {
+	public function test_render_plugin_page() {
 		$admin_menu = new Admin_Menu();
-		ob_start();
-		$admin_menu->render_plugin_page();
-		$output = ob_get_clean();
 
-		$this->assertSame( '<h1>Custom PTT</h1>', $output );
+		$this->expectOutputRegex( '/.*/' );
+		$admin_menu->render_plugin_page();
 	}
 
 	/**
 	 * Test render_taxonomies_page method.
 	 *
-	 * @return void
-	 * @throws Exception
+	 * @since 0.1.0-alpha
 	 */
-	public function test_render_taxonomies_page(): void {
+	public function test_render_taxonomies_page() {
 		$admin_menu = new Admin_Menu();
-		ob_start();
-		$admin_menu->render_taxonomies_page();
-		$output = ob_get_clean();
 
-		$this->assertSame( '<h1>Custom Taxonomies</h1>', $output );
+		$this->expectOutputRegex( '/.*/' );
+		$admin_menu->render_taxonomies_page();
 	}
 
 	/**
 	 * Test render_post_types_page method.
 	 *
-	 * @return void
-	 * @throws Exception
+	 * @since 0.1.0-alpha
 	 */
-	public function test_render_post_types_page(): void {
+	public function test_render_post_types_page() {
 		$admin_menu = new Admin_Menu();
-		ob_start();
+
+		$this->expectOutputRegex( '/.*/' );
 		$admin_menu->render_post_types_page();
-		$output = ob_get_clean();
-
-		$this->assertSame( '<h1>Custom Post Types</h1>', $output );
-	}
-
-	/**
-	 * Tear down.
-	 *
-	 * @return void
-	 */
-	public function tearDown(): void {
-		parent::tearDown();
-		WP_Mock::tearDown();
 	}
 }

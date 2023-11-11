@@ -16,8 +16,7 @@ use Custom_PTT\Infrastructure\Registerable;
  * during the plugin's boot process.
  *
  * @package Custom_PTT\Admin
- * @since 1.0.0
- * @version 1.0.0
+ * @since 0.1.0-alpha
  */
 class Admin_Menu implements Registerable {
 
@@ -28,6 +27,7 @@ class Admin_Menu implements Registerable {
 	 * the menu and its submenus are registered with WordPress at the appropriate time.
 	 *
 	 * @return void
+	 * @since 0.1.0-alpha
 	 */
 	public function register(): void {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
@@ -38,6 +38,7 @@ class Admin_Menu implements Registerable {
 	 *
 	 * @return void
 	 * @throws Exception
+	 * @since 0.1.0-alpha
 	 */
 	public function register_menu(): void {
 		// Adding Top-level menu
@@ -57,7 +58,8 @@ class Admin_Menu implements Registerable {
 			__( 'Custom Taxonomies', 'custom-post-types-taxonomies' ),
 			'manage_options',
 			'custom-post-types-taxonomies-taxonomies',
-			array( $this, 'render_taxonomies_page' )
+			array( $this, 'render_taxonomies_page' ),
+			1
 		);
 
 		// Adding sub-menu for Custom Post Types
@@ -67,7 +69,8 @@ class Admin_Menu implements Registerable {
 			__( 'Custom Post Types', 'custom-post-types-taxonomies' ),
 			'manage_options',
 			'custom-post-types-taxonomies-post-types',
-			array( $this, 'render_post_types_page' )
+			array( $this, 'render_post_types_page' ),
+			3
 		);
 	}
 
@@ -76,9 +79,10 @@ class Admin_Menu implements Registerable {
 	 *
 	 * @return void
 	 * @throws Exception
+	 * @since 0.1.0-alpha
 	 */
 	public function render_plugin_page(): void {
-		echo '<h1>' . esc_html__( 'Custom PTT', 'custom-post-types-taxonomies' ) . '</h1>';
+		require __DIR__ . '/templates/custom-ptt-home.php';
 	}
 
 	/**
@@ -86,6 +90,7 @@ class Admin_Menu implements Registerable {
 	 *
 	 * @return void
 	 * @throws Exception
+	 * @since 0.1.0-alpha
 	 */
 	public function render_taxonomies_page(): void {
 		require __DIR__ . '/templates/custom-ptt-taxonomies.php';
@@ -96,6 +101,7 @@ class Admin_Menu implements Registerable {
 	 *
 	 * @return void
 	 * @throws Exception
+	 * @since 0.1.0-alpha
 	 */
 	public function render_post_types_page(): void {
 		require __DIR__ . '/templates/custom-ptt-post-types.php';

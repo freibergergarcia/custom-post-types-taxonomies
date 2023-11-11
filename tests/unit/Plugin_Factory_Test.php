@@ -1,33 +1,34 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
 namespace Custom_PTT\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Custom_PTT\Plugin_Factory;
+use Custom_PTT\Plugin;
 use DI\Container;
 
 /**
- * Plugin Factory Test.
+ * Class Plugin_Factory_Test
  *
  * @package Custom_PTT\Tests\Unit
+ * @since 0.1.0-alpha
  */
 class Plugin_Factory_Test extends TestCase {
 
 	/**
-	 * Test plugin factory create.
+	 * Test create method.
 	 *
-	 * @return void
+	 * @since 0.1.0-alpha
 	 */
-	public function test_plugin_factory_create(): void {
-		$container = $this->createMock( Container::class );
+	public function test_create() {
+		$container = new Container();
+		$plugin    = Plugin_Factory::create( $container );
 
-		$plugin_instance_one = Plugin_Factory::create( $container );
-		$plugin_instance_two = Plugin_Factory::create( $container );
+		$this->assertInstanceOf( Plugin::class, $plugin );
 
-		$this->assertInstanceOf( 'Custom_PTT\Plugin', $plugin_instance_one );
-		$this->assertInstanceOf( 'Custom_PTT\Plugin', $plugin_instance_two );
-		$this->assertSame( $plugin_instance_one, $plugin_instance_two );
+		// Test that the method always returns the same instance.
+		$this->assertSame( $plugin, Plugin_Factory::create( $container ) );
 	}
 }

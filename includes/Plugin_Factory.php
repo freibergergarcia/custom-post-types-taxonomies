@@ -13,18 +13,10 @@ use DI\Container;
  * Read more about why this is preferable to a singleton
  *
  * @package Custom_PTT
- * @since 1.0.0
- * @version 1.0.0
+ * @since 0.1.0-alpha
  * @see https://www.alainschlesser.com/singletons-shared-instances/
  */
 class Plugin_Factory {
-
-	/**
-	 * Container instance.
-	 *
-	 * @var Container
-	 */
-	protected Container $container;
 
 	/**
 	 * Create and return an instance of the plugin.
@@ -32,6 +24,7 @@ class Plugin_Factory {
 	 * This always returns a shared instance.
 	 *
 	 * @return Plugin Plugin instance.
+	 * @since 0.1.0-alpha
 	 */
 	public static function create( Container $container ): Plugin {
 		static $plugin = null;

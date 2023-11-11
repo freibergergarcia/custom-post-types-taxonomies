@@ -7,7 +7,7 @@
   },
   "object_type": {
     "type": "array|string",
-    "description": "Object type or array of object types with which the taxonomy should be associated.",
+    "description": "Object type or array of object types with which the taxonomy should be associated",
     "default": [],
     "required": true
   },

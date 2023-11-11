@@ -1,32 +1,31 @@
-# custom-post-types-taxonomies Plugin
+# Custom Post Types and Taxonomies (Custom PTT) Plugin
 
-_anything_ Custom PTT, starting with Custom Taxonomies and Custom Post Types.
+The Custom PTT plugin is a powerful tool for extending the functionality of WordPress by creating Custom Taxonomies and Custom Post Types.
 
 ![Unit Tests](https://github.com/freibergergarcia/custom-post-types-taxonomies/actions/workflows/run-phpunit.yml/badge.svg)
 ![PHP Code Sniffer](https://github.com/freibergergarcia/custom-post-types-taxonomies/actions/workflows/run-phpcs.yml/badge.svg)
 
 [See the code coverage report](https://freibergergarcia.github.io/custom-post-types-taxonomies/html/)
 
-## Why?
+## Why Custom PTT?
 
-placeholder
+Custom PTT is designed to provide developers with a simple and efficient way to extend the built-in functionality of WordPress. With Custom PTT, you can create your own taxonomies and post types, allowing for greater flexibility and control over your content.
 
 ## Features
 
-- Custom Taxonomies.
-- Custom Post Types.
+- Easy creation of Custom Taxonomies.
+- Simple interface for generating Custom Post Types.
 
 ## Installation
 
-placeholder
 
 ## Usage
 
-placeholder
+
 
 ## Contributing
 
-placeholder
+
 
 ## License
 

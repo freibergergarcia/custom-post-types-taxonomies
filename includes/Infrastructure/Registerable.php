@@ -22,14 +22,14 @@ namespace Custom_PTT\Infrastructure;
 /**
  * Something that can be registered.
  *
- * @since 1.0.0
+ * @since 0.1.0-alpha
  */
 interface Registerable {
 
 	/**
 	 * Register the service.
 	 *
-	 * @since 1.0.0
+	 * @since 0.1.0-alpha
 	 */
 	public function register(): void;
 }
