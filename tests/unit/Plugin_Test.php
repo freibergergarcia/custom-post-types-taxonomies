@@ -7,8 +7,6 @@ namespace Custom_PTT\Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use Custom_PTT\Plugin;
 use DI\Container;
-use DI\DependencyException;
-use DI\NotFoundException;
 use Custom_PTT\Infrastructure\Registerable;
 use WP_Mock;
 

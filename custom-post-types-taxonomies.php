@@ -25,7 +25,6 @@ declare( strict_types=1 );
 
 use Custom_PTT\Plugin_Factory;
 
-// Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -42,11 +41,15 @@ if ( ! defined( 'CUSTOM_PTT_FILE' ) ) {
 }
 
 if ( ! defined( 'CUSTOM_PTT_DIR' ) ) {
-	define( 'CUSTOM_PTT_DIR', __DIR__ );
+	define( 'CUSTOM_PTT_DIR', plugin_dir_path( __FILE__ ) );
+}
+
+if ( ! defined( 'CUSTOM_PTT_URL' ) ) {
+	define( 'CUSTOM_PTT_URL', plugin_dir_url( __FILE__ ) );
 }
 
 if ( ! defined( 'CUSTOM_PTT_OPTION_NAME' ) ) {
-    define( 'CUSTOM_PTT_TAXONOMY_OPTION_NAME', 'custom_ptt_taxonomies' );
+	define( 'CUSTOM_PTT_TAXONOMY_OPTION_NAME', 'custom_ptt_taxonomies' );
 }
 
 // Register activation hook

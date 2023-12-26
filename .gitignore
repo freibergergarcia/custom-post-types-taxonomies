@@ -9,3 +9,5 @@ coverage.xml
 .phpunit.cache
 *.sh
 *.txt
+node_modules/
+package-lock.json

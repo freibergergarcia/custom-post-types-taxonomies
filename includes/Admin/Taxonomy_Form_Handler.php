@@ -29,6 +29,7 @@ class Taxonomy_Form_Handler implements Registerable {
 	public function register(): void {
 		add_filter( 'check_admin_referer', '__return_true' );
 		add_action( 'admin_post_custom_ptt_save_taxonomy', array( $this, 'handle_form_submission' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 	}
 
 	/**
@@ -116,5 +117,24 @@ class Taxonomy_Form_Handler implements Registerable {
 		$taxonomies[ $data['taxonomy_slug'] ] = $data;
 
 		return update_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, $taxonomies );
+	}
+
+	/**
+	 * Enqueues the plugin's styles on the specific admin page.
+	 *
+	 * @since 0.1.0-alpha
+	 * @return void
+	 */
+	public function enqueue_styles(): void {
+		$screen = get_current_screen();
+		if ( isset( $screen->id ) && 'custom-ptt_page_add-custom-post-types-taxonomies-taxonomies' === $screen->id ) {
+			wp_enqueue_style(
+				'custom-ptt-general',
+				CUSTOM_PTT_URL . './assets/css/public/general.css',
+				array(),
+				'1.0.0',
+				'all'
+			);
+		}
 	}
 }

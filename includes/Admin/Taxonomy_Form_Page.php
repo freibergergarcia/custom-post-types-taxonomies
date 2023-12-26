@@ -6,7 +6,6 @@ namespace Custom_PTT\Admin;
 
 use Exception;
 use Custom_PTT\Config\Config_Loader;
-use Custom_PTT\Config\Config_Loader_Exception;
 use Custom_PTT\Infrastructure\Registerable;
 use Custom_PTT\Utilities;
 use WP_Taxonomy;
@@ -24,20 +23,6 @@ class Taxonomy_Form_Page implements Registerable {
 	use Utilities;
 
 	public const OPTION_NAME = 'custom_ptt_taxonomy_settings';
-
-	private Config_Loader $config_loader;
-
-	/**
-	 * Constructor injection of the config loader
-	 *
-	 * @param Config_Loader $config_loader The config loader instance.
-	 *
-	 * @since 0.1.0-alpha
-	 * @throws Exception If any other error occurs.
-	 */
-	public function __construct( Config_Loader $config_loader ) {
-		$this->config_loader = $config_loader;
-	}
 
 	/**
 	 * Register the service with WordPress.
@@ -86,8 +71,8 @@ class Taxonomy_Form_Page implements Registerable {
 	public function render_form(): void {
 		$taxonomy_name = isset( $_GET['taxonomy'] ) ? sanitize_text_field( $_GET['taxonomy'] ) : '';
 
-		// Verify that the taxonomy name is valid
-		$taxonomy = get_taxonomy( $taxonomy_name );
+		$taxonomy_data = null;
+		$taxonomy      = get_taxonomy( $taxonomy_name );
 		if ( $taxonomy instanceof WP_Taxonomy ) {
 			$taxonomies    = get_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, array() );
 			$taxonomy_data = $taxonomies[ $taxonomy->name ] ?? null;

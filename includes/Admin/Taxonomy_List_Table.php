@@ -88,6 +88,17 @@ class Taxonomy_List_Table extends WP_List_Table {
 			return;
 		}
 
+		/**
+		 * Filter the taxonomies to display in the list table, removing any taxonomies that are not
+		 * registered by the plugin.
+		 */
+		$plugin_taxonomies = get_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, array() );
+		foreach ( $taxonomies as $taxonomy_slug => $taxonomy ) {
+			if ( ! in_array( $taxonomy_slug, array_keys( $plugin_taxonomies ), true ) ) {
+				unset( $taxonomies[ $taxonomy_slug ] );
+			}
+		}
+
 		usort(
 			$taxonomies,
 			function ( $a, $b ) use ( $orderby, $order ) {
@@ -102,6 +113,7 @@ class Taxonomy_List_Table extends WP_List_Table {
 				if ( 'asc' === $order ) {
 					return ( $a->$orderby < $b->$orderby ) ? -1 : 1;
 				}
+
 				return ( $a->$orderby < $b->$orderby ) ? 1 : -1;
 			}
 		);

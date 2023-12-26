@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace Custom_PTT\Tests\Unit;
+namespace Custom_PTT\Tests\Unit\Taxonomy;
 
 use PHPUnit\Framework\TestCase;
 use Custom_PTT\Taxonomy\Taxonomy;
