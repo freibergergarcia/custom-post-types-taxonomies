@@ -1,9 +1,24 @@
+<?php
+/**
+ * Custom Post Types Taxonomies Admin Template
+ *
+ * @var $taxonomy_data
+ */
+?>
 <div class="min-h-screen bg-gray-100">
 
 	<?php require CUSTOM_PTT_DIR . 'includes/Admin/templates/custom-ptt-header.php'; ?>
 
 	<div class="wrap max-w-lg mx-auto">
-		<?php if ( is_null( $taxonomy_data ) && isset( $_GET['action'] ) && 'edit' === sanitize_text_field( $_GET['action'] ) ) { ?>
+		<?php
+		if (
+			isset( $_REQUEST['custom_ptt_taxonomy_nonce'] ) &&
+			wp_verify_nonce( $_REQUEST['custom_ptt_taxonomy_nonce'], 'custom_ptt_save_taxonomy' ) &&
+			is_null( $taxonomy_data ) &&
+			isset( $_GET['action'] ) &&
+			'edit' === sanitize_text_field( $_GET['action'] )
+		) {
+			?>
 
 			<div class="flex flex-col justify-center items-center h-full mt-10 w-4/5">
 				<div class="bg-red-100 border-l-4 border-red-500 text-left px-4 py-3 rounded-lg w-full max-w-md">

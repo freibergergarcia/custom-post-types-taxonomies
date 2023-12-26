@@ -69,7 +69,13 @@ class Taxonomy_Form_Page implements Registerable {
 	 * @throws Exception
 	 */
 	public function render_form(): void {
-		$taxonomy_name = isset( $_GET['taxonomy'] ) ? sanitize_text_field( $_GET['taxonomy'] ) : '';
+		$taxonomy_name = '';
+		if (
+			isset( $_REQUEST['custom_ptt_taxonomy_nonce'] ) &&
+			wp_verify_nonce( $_REQUEST['custom_ptt_taxonomy_nonce'], 'custom_ptt_save_taxonomy' )
+		) {
+			$taxonomy_name = isset( $_GET['taxonomy'] ) ? sanitize_text_field( $_GET['taxonomy'] ) : '';
+		}
 
 		$taxonomy_data = null;
 		$taxonomy      = get_taxonomy( $taxonomy_name );

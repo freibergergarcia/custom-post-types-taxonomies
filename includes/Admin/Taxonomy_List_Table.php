@@ -79,8 +79,15 @@ class Taxonomy_List_Table extends WP_List_Table {
 
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
-		$orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'name';
-		$order   = isset( $_GET['order'] ) ? sanitize_text_field( $_GET['order'] ) : 'asc';
+		$orderby = 'name';
+		$order   = 'asc';
+		if (
+			isset( $_REQUEST['custom_ptt_taxonomy_nonce'] ) &&
+			wp_verify_nonce( $_REQUEST['custom_ptt_taxonomy_nonce'], 'custom_ptt_save_taxonomy' )
+		) {
+			$orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'name';
+			$order   = isset( $_GET['order'] ) ? sanitize_text_field( $_GET['order'] ) : 'asc';
+		}
 
 		$taxonomies = get_taxonomies( array( '_builtin' => false ), 'objects' );
 
