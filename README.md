@@ -1,31 +1,47 @@
-# Custom Post Types and Taxonomies (Custom PTT) Plugin
+# Custom Post Types and Taxonomies (Custom PTT)
 
-The Custom PTT plugin is a powerful tool for extending the functionality of WordPress by creating Custom Taxonomies and Custom Post Types.
+The Custom PTT plugin is a simple yet efficient WordPress Plugin to extending the functionality of WordPress by creating Custom Taxonomies and Custom Post Types.
 
 ![Unit Tests](https://github.com/freibergergarcia/custom-post-types-taxonomies/actions/workflows/run-phpunit.yml/badge.svg)
 ![PHP Code Sniffer](https://github.com/freibergergarcia/custom-post-types-taxonomies/actions/workflows/run-phpcs.yml/badge.svg)
 
-[See the code coverage report](https://freibergergarcia.github.io/custom-post-types-taxonomies/html/)
-
 ## Why Custom PTT?
 
-Custom PTT is designed to provide developers with a simple and efficient way to extend the built-in functionality of WordPress. With Custom PTT, you can create your own taxonomies and post types, allowing for greater flexibility and control over your content.
+Custom PTT is designed to provide developers with a simple and efficient way to extend the built-in functionality of WordPress. 
 
 ## Features
 
-- Easy creation of Custom Taxonomies.
-- Simple interface for generating Custom Post Types.
+Once the plugin is activate, there is no need to generate any code for you to put in your `theme` or `plugin`. 
+We register the Custom Post Types and Custom Taxonomies for you.
+
+- Easily add Custom Taxonomies
+- Easily add Custom Post Types
+- Extend with a built-in filter in case you would like to modify the default arguments
+
+`custom_ptt_taxonomy_args` filter is available to modify the default arguments used when registering a taxonomy.
+```php 
+/**
+ * Filters the arguments used when registering a taxonomy.
+ *
+ * @param array $args The arguments used when registering a taxonomy.
+ * @param string $taxonomy_slug The taxonomy slug.
+ * @param array $taxonomy_data The taxonomy data.
+ * @since 0.1.0-alpha
+ */
+ $args = apply_filters( 'custom_ptt_taxonomy_args', $args, $taxonomy_slug, $taxonomy_data );
+```
 
 ## Installation
 
-
-## Usage
-
-
+Composer install is suficient
+```
+composer install
+```
 
 ## Contributing
 
-
+Anyone is welcome to contribute to Custom PTT. Please follow our guidelines, which are specified on the [phpcs.xml.dist](phpcs.xml.dist) file.
+PR's should be raised to the `develop` branch.
 
 ## License
 
