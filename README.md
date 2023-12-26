@@ -7,12 +7,14 @@ The Custom PTT plugin is a simple yet efficient WordPress Plugin to extending th
 
 ## Why Custom PTT?
 
-Custom PTT is designed to provide developers with a simple and efficient way to extend the built-in functionality of WordPress. 
+Custom PTT is designed to provide creators and developers with a simple and efficient way to extend the built-in functionality.
+No need for code knowledge, anyone should be able to install, register new Custom Post Types and Custom Taxonomies and start using them.
 
 ## Features
 
 Once the plugin is activate, there is no need to generate any code for you to put in your `theme` or `plugin`. 
-We register the Custom Post Types and Custom Taxonomies for you.
+
+**We initialize the Custom Post Types and Custom Taxonomies for you**.
 
 - Easily add Custom Taxonomies
 - Easily add Custom Post Types
