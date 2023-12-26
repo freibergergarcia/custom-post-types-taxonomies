@@ -36,18 +36,7 @@ jobs:
         coverage: xdebug
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      run: composer install --prefer-dist --no-progress --optimize-autoloader
 
     - name: Run test suite
       run: composer unit
-
-    - name: Generate coverage report
-      run: composer coverage
-      env:
-        XDEBUG_MODE: coverage
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./coverage

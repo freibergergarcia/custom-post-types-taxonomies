@@ -44,9 +44,10 @@ class Taxonomy_Form_Handler implements Registerable {
 	public function handle_form_submission(): void {
 
 		// Verify custom nonce custom_ptt_taxonomy_nonce
-		if ( ! isset( $_POST['custom_ptt_taxonomy_nonce'] )
-		|| ! wp_verify_nonce( $_POST['custom_ptt_taxonomy_nonce'], 'custom_ptt_save_taxonomy' )
-		|| ! check_admin_referer( 'custom_ptt_save_taxonomy', 'custom_ptt_taxonomy_nonce' )
+		if (
+			! isset( $_POST['custom_ptt_taxonomy_nonce'] )
+			|| ! wp_verify_nonce( $_POST['custom_ptt_taxonomy_nonce'], 'custom_ptt_save_taxonomy' )
+			|| ! check_admin_referer( 'custom_ptt_save_taxonomy', 'custom_ptt_taxonomy_nonce' )
 		) {
 			wp_die( esc_html__( 'Security check failed. Please try again.', 'custom-post-types-taxonomies' ) );
 		}
