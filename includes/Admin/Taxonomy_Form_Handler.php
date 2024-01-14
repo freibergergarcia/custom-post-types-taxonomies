@@ -67,13 +67,21 @@ class Taxonomy_Form_Handler implements Registerable {
 			}
 
 			$store_taxonomy = $this->store_taxonomy( $data );
-			if ( false === $store_taxonomy ) {
+			if ( ! array_key_exists( $data['taxonomy_slug'], $store_taxonomy ) ) {
 				throw new Exception( esc_html__( 'An error occurred while saving the taxonomy.', 'custom-post-types-taxonomies' ) );
 			}
 
+			Notices::add_admin_notice(
+				'success',
+				esc_html__( 'Taxonomy updated successfully.', 'custom-post-types-taxonomies' )
+			);
 			wp_redirect( admin_url( 'admin.php?page=custom-post-types-taxonomies-taxonomies&status=success' ) );
 
 		} catch ( Exception $e ) {
+			Notices::add_admin_notice(
+				'error',
+				$e->getMessage()
+			);
 			wp_redirect( admin_url( 'admin.php?page=custom-post-types-taxonomies-taxonomies&status=error' ) );
 		}
 		exit;
@@ -110,14 +118,16 @@ class Taxonomy_Form_Handler implements Registerable {
 	 *
 	 * @param array $data The data to use when storing the taxonomy.
 	 *
+	 * @return array Return the registered taxonomies.
 	 * @since 0.1.0-alpha
-	 * @return bool True if the option was updated successfully, false otherwise.
 	 */
-	private function store_taxonomy( array $data ): bool {
+	private function store_taxonomy( array $data ): array {
 		$taxonomies                           = get_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, array() );
 		$taxonomies[ $data['taxonomy_slug'] ] = $data;
 
-		return update_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, $taxonomies );
+		$update_taxonomy = update_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, $taxonomies );
+
+		return get_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, array() );
 	}
 
 	/**

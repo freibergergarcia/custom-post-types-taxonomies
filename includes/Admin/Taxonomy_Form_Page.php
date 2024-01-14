@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Custom_PTT\Admin;
 
 use Exception;
-use Custom_PTT\Config\Config_Loader;
 use Custom_PTT\Infrastructure\Registerable;
 use Custom_PTT\Utilities;
 use WP_Taxonomy;
@@ -69,13 +68,7 @@ class Taxonomy_Form_Page implements Registerable {
 	 * @throws Exception
 	 */
 	public function render_form(): void {
-		$taxonomy_name = '';
-		if (
-			isset( $_REQUEST['custom_ptt_taxonomy_nonce'] ) &&
-			wp_verify_nonce( $_REQUEST['custom_ptt_taxonomy_nonce'], 'custom_ptt_save_taxonomy' )
-		) {
-			$taxonomy_name = isset( $_GET['taxonomy'] ) ? sanitize_text_field( $_GET['taxonomy'] ) : '';
-		}
+		$taxonomy_name = isset( $_GET['taxonomy'] ) ? sanitize_text_field( $_GET['taxonomy'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		$taxonomy_data = null;
 		$taxonomy      = get_taxonomy( $taxonomy_name );

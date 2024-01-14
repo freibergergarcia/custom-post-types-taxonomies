@@ -35,7 +35,7 @@ Once the plugin is activate, there is no need to generate any code for you to pu
 
 ## Installation
 
-Composer install is suficient
+Composer install is sufficient
 ```
 composer install
 ```
