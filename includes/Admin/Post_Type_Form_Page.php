@@ -7,21 +7,22 @@ namespace Custom_PTT\Admin;
 use Exception;
 use Custom_PTT\Infrastructure\Registerable;
 use Custom_PTT\Utilities;
+use WP_Post_Type;
 use WP_Taxonomy;
 
 /**
- * Taxonomy_Form_Page Class
+ * Post_Type_Form_Page Class
  *
- * This class is responsible for rendering and handling the taxonomy creation form.
+ * This class is responsible for rendering and handling the post type creation form.
  *
- * @package Custom_PTT\Taxonomy
+ * @package Custom_PTT\Post_Type
  * @since 0.1.0-alpha
  */
-class Taxonomy_Form_Page implements Registerable {
+class Post_Type_Form_Page implements Registerable {
 
 	use Utilities;
 
-	public const OPTION_NAME = 'custom_ptt_taxonomy_settings';
+	public const OPTION_NAME = 'custom_ptt_post_type_settings';
 
 	/**
 	 * Register the service with WordPress.
@@ -51,33 +52,34 @@ class Taxonomy_Form_Page implements Registerable {
 	public function add_form_page(): void {
 		add_submenu_page(
 			'custom-post-types-taxonomies',
-			__( 'Add New Taxonomy', 'custom-post-types-taxonomies' ),
-			__( 'Add New Taxonomy ', 'custom-post-types-taxonomies' ),
+			__( 'Add New Post Type', 'custom-post-types-taxonomies' ),
+			__( 'Add New Post Type ', 'custom-post-types-taxonomies' ),
 			'manage_options',
-			'add-custom-post-types-taxonomies-taxonomies',
+			'add-custom-post-types-taxonomies-post-types',
 			array( $this, 'render_form' ),
-			1
+			20
 		);
 	}
 
 	/**
-	 * Render the taxonomy creation form.
+	 * Render the post type creation form.
 	 *
 	 * @since 0.1.0-alpha
 	 * @return void
 	 * @throws Exception
 	 */
 	public function render_form(): void {
-		$taxonomy_name = isset( $_GET['taxonomy'] ) ? sanitize_text_field( $_GET['taxonomy'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$post_type_name = isset( $_GET['custom_post_type'] ) ? sanitize_text_field( $_GET['custom_post_type'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-		$taxonomy_data = null;
-		$taxonomy      = get_taxonomy( $taxonomy_name );
+		$post_type_data = null;
+		$post_type      = get_post_type_object( $post_type_name );
+		$taxonomies     = get_taxonomies( array( '_builtin' => false ) );
 
-		if ( $taxonomy instanceof WP_Taxonomy ) {
-			$taxonomies    = get_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, array() );
-			$taxonomy_data = $taxonomies[ $taxonomy->name ] ?? null;
+		if ( $post_type instanceof WP_Post_Type ) {
+			$post_types     = get_option( CUSTOM_PTT_POST_TYPE_OPTION_NAME, array() );
+			$post_type_data = $post_types[ $post_type->name ] ?? null;
 		}
 
-		require __DIR__ . '/templates/custom-ptt-taxonomies-form.php';
+		require __DIR__ . '/templates/custom-ptt-post-types-form.php';
 	}
 }

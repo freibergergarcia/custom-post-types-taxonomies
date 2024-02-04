@@ -48,8 +48,12 @@ if ( ! defined( 'CUSTOM_PTT_URL' ) ) {
 	define( 'CUSTOM_PTT_URL', plugin_dir_url( __FILE__ ) );
 }
 
-if ( ! defined( 'CUSTOM_PTT_OPTION_NAME' ) ) {
+if ( ! defined( 'CUSTOM_PTT_TAXONOMY_OPTION_NAME' ) ) {
 	define( 'CUSTOM_PTT_TAXONOMY_OPTION_NAME', 'custom_ptt_taxonomies' );
+}
+
+if ( ! defined( 'CUSTOM_PTT_POST_TYPE_OPTION_NAME' ) ) {
+	define( 'CUSTOM_PTT_POST_TYPE_OPTION_NAME', 'custom_ptt_post_types' );
 }
 
 // Register activation hook

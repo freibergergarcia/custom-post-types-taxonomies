@@ -41,36 +41,33 @@ class Admin_Menu implements Registerable {
 	 * @since 0.1.0-alpha
 	 */
 	public function register_menu(): void {
-		// Adding Top-level menu
 		add_menu_page(
 			__( 'Custom PTT', 'custom-post-types-taxonomies' ),
 			__( 'Custom PTT', 'custom-post-types-taxonomies' ),
 			'manage_options',
 			'custom-post-types-taxonomies',
-			array( $this, 'render_plugin_page' ),
+			array( $this, 'render_taxonomies_page' ),
 			'dashicons-coffee'
 		);
 
-		// Adding sub-menu for Custom Taxonomies
 		add_submenu_page(
 			'custom-post-types-taxonomies',
-			__( 'Custom Taxonomies', 'custom-post-types-taxonomies' ),
-			__( 'Custom Taxonomies', 'custom-post-types-taxonomies' ),
+			__( 'Taxonomies', 'custom-post-types-taxonomies' ),
+			__( 'Taxonomies', 'custom-post-types-taxonomies' ),
 			'manage_options',
-			'custom-post-types-taxonomies-taxonomies',
+			'custom-post-types-taxonomies',
 			array( $this, 'render_taxonomies_page' ),
 			1
 		);
 
-		// Adding sub-menu for Custom Post Types
 		add_submenu_page(
 			'custom-post-types-taxonomies',
-			__( 'Custom Post Types', 'custom-post-types-taxonomies' ),
-			__( 'Custom Post Types', 'custom-post-types-taxonomies' ),
+			__( 'Post Types', 'custom-post-types-taxonomies' ),
+			__( 'Post Types', 'custom-post-types-taxonomies' ),
 			'manage_options',
 			'custom-post-types-taxonomies-post-types',
 			array( $this, 'render_post_types_page' ),
-			3
+			20
 		);
 	}
 

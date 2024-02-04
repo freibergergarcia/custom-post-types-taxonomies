@@ -43,7 +43,6 @@ class Taxonomy_Form_Handler implements Registerable {
 	 */
 	public function handle_form_submission(): void {
 
-		// Verify custom nonce custom_ptt_taxonomy_nonce
 		if (
 			! isset( $_POST['custom_ptt_taxonomy_nonce'] )
 			|| ! wp_verify_nonce( $_POST['custom_ptt_taxonomy_nonce'], 'custom_ptt_save_taxonomy' )
@@ -52,7 +51,6 @@ class Taxonomy_Form_Handler implements Registerable {
 			wp_die( esc_html__( 'Security check failed. Please try again.', 'custom-post-types-taxonomies' ) );
 		}
 
-		// Sanitize and validate input
 		$data = array(
 			'taxonomy_slug'  => isset( $_POST['taxonomy-slug'] ) ? sanitize_text_field( wp_unslash( $_POST['taxonomy-slug'] ) ) : '',
 			'plural_label'   => isset( $_POST['plural-label'] ) ? sanitize_text_field( wp_unslash( $_POST['plural-label'] ) ) : '',
