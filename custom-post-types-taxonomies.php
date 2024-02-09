@@ -3,7 +3,7 @@
  * Custom PTT Plugin.
  *
  * @package   Custom_PTT
- * @copyright Copyright (C) 2023-2023, Custom PTT - freibergergarcia@gmail.com
+ * @copyright Copyright (C) 2023-2024, Custom PTT
  * @link      https://www.github.com/freibergergarcia/custom-post-types-taxonomies
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
  *
@@ -29,13 +29,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Check if composer autoload file exists
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	die( 'Autoload file not found. Please run composer install.' );
 }
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Define plugin file
 if ( ! defined( 'CUSTOM_PTT_FILE' ) ) {
 	define( 'CUSTOM_PTT_FILE', __FILE__ );
 }
@@ -56,7 +54,6 @@ if ( ! defined( 'CUSTOM_PTT_POST_TYPE_OPTION_NAME' ) ) {
 	define( 'CUSTOM_PTT_POST_TYPE_OPTION_NAME', 'custom_ptt_post_types' );
 }
 
-// Register activation hook
 if ( class_exists( 'Custom_PTT\Plugin' ) ) {
 	register_uninstall_hook( __FILE__, array( 'Custom_PTT\Plugin', 'on_uninstall' ) );
 }

@@ -9,10 +9,6 @@
  * @license   MIT
  *
  * Adapted for the Custom PTT project.
- *
- * @link      https://www.github.com/freibergergarcia/custom-post-types-taxonomies
- * @copyright 2023 Bruno Freiberger Garcia
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
  */
 
 declare( strict_types=1 );

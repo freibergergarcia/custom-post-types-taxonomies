@@ -1,24 +1,23 @@
-# Custom Post Types and Taxonomies (Custom PTT)
+# Custom post types and taxonomies (Custom PTT)
 
-The Custom PTT plugin is a simple yet efficient WordPress Plugin to extending the functionality of WordPress by creating Custom Taxonomies and Custom Post Types.
+The Custom PTT plugin is a simple WordPress Plugin to extend the functionality of WordPress by creating Custom Taxonomies and Custom Post Types.
 
 ![Unit Tests](https://github.com/freibergergarcia/custom-post-types-taxonomies/actions/workflows/run-phpunit.yml/badge.svg)
 ![PHP Code Sniffer](https://github.com/freibergergarcia/custom-post-types-taxonomies/actions/workflows/run-phpcs.yml/badge.svg)
 
-## Why Custom PTT?
-
-Custom PTT is designed to provide creators and developers with a simple and efficient way to extend the built-in functionality.
-No need for code knowledge, anyone should be able to install, register new Custom Post Types and Custom Taxonomies and start using them.
-
 ## Features
 
-Once the plugin is activate, there is no need to generate any code for you to put in your `theme` or `plugin`. 
+Once the plugin is activate, it doesn't generate any code to be placced anywhere in the `theme` or `plugin`. 
 
-**We initialize the Custom Post Types and Custom Taxonomies for you**.
+**We initialize the Custom Post Types and Custom Taxonomies through WordPress hook**.
 
 - Easily add Custom Taxonomies
 - Easily add Custom Post Types
-- Extend with a built-in filter in case you would like to modify the default arguments
+- Extend with a built-in filters and actions in case you would like to modify the default arguments
+
+### Filters and Actions
+
+#### Taxonomies
 
 `custom_ptt_taxonomy_args` filter is available to modify the default arguments used when registering a taxonomy.
 ```php 
@@ -33,9 +32,48 @@ Once the plugin is activate, there is no need to generate any code for you to pu
  $args = apply_filters( 'custom_ptt_taxonomy_args', $args, $taxonomy_slug, $taxonomy_data );
 ```
 
+`custom_ptt_registered_taxonomies` action fires after the taxonomies are registrered
+```php 
+/**
+* Fires after the taxonomies are registered.
+*
+* @param array $taxonomies The taxonomies that were registered.
+* @since 0.1.0-alpha
+*/
+do_action( 'custom_ptt_registered_taxonomies', $taxonomies );
+```
+
+#### Post Types
+
+`custom_ptt_post_type_args` filter is available to modify the default arguments used when registering a post type.
+```php 
+/**
+* Filters the arguments used when registering a post type.
+*
+* @param array $args The arguments used when registering a post type.
+ * @param string $post_type_key The post type slug.
+* @param array $post_type_data The post type data.
+*
+* @since 0.1.0-alpha
+*/
+$args = apply_filters( 'custom_ptt_post_type_args', $args, $post_type_key, $post_type_data );
+```
+
+`custom_ptt_registered_post_types` action fires after the post types are registrered
+```php 
+/**
+* Fires after the post types are registered.
+*
+* @param array $post_types The post types that were registered.
+*
+* @since 0.1.0-alpha
+*/
+do_action( 'custom_ptt_registered_post_types', $post_types );
+```
+
 ## Installation
 
-Composer install is sufficient
+Composer install is all you need to get started.
 ```
 composer install
 ```

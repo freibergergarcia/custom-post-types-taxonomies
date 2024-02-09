@@ -5,11 +5,11 @@
  * This file defines the services and dependencies of the Custom PTT plugin.
  *
  * @package   Custom_PTT
- * @copyright Copyright (C) 2023-2023, Custom PTT - freibergergarcia@gmail.com
+ * @copyright Copyright (C) 2023-2024, Custom PTT
  * @link      https://www.github.com/freibergergarcia/custom-post-types-taxonomies
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
  *
- * @since 0.0.1
+ * @since 0.1.0-alpha
  */
 
 declare( strict_types=1 );

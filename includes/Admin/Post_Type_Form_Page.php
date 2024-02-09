@@ -8,7 +8,6 @@ use Exception;
 use Custom_PTT\Infrastructure\Registerable;
 use Custom_PTT\Utilities;
 use WP_Post_Type;
-use WP_Taxonomy;
 
 /**
  * Post_Type_Form_Page Class
@@ -22,21 +21,32 @@ class Post_Type_Form_Page implements Registerable {
 
 	use Utilities;
 
+	/**
+	 * The name of the option used to store the post type settings.
+	 *
+	 * @since 0.1.0-alpha
+	 */
 	public const OPTION_NAME = 'custom_ptt_post_type_settings';
 
 	/**
-	 * Register the service with WordPress.
-	 *
 	 * Hooks the render_form method to the appropriate action.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return void
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function register(): void {
 		add_action( 'admin_menu', array( $this, 'add_form_page' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 	}
 
+	/**
+	 * Enqueue assets
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0-alpha
+	 */
 	public function enqueue_assets(): void {
 		wp_enqueue_style( 'custom-ptt-admin', plugin_dir_url( CUSTOM_PTT_FILE ) . 'assets/css/custom-ptt.css', array(), '1.0.0' );
 		wp_enqueue_script( 'custom-ptt-admin', plugin_dir_url( CUSTOM_PTT_FILE ) . 'assets/js/custom-ptt.js', array( 'jquery' ), '1.0.0', true );
@@ -45,9 +55,10 @@ class Post_Type_Form_Page implements Registerable {
 	/**
 	 * Add the form page to the WordPress admin menu.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return void
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function add_form_page(): void {
 		add_submenu_page(
@@ -64,9 +75,10 @@ class Post_Type_Form_Page implements Registerable {
 	/**
 	 * Render the post type creation form.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return void
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function render_form(): void {
 		$post_type_name = isset( $_GET['custom_post_type'] ) ? sanitize_text_field( $_GET['custom_post_type'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended

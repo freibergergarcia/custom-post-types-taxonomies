@@ -12,8 +12,6 @@ use Custom_PTT\Infrastructure\Registerable;
  *
  * This class is responsible for registering and rendering the admin menu and submenus
  * for the Custom PTT plugin within the WordPress admin interface.
- * It implements the Registerable interface to ensure its registration method is called
- * during the plugin's boot process.
  *
  * @package Custom_PTT\Admin
  * @since 0.1.0-alpha
@@ -27,6 +25,7 @@ class Admin_Menu implements Registerable {
 	 * the menu and its submenus are registered with WordPress at the appropriate time.
 	 *
 	 * @return void
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function register(): void {
@@ -38,6 +37,7 @@ class Admin_Menu implements Registerable {
 	 *
 	 * @return void
 	 * @throws Exception
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function register_menu(): void {
@@ -76,6 +76,7 @@ class Admin_Menu implements Registerable {
 	 *
 	 * @return void
 	 * @throws Exception
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function render_plugin_page(): void {
@@ -87,6 +88,7 @@ class Admin_Menu implements Registerable {
 	 *
 	 * @return void
 	 * @throws Exception
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function render_taxonomies_page(): void {
@@ -98,6 +100,7 @@ class Admin_Menu implements Registerable {
 	 *
 	 * @return void
 	 * @throws Exception
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function render_post_types_page(): void {

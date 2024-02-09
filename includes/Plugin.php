@@ -17,9 +17,6 @@ use Exception;
  * initializing and managing the plugin's services and functionality.
  *
  * @package   Custom_PTT
- * @copyright Copyright (C) 2023-2023, Custom PTT - freibergergarcia@gmail.com
- * @link      https://www.github.com/freibergergarcia/custom-post-types-taxonomies
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
  * @since     0.1.0-alpha
  */
 class Plugin {
@@ -28,6 +25,7 @@ class Plugin {
 	 * Container instance.
 	 *
 	 * @var Container
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	protected Container $container;
@@ -36,6 +34,7 @@ class Plugin {
 	 * Plugin constructor.
 	 *
 	 * @param Container $container Container instance.
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function __construct( Container $container ) {
@@ -49,6 +48,7 @@ class Plugin {
 	 * It registers the necessary hooks and initializes the services required for the plugin to work.
 	 *
 	 * @throws Exception If a service fails to register.
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function boot(): self {
@@ -63,6 +63,7 @@ class Plugin {
 	 *
 	 * @return void
 	 * @throws Exception
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function register_services(): void {
@@ -85,6 +86,7 @@ class Plugin {
 	 * Register Infrastructure hooks.
 	 *
 	 * @return void
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function register_hooks(): void {
@@ -96,6 +98,7 @@ class Plugin {
 	 * Activation hook callback.
 	 *
 	 * @return void
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function on_activation(): void {
@@ -105,6 +108,7 @@ class Plugin {
 	 * Deactivation hook callback.
 	 *
 	 * @return void
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function on_deactivation(): void {
@@ -116,6 +120,7 @@ class Plugin {
 	 * Uninstall hook callback.
 	 *
 	 * @return void
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	public static function on_uninstall(): void {

@@ -22,10 +22,11 @@ use WP_Post_Type;
 class Post_Type_Form_Handler implements Registerable {
 
 	/**
-	 * Registers the handle_form_submission method to the appropriate WordPress hook.
+	 * Registers the necessary WordPress hooks
+	 *
+	 * @return void
 	 *
 	 * @since 0.1.0-alpha
-	 * @return void
 	 */
 	public function register(): void {
 		add_filter( 'check_admin_referer', '__return_true' );
@@ -36,11 +37,10 @@ class Post_Type_Form_Handler implements Registerable {
 	/**
 	 * Handles the form submission.
 	 *
-	 * Validates the input, saves the data if valid, and provides feedback to the user.
-	 *
-	 * @since 0.1.0-alpha
 	 * @return void
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function handle_form_submission(): void {
 		if (
@@ -91,8 +91,9 @@ class Post_Type_Form_Handler implements Registerable {
 	 *
 	 * @param array $data The data to use when registering the post type.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return WP_Post_Type|WP_Error
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	private function register_post_type( array $data ): WP_Post_Type|WP_Error {
 		$labels = array(
@@ -116,6 +117,7 @@ class Post_Type_Form_Handler implements Registerable {
 	 * @param array $data The data to use when storing the post type.
 	 *
 	 * @return array Return the registered post types.
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	private function store_post_type( array $data ): array {
@@ -130,8 +132,9 @@ class Post_Type_Form_Handler implements Registerable {
 	/**
 	 * Enqueues the plugin's styles on the specific admin page.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return void
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function enqueue_styles(): void {
 		$screen = get_current_screen();

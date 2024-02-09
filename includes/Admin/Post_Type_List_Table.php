@@ -1,12 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Custom_PTT\Admin;
 
 use Exception;
 use WP_List_Table;
 
+/**
+* Post_Type_List_Table Class
+ *
+ * This class is responsible for rendering the list of registered taxonomies in
+ * a tabular format within the WordPress admin interface. It extends the WP_List_Table
+ * class to leverage WordPress's built-in table rendering functionality.
+ *
+ * @package Custom_PTT\Taxonomy
+ * @since 0.1.0-alpha
+ */
 class Post_Type_List_Table extends WP_List_Table {
 
+	/**
+	 * Constructor
+	 *
+	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
+	 */
 	public function __construct() {
 		parent::__construct(
 			array(
@@ -17,6 +36,14 @@ class Post_Type_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 * Implements get_columns method.
+	 *
+	 * @return array
+	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
+	 */
 	public function get_columns(): array {
 		return array(
 			'name'         => __( 'Name', 'custom-post-types-taxonomies' ),
@@ -26,6 +53,13 @@ class Post_Type_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 * Implements get_sortable_columns method.
+	 *
+	 * @return array[]
+	 *
+	 * @since 0.1.0-alpha
+	 */
 	public function get_sortable_columns(): array {
 		return array(
 			'name'  => array( 'name', true ),
@@ -33,6 +67,14 @@ class Post_Type_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 * Implements prepare_items method.
+	 *
+	 * @return void
+	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
+	 */
 	public function prepare_items(): void {
 		$columns  = $this->get_columns();
 		$hidden   = array();
@@ -40,9 +82,7 @@ class Post_Type_List_Table extends WP_List_Table {
 
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
-		// Example of sorting. Implement your logic here.
-		$orderby = $_REQUEST['orderby'] ?? 'name';
-		$order   = $_REQUEST['order'] ?? 'asc';
+		// @todo implement ordering
 
 		$post_types = get_post_types( array( '_builtin' => false ), 'object' );
 
@@ -69,9 +109,10 @@ class Post_Type_List_Table extends WP_List_Table {
 	 *
 	 * @param object $item The current item.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return string The Name column HTML.
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function column_name( object $item ): string {
 		$edit_query_args = array(

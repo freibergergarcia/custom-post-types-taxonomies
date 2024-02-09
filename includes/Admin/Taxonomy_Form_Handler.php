@@ -23,8 +23,9 @@ class Taxonomy_Form_Handler implements Registerable {
 	/**
 	 * Registers the handle_form_submission method to the appropriate WordPress hook.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return void
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function register(): void {
 		add_filter( 'check_admin_referer', '__return_true' );
@@ -37,9 +38,10 @@ class Taxonomy_Form_Handler implements Registerable {
 	 *
 	 * Validates the input, saves the data if valid, and provides feedback to the user.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return void
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function handle_form_submission(): void {
 
@@ -90,8 +92,9 @@ class Taxonomy_Form_Handler implements Registerable {
 	 *
 	 * @param array $data The data to use when registering the taxonomy.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return WP_Error|WP_Taxonomy
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	private function register_taxonomy( array $data ): WP_Error|WP_Taxonomy {
 		$labels = array(
@@ -117,6 +120,7 @@ class Taxonomy_Form_Handler implements Registerable {
 	 * @param array $data The data to use when storing the taxonomy.
 	 *
 	 * @return array Return the registered taxonomies.
+	 *
 	 * @since 0.1.0-alpha
 	 */
 	private function store_taxonomy( array $data ): array {
@@ -131,8 +135,9 @@ class Taxonomy_Form_Handler implements Registerable {
 	/**
 	 * Enqueues the plugin's styles on the specific admin page.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return void
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function enqueue_styles(): void {
 		$screen = get_current_screen();

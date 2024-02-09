@@ -16,10 +16,22 @@ use Exception;
  */
 final class Notices {
 
+	/**
+	 * Notices constructor.
+	 *
+	 * @since 0.1.0-alpha
+	 */
 	public function __construct() {
 		$this->init();
 	}
 
+	/**
+	 * Hooks display_admin_notices to the admin_notices action.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0-alpha
+	 */
 	public function init(): void {
 		add_action( 'admin_notices', array( Notices::class, 'display_admin_notices' ) );
 	}
@@ -32,6 +44,8 @@ final class Notices {
 	 *
 	 * @return void
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public static function add_admin_notice( string $severity, string $message ): void {
 		$notices   = get_option( 'custom_ptt_notices', array() );
@@ -43,7 +57,12 @@ final class Notices {
 	}
 
 	/**
+	 * Render admin notices
+	 *
+	 * @return void
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public static function display_admin_notices(): void {
 		$notices = get_option( 'custom_ptt_notices', array() );

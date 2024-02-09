@@ -22,8 +22,9 @@ class Taxonomy_List_Table extends WP_List_Table {
 	/**
 	 * Constructor method.
 	 *
-	 * @since 0.1.0-alpha
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function __construct() {
 		parent::__construct(
@@ -38,9 +39,10 @@ class Taxonomy_List_Table extends WP_List_Table {
 	/**
 	 * Get a list of columns.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return array
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function get_columns(): array {
 		return array(
@@ -55,8 +57,9 @@ class Taxonomy_List_Table extends WP_List_Table {
 	/**
 	 * Get a list of sortable columns.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return array
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function get_sortable_columns(): array {
 		return array(
@@ -68,9 +71,10 @@ class Taxonomy_List_Table extends WP_List_Table {
 	/**
 	 * Prepare the items for the table to process.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return void
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function prepare_items(): void {
 		$columns  = $this->get_columns();
@@ -133,9 +137,10 @@ class Taxonomy_List_Table extends WP_List_Table {
 	 *
 	 * @param object $item The current item.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return string The Name column HTML.
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function column_name( object $item ): string {
 		$edit_query_args = array(
@@ -160,9 +165,10 @@ class Taxonomy_List_Table extends WP_List_Table {
 	 * @param object $item The current item.
 	 * @param string $column_name The name of the column.
 	 *
-	 * @since 0.1.0-alpha
 	 * @return string
 	 * @throws Exception
+	 *
+	 * @since 0.1.0-alpha
 	 */
 	public function column_default( $item, $column_name ): string {
 		return match ( $column_name ) {
