@@ -7,9 +7,9 @@ The Custom PTT plugin is a simple WordPress Plugin to extend the functionality o
 
 ## Features
 
-Once the plugin is activate, it doesn't generate any code to be placced anywhere in the `theme` or `plugin`. 
+Once the plugin is activate, it doesn't generate any code to be placced anywhere in the `theme` or `plugin` files.  
 
-**We initialize the Custom Post Types and Custom Taxonomies through WordPress hook**.
+**We initialize custom Post Types and custom Taxonomies by the use of WordPress hooks**.
 
 - Easily add Custom Taxonomies
 - Easily add Custom Post Types
