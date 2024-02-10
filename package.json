@@ -1,13 +1,25 @@
 {
+  "name": "freibergergarcia/custom-post-types-taxonomies",
+  "description": "Custom Post Types and Taxonomies",
+  "license": "GPL-2.0-only",
+  "author": {
+    "name": "Bruno Freiberger",
+    "email": "freibergergarcia@gmail.com",
+    "url": "https://github.com/freibergergarcia"
+  },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
-    "tailwindcss": "^3.3.5"
+    "tailwindcss": "^3.3.5",
+    "@wordpress/env": "^9.1.0",
+    "@wordpress/scripts": "^27.0.0"
   },
   "scripts": {
     "dev": "npx postcss assets/css/general.css -o assets/css/public/general.css --watch",
-    "build": "NODE_ENV=production npx postcss assets/css/general.css -o assets/css/public/general.css"
+    "build": "NODE_ENV=production npx postcss assets/css/general.css -o assets/css/public/general.css",
+    "test-php": "wp-env run tests-cli --env-cwd=wp-content/plugins/$(basename $(pwd)) vendor/bin/phpunit -c phpunit.xml.dist --verbose",
+    "wp-env": "wp-env"
   }
 }
