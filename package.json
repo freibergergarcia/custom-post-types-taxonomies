@@ -21,7 +21,8 @@
     "build": "NODE_ENV=production npx postcss assets/css/general.css -o assets/css/public/general.css",
     "start-env": "wp-env start",
     "stop-env": "wp-env stop",
-    "test-php": "wp-env run tests-cli --env-cwd=wp-content/plugins/$(basename $(pwd)) vendor/bin/phpunit -c phpunit.xml.dist --verbose",
+    "composer-install": "wp-env run cli --env-cwd=wp-content/plugins/$(basename $(pwd)) composer install",
+    "test-php": "wp-env run tests-cli phpunit --env-cwd=wp-content/plugins/$(basename $(pwd)) --verbose",
     "wp-env": "wp-env"
   }
 }
