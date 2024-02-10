@@ -22,8 +22,10 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
-      - name: Install NPM Dependencies
-        run: npm install
+      - name: Install NPM && Composer Dependencies
+        run:
+          npm install
+          composer install
 
       - name: Start WordPress Environment
         run: npm run start-env
