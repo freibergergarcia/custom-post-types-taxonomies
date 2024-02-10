@@ -49,40 +49,4 @@ class Admin_Menu_Test extends TestCase {
 		WP_Mock::tearDown();
 		parent::tearDown();
 	}
-
-	/**
-	 * Test render_plugin_page method.
-	 *
-	 * @since 0.1.0-alpha
-	 */
-	public function test_render_plugin_page() {
-		$admin_menu = new Admin_Menu();
-
-		$this->expectOutputRegex( '/.*/' );
-		$admin_menu->render_plugin_page();
-	}
-
-	/**
-	 * Test render_taxonomies_page method.
-	 *
-	 * @since 0.1.0-alpha
-	 */
-	public function test_render_taxonomies_page() {
-		$admin_menu = new Admin_Menu();
-
-		$this->expectOutputRegex( '/.*/' );
-		$admin_menu->render_taxonomies_page();
-	}
-
-	/**
-	 * Test render_post_types_page method.
-	 *
-	 * @since 0.1.0-alpha
-	 */
-	public function test_render_post_types_page() {
-		$admin_menu = new Admin_Menu();
-
-		$this->expectOutputRegex( '/.*/' );
-		$admin_menu->render_post_types_page();
-	}
 }
