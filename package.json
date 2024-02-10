@@ -19,7 +19,9 @@
   "scripts": {
     "dev": "npx postcss assets/css/general.css -o assets/css/public/general.css --watch",
     "build": "NODE_ENV=production npx postcss assets/css/general.css -o assets/css/public/general.css",
-    "test-php": "wp-env run tests-cli --env-cwd=wp-content/plugins/$(basename $(pwd)) vendor/bin/phpunit -c phpunit.xml.dist --verbose",
+    "start-env": "wp-env start",
+    "stop-env": "wp-env stop",
+    "test-php": "npm run start-env && wp-env run tests-cli --env-cwd=wp-content/plugins/$(basename $(pwd)) vendor/bin/phpunit -c phpunit.xml.dist --verbose && npm run stop-env",
     "wp-env": "wp-env"
   }
 }
