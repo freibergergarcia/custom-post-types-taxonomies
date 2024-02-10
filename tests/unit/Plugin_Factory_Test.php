@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Custom_PTT\Tests\Unit;
+namespace Custom_PTT\Tests\Unit\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Custom_PTT\Plugin_Factory;

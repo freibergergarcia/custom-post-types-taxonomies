@@ -1,5 +1,5 @@
 {
-  "name": "freibergergarcia/custom-post-types-taxonomies",
+  "name": "custom-post-types-taxonomies",
   "description": "Custom Post Types and Taxonomies",
   "license": "GPL-2.0-only",
   "author": {
@@ -21,7 +21,7 @@
     "build": "NODE_ENV=production npx postcss assets/css/general.css -o assets/css/public/general.css",
     "start-env": "wp-env start",
     "stop-env": "wp-env stop",
-    "test-php": "npm run start-env && wp-env run tests-cli --env-cwd=wp-content/plugins/$(basename $(pwd)) vendor/bin/phpunit -c phpunit.xml.dist --verbose && npm run stop-env",
+    "test-php": "wp-env run tests-cli --env-cwd=wp-content/plugins/$(basename $(pwd)) vendor/bin/phpunit -c phpunit.xml.dist --verbose",
     "wp-env": "wp-env"
   }
 }

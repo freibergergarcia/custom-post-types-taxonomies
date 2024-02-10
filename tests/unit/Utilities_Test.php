@@ -7,7 +7,7 @@
  * @since 0.1.0-alpha
  */
 
-namespace Custom_PTT\Tests\Unit;
+namespace Custom_PTT\Tests\Unit\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Custom_PTT\Utilities;
