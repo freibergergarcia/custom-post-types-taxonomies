@@ -23,7 +23,7 @@ class Taxonomy implements Registerable {
 	 * Register the taxonomy.
 	 *
 	 * @return void
-	 * @since     0.1.0-alpha
+	 * @since 0.1.0-alpha
 	 */
 	public function register(): void {
 		add_action( 'init', array( $this, 'register_taxonomy_on_init' ) );

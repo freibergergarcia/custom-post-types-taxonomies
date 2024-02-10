@@ -1,9 +1,17 @@
 {
   "name": "freibergergarcia/custom-post-types-taxonomies",
-  "version": "0.1.0-alpha",
+  "version": "0.2.0",
   "description": "Custom Post Types and Taxonomies",
   "license": "GPL-2.0-only",
   "type": "wordpress-plugin",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "post types",
+    "post type",
+    "taxonomy",
+    "taxonomies"
+  ],
   "authors": [
     {
       "name": "Bruno",

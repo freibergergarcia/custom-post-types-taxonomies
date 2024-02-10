@@ -7,6 +7,14 @@
     "email": "freibergergarcia@gmail.com",
     "url": "https://github.com/freibergergarcia"
   },
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "post types",
+    "post type",
+    "taxonomy",
+    "taxonomies"
+  ],
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "autoprefixer": "^10.4.7",

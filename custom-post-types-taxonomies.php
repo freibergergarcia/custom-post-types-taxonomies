@@ -9,7 +9,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Custom PTT
- * Version:           0.1.0-alpha
+ * Version:           0.2.0
  * Plugin URI:        https://www.github.com/freibergergarcia/custom-post-types-taxonomies
  * Description:       Enhance your WordPress site with related post types and taxonomies functionality provided by the Custom PTT plugin.
  * Author:            Bruno Freiberger Garcia
