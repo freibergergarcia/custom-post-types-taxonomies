@@ -25,16 +25,6 @@ jobs:
       - name: Install NPM && Composer Dependencies
         run:
           npm install
-          composer install
-
-      - name: Start WordPress Environment
-        run: npm run start-env
-
-      - name: Run PHPUnit Tests
-        run: npm run test-php
-
-      - name: Stop WordPress Environment
-        run: npm run stop-env
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -44,6 +34,15 @@ jobs:
 
       - name: Install Composer Dependencies
         run: composer install --no-progress
+
+      - name: Start WordPress Environment
+        run: npm run start-env
+
+      - name: Run PHPUnit Tests
+        run: npm run test-php
+
+      - name: Stop WordPress Environment
+        run: npm run stop-env
 
       - name: Run PHP CodeSniffer
         run: ./vendor/bin/phpcs
