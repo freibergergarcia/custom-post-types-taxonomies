@@ -85,7 +85,7 @@ class Post_Type_Form_Page implements Registerable {
 
 		$post_type_data = null;
 		$post_type      = get_post_type_object( $post_type_name );
-		$taxonomies     = get_taxonomies( array( '_builtin' => false ) );
+		$taxonomies     = $this->get_taxonomies_filtered();
 
 		if ( $post_type instanceof WP_Post_Type ) {
 			$post_types     = get_option( CUSTOM_PTT_POST_TYPE_OPTION_NAME, array() );
@@ -93,5 +93,28 @@ class Post_Type_Form_Page implements Registerable {
 		}
 
 		require __DIR__ . '/templates/custom-ptt-post-types-form.php';
+	}
+
+	/**
+	 * Filter taxonomies to show built-in public ones as well as custom ones.
+	 *
+	 * @return array
+	 *
+	 * @since 0.2.1
+	 */
+	private function get_taxonomies_filtered(): array {
+		$taxonomies          = get_taxonomies( array(), 'objects' );
+		$filtered_taxonomies = array();
+
+		foreach ( $taxonomies as $key => $taxonomy ) {
+
+			if ( $taxonomy->_builtin && ! $taxonomy->public ) {
+				continue;
+			}
+
+			$filtered_taxonomies[ $key ] = $taxonomy;
+		}
+
+		return $filtered_taxonomies;
 	}
 }

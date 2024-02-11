@@ -72,10 +72,16 @@
 					<div class="mb-6">
 						<label class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Attach to Taxonomies:', 'custom-post-types-post-types' ); ?></label>
 						<div class="flex flex-col pl-4">
-							<?php foreach ( $taxonomies as $taxonomy_slug => $taxonomy_label ) { ?>
+							<?php
+							foreach ( $taxonomies as $taxonomy_slug => $taxonomy ) {
+								if ( ! $taxonomy instanceof WP_Taxonomy ) {
+									continue;
+								}
+
+								?>
 								<div class="mb-2">
-									<input type="checkbox" id="taxonomy-<?php echo esc_attr( $taxonomy_slug ); ?>" name="taxonomies[]" value="<?php echo esc_attr( $taxonomy_slug ); ?>" <?php checked( in_array( $taxonomy_slug, $post_type_data['taxonomies'] ?? array(), true ) ); ?> class="form-checkbox">
-									<label for="taxonomy-<?php echo esc_attr( $taxonomy_slug ); ?>" class="text-sm"><?php echo esc_html( $taxonomy_label ); ?></label>
+									<input type="checkbox" id="taxonomy-<?php echo esc_attr( $taxonomy->rewrite->slug ); ?>" name="taxonomies[]" value="<?php echo esc_attr( $taxonomy->rewrite->slug ); ?>" <?php checked( in_array( $taxonomy->rewrite->slug, $post_type_data['taxonomies'] ?? array(), true ) ); ?> class="form-checkbox">
+									<label for="taxonomy-<?php echo esc_attr( $taxonomy->rewrite->slug ); ?>" class="text-sm"><?php echo esc_html( $taxonomy->labels->singular_name ); ?></label>
 								</div>
 							<?php } ?>
 						</div>
