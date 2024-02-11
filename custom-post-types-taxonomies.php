@@ -23,6 +23,7 @@
 
 declare( strict_types=1 );
 
+use Custom_PTT\Container_Singleton;
 use Custom_PTT\Plugin_Factory;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -65,11 +66,7 @@ if ( class_exists( 'Custom_PTT\Plugin' ) ) {
  * @throws Exception
  */
 function bootstrap_plugin(): void {
-
-	$container_builder = new DI\ContainerBuilder();
-	$container_builder->addDefinitions( __DIR__ . '/config/di-config.php' );
-	$container = $container_builder->build();
-
+	$container = Container_Singleton::get_instance();
 	Plugin_Factory::create( $container )
 		->boot();
 }
