@@ -1,10 +1,10 @@
 {
   "core": "WordPress/WordPress",
-  "phpVersion": "8.1",
+  "phpVersion": "8.0",
   "plugins": [ "." ],
   "env": {
     "tests": {
-      "phpVersion": "8.1",
+      "phpVersion": "8.0",
       "config": {
         "FS_METHOD": "direct",
         "WP_DEBUG": true,

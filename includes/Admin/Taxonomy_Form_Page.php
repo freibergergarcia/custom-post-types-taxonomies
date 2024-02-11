@@ -85,6 +85,7 @@ class Taxonomy_Form_Page implements Registerable {
 
 		$taxonomy_data = null;
 		$taxonomy      = get_taxonomy( $taxonomy_name );
+		$post_types    = get_post_types( array( 'public' => true ) );
 
 		if ( $taxonomy instanceof WP_Taxonomy ) {
 			$taxonomies    = get_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, array() );

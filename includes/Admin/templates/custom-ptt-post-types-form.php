@@ -64,7 +64,9 @@
 							echo 'disabled'; }
 						?>
 						value="<?php echo esc_attr( $post_type_data['post_type_key'] ?? '' ); ?>" class="form-input w-full" required>
-						<input type="hidden" name="post-type-key" value="<?php echo esc_attr( $post_type_data['post_type_key'] ?? '' ); ?>">
+						<?php if ( ! empty( $post_type_data['post_type_key'] ) ) { ?>
+						<input type="hidden" name="post-type-key" value="<?php echo esc_attr( $post_type_data['post_type_key'] ); ?>">
+						<?php } ?>
 					</div>
 
 					<div class="mb-6">

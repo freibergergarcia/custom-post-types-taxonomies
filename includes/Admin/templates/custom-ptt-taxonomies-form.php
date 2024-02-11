@@ -61,21 +61,23 @@
 					<div class="mb-6">
 						<label class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Attach to Post Types:', 'custom-post-types-taxonomies' ); ?></label>
 						<div class="flex flex-col pl-4">
-							<!-- Posts Checkbox -->
+							<?php
+							$post_types = get_post_types( array( 'public' => true ), 'objects' ); // Retrieve post types as objects to access labels
+
+							foreach ( $post_types as $post_type ) {
+								if ( in_array( $post_type->name, array( 'attachment', 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block' ), true ) ) {
+									continue;
+								}
+
+								$is_checked = in_array( $post_type->name, $taxonomy_data['post_type'] ?? array(), true );
+								?>
 							<div class="mb-2">
-								<input type="checkbox" class="form-input" id="post-type-post" name="post-type[]" value="post" <?php checked( in_array( 'post', $taxonomy_data['post_type'] ?? array(), true ) ); ?> class="form-checkbox">
-								<label for="post-type-post" class="text-sm"><?php esc_html_e( 'Posts', 'custom-post-types-taxonomies' ); ?></label>
+								<input type="checkbox" id="post-type-<?php echo esc_attr( $post_type->name ); ?>" name="post-type[]" value="<?php echo esc_attr( $post_type->name ); ?>" <?php checked( $is_checked ); ?> class="form-checkbox">
+								<label for="post-type-<?php echo esc_attr( $post_type->name ); ?>" class="text-sm"><?php echo esc_html( $post_type->labels->singular_name ); ?></label>
 							</div>
-							<!-- Pages Checkbox -->
-							<div class="mb-2">
-								<input type="checkbox" id="post-type-page" name="post-type[]" value="page" <?php checked( in_array( 'page', $taxonomy_data['post_type'] ?? array(), true ) ); ?> class="form-checkbox">
-								<label for="post-type-page" class="text-sm"><?php esc_html_e( 'Pages', 'custom-post-types-taxonomies' ); ?></label>
-							</div>
-							<!-- Media Checkbox -->
-							<div class="mb-2">
-								<input type="checkbox" id="post-type-media" name="post-type[]" value="attachment" <?php checked( in_array( 'attachment', $taxonomy_data['post_type'] ?? array(), true ) ); ?> class="form-checkbox">
-								<label for="post-type-media" class="text-sm"><?php esc_html_e( 'Media', 'custom-post-types-taxonomies' ); ?></label>
-							</div>
+								<?php
+							}
+							?>
 						</div>
 					</div>
 

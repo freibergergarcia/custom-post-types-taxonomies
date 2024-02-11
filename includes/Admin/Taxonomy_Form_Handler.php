@@ -75,14 +75,14 @@ class Taxonomy_Form_Handler implements Registerable {
 				'success',
 				esc_html__( 'Taxonomy updated successfully.', 'custom-post-types-taxonomies' )
 			);
-			wp_redirect( admin_url( 'admin.php?page=custom-post-types-taxonomies-taxonomies&status=success' ) );
+			wp_redirect( admin_url( 'admin.php?page=custom-post-types-taxonomies&status=success' ) );
 
 		} catch ( Exception $e ) {
 			Notices::add_admin_notice(
 				'error',
 				$e->getMessage()
 			);
-			wp_redirect( admin_url( 'admin.php?page=custom-post-types-taxonomies-taxonomies&status=error' ) );
+			wp_redirect( admin_url( 'admin.php?page=custom-post-types-taxonomies&status=error' ) );
 		}
 		exit;
 	}
