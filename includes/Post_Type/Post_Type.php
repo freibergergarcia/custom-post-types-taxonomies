@@ -119,7 +119,7 @@ class Post_Type implements Registerable {
 			'singular_name' => $post_type_data['singular_label'],
 		);
 
-		$args = array(
+		$default_args = array(
 			'labels'            => $labels,
 			'public'            => true,
 			'show_in_rest'      => true,
@@ -127,7 +127,7 @@ class Post_Type implements Registerable {
 			'show_in_nav_menus' => true,
 		);
 		
-		$args = wp_parse_args( $post_type_data, $args );
+		$args = wp_parse_args( $post_type_data, $default_args );
 
 		/**
 		 * Filters the arguments used when registering a post type.

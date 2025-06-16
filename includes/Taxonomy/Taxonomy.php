@@ -113,7 +113,7 @@ class Taxonomy implements Registerable {
 			'singular_name' => $taxonomy_data['singular_label'],
 		);
 
-		$args = array(
+		$default_args = array(
 			'labels'            => $labels,
 			'public'            => true,
 			'show_ui'           => true,
@@ -122,7 +122,7 @@ class Taxonomy implements Registerable {
 			'show_in_rest'      => true,
 		);
 		
-		$args = wp_parse_args( $taxonomy_data, $args );
+		$args = wp_parse_args( $taxonomy_data, $default_args );
 
 		/**
 		 * Filters the arguments used when registering a taxonomy.
