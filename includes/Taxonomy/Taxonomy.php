@@ -102,6 +102,7 @@ class Taxonomy implements Registerable {
 			} catch ( Exception $e ) {
 				// Log error in debug mode but continue processing other taxonomies
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 					error_log( sprintf( 'Custom PTT Plugin - Error registering taxonomy %s: %s', $taxonomy_slug, $e->getMessage() ) );
 				}
 				// Continue to next taxonomy instead of breaking the entire process

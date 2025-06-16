@@ -97,6 +97,7 @@ class Post_Type implements Registerable {
 			} catch ( Exception $e ) {
 				// Log error in debug mode but continue processing other post types
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 					error_log( sprintf( 'Custom PTT Plugin - Error registering post type %s: %s', $post_type_key, $e->getMessage() ) );
 				}
 				// Continue to next post type instead of breaking the entire process

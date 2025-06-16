@@ -362,7 +362,7 @@ class Taxonomy_Test extends WP_UnitTestCase {
 	 */
 	public function test_invalid_taxonomies_not_cached(): void {
 		$taxonomy_data = array(
-			'valid_category' => array(
+			'valid_category'   => array(
 				'plural_label'   => 'Valid Categories',
 				'singular_label' => 'Valid Category',
 				'post_type'      => array( 'post' ),

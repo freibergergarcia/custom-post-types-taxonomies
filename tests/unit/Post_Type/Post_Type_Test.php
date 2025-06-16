@@ -208,7 +208,7 @@ class Post_Type_Test extends WP_UnitTestCase {
 	 */
 	public function test_graceful_error_handling_in_registration(): void {
 		$post_type_data = array(
-			'valid_product' => array(
+			'valid_product'   => array(
 				'plural_label'   => 'Valid Products',
 				'singular_label' => 'Valid Product',
 			),
