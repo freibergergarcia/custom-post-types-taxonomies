@@ -1,0 +1,23 @@
+{
+  "core": "WordPress/WordPress",
+  "phpVersion": "8.0",
+  "plugins": [ "." ],
+  "env": {
+    "development": {
+      "phpVersion": "8.0",
+      "config": {
+        "FS_METHOD": "direct",
+        "WP_DEBUG": false,
+        "WP_DISABLE_FATAL_ERROR_HANDLER": true
+      }
+    },
+    "tests": {
+      "phpVersion": "8.0",
+      "config": {
+        "FS_METHOD": "direct",
+        "WP_DEBUG": false,
+        "WP_DISABLE_FATAL_ERROR_HANDLER": true
+      }
+    }
+  }
+}

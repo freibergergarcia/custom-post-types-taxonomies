@@ -59,6 +59,18 @@ npm run dev
 npm run build
 ```
 
+### JavaScript Development
+```bash
+# Check JavaScript code quality with ESLint
+npm run lint-js
+
+# Automatically fix JavaScript issues
+npm run lint-js-fix
+
+# Format JavaScript code with Prettier
+npm run format-js
+```
+
 ### WordPress Environment (wp-env)
 ```bash
 # Start local development environment
@@ -72,22 +84,54 @@ npm run composer-install
 
 # Run PHPUnit tests in wp-env
 npm run test-php
+
+# Run E2E tests with Playwright
+npm run test-e2e
+
+# Run E2E tests in headed mode (visible browser)
+npm run test-e2e-headed
+
+# Debug E2E tests step by step
+npm run test-e2e-debug
+
+# Run E2E tests with UI mode
+npm run test-e2e-ui
+
+# Run all tests (unit + E2E)
+npm run test
 ```
 
 ## Code Standards
 
+### PHP Standards
 - Follow **WordPress-VIP-Go** coding standards via PHPCS
 - Maintain **PHP 8.0+** compatibility
 - Use **strict typing** (`declare(strict_types=1)`)
 - Implement **object caching** for performance-critical operations
 - Follow **WordPress coding conventions** for file naming and structure
 
+### JavaScript Standards
+- Follow **ESLint** with recommended rules for code quality
+- Use **tabs for indentation** to match WordPress coding standards
+- **Single quotes** for strings
+- **Semicolons** required
+- **No trailing spaces** allowed
+- **Newline required** at end of files
+
 ## Testing
 
+### Unit Tests
 - Unit tests located in `tests/unit/` using PHPUnit 9.6+
 - Bootstrap file: `tests/unit/bootstrap.php`
 - Coverage reports generated to `coverage/html/`
 - Tests follow WordPress VIP testing standards
+
+### End-to-End (E2E) Tests
+- E2E tests located in `tests/e2e/` using Playwright
+- Tests WordPress admin interface functionality
+- Covers custom post type and taxonomy creation workflows
+- Uses authentic browser automation for realistic testing
+- Configuration: `playwright.config.js`
 
 ### Testing Philosophy
 
@@ -116,3 +160,7 @@ Before modifying code to make tests pass:
 2. **Question** - Does the test make sense? What behavior is it testing?
 3. **Review** - Is this the intended behavior for the application?
 4. **Implement** - Only then make code changes to match expected behavior
+
+## File Formatting
+
+- **Always add a new line at the end of files** - All files should end with a single newline character

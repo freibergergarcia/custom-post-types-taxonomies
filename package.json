@@ -16,21 +16,34 @@
     "taxonomies"
   ],
   "devDependencies": {
+    "@playwright/test": "^1.53.0",
     "@tailwindcss/forms": "^0.5.7",
+    "@wordpress/e2e-test-utils-playwright": "^1.25.0",
+    "@wordpress/env": "^9.1.0",
+    "@wordpress/scripts": "^27.0.0",
     "autoprefixer": "^10.4.7",
+    "playwright": "^1.53.0",
     "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
-    "tailwindcss": "^3.3.5",
-    "@wordpress/env": "^9.1.0",
-    "@wordpress/scripts": "^27.0.0"
+    "tailwindcss": "^3.3.5"
   },
   "scripts": {
     "dev": "npx postcss assets/css/general.css -o assets/css/public/general.css --watch",
     "build": "NODE_ENV=production npx postcss assets/css/general.css -o assets/css/public/general.css",
     "start-env": "wp-env start",
+    "start-env-ci": "wp-env start --config=.wp-env-ci.json",
     "stop-env": "wp-env stop",
     "composer-install": "wp-env run cli --env-cwd=wp-content/plugins/$(basename $(pwd)) composer install",
     "test-php": "wp-env run tests-cli phpunit --env-cwd=wp-content/plugins/$(basename $(pwd)) --verbose",
+    "test-e2e": "playwright test",
+    "test-e2e-headed": "playwright test --headed",
+    "test-e2e-debug": "playwright test --debug",
+    "test-e2e-ui": "playwright test --ui",
+    "test-e2e-ci": "npm run start-env && playwright test && npm run stop-env",
+    "test": "npm run test-php && npm run test-e2e",
+    "lint-js": "wp-scripts lint-js",
+    "lint-js-fix": "wp-scripts lint-js --fix",
+    "format-js": "wp-scripts format-js",
     "wp-env": "wp-env"
   }
 }
