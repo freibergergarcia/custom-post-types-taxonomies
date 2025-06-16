@@ -88,3 +88,31 @@ npm run test-php
 - Bootstrap file: `tests/unit/bootstrap.php`
 - Coverage reports generated to `coverage/html/`
 - Tests follow WordPress VIP testing standards
+
+### Testing Philosophy
+
+**Follow Test-Driven Development (TDD) - Red, Green, Refactor:**
+1. **Red** - Write a failing test that defines desired behavior
+2. **Green** - Write minimal code to make the test pass
+3. **Refactor** - Improve code while keeping tests green
+
+**DRY Principle for Tests:**
+- Treat test code as production code - apply same quality standards
+- Create reusable test helpers and data providers
+- Extract common setup/teardown logic into base classes
+- Use factory methods for test data creation
+- Share test utilities across test classes
+
+**Test Quality Guidelines:**
+- Each test should verify one specific behavior
+- Use descriptive test method names that explain the scenario
+- Follow AAA pattern: Arrange, Act, Assert
+- Mock external dependencies to ensure isolation
+- Test both happy path and edge cases
+
+**Test Analysis Process:**
+Before modifying code to make tests pass:
+1. **Understand** - Read the test name, comments, and assertions
+2. **Question** - Does the test make sense? What behavior is it testing?
+3. **Review** - Is this the intended behavior for the application?
+4. **Implement** - Only then make code changes to match expected behavior

@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace Custom_PTT\Post_Type;
 
 use Custom_PTT\Infrastructure\Registerable;
@@ -13,23 +15,22 @@ use WP_Error;
  *
  * @package   Custom_PTT
  * @since     0.1.0-alpha
- * @see       https://developer.wordpress.org/plugins/post-types/
+ * @see       https://developer.wordpress.org/plugins/taxonomies/
  */
 class Post_Type implements Registerable {
 
 	/**
-	 * Cache group for post types.
+	 * Cache group for post type caching.
 	 *
 	 * @var string
+	 * @since 0.2.1
 	 */
-	private const CACHE_GROUP = 'custom_ptt_post_types';
+	const CACHE_GROUP = 'custom_ptt_post_types';
 
 	/**
 	 * Register the post type.
 	 *
 	 * @return void
-	 * @throws Exception
-	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function register(): void {
@@ -39,44 +40,73 @@ class Post_Type implements Registerable {
 	/**
 	 * Handles the actual registration of post types on init.
 	 *
-	 *  This method reads the custom post types from the options table and registers them using the
-	 *  `register_post_type()` function. The post types are registered with default arguments, unless
-	 *  custom arguments are specified. Developers can modify the arguments for each post type
-	 *  using the `custom_ptt_post_type_args` filter hook.
+	 * This method reads the custom post types from the options table and registers them using the
+	 * `register_post_type()` function. The post types are registered with default arguments, unless
+	 * custom arguments are specified. Developers can modify the arguments for each post type
+	 * using the `custom_ptt_post_type_args` filter hook.
 	 *
 	 * @return void
-	 * @throws Exception
-	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function register_post_type_on_init(): void {
-		$post_types = wp_cache_get( 'registered_post_types', self::CACHE_GROUP );
-		
-		if ( false === $post_types ) {
-			$post_types = get_option( CUSTOM_PTT_POST_TYPE_OPTION_NAME, array() );
-			wp_cache_set( 'registered_post_types', $post_types, self::CACHE_GROUP, HOUR_IN_SECONDS );
-		}
-
+		$post_types = get_option( CUSTOM_PTT_POST_TYPE_OPTION_NAME, array() );
 		if ( empty( $post_types ) ) {
 			return;
 		}
 
+		$successfully_registered = array();
+
 		foreach ( $post_types as $post_type_key => $post_type_data ) {
 			try {
-				$this->register_single_post_type( $post_type_key, $post_type_data );
-			} catch ( Exception $e ) {
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					error_log( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
-						sprintf( 
-							'Custom PTT Plugin - Error registering post type %s: %s', 
-							$post_type_key, 
-							$e->getMessage() 
-						) 
-					);
+				$labels = array(
+					'name'          => $post_type_data['plural_label'],
+					'singular_name' => $post_type_data['singular_label'],
+				);
+
+				$args = array(
+					'labels'            => $labels,
+					'public'            => true,
+					'show_in_rest'      => true,
+					'show_in_admin_bar' => true,
+					'show_in_nav_menus' => true,
+					'show_ui'           => true,
+					'show_in_menu'      => true,
+				);
+				$args = wp_parse_args( $post_type_data, $args );
+
+				/**
+				 * Filters the arguments used when registering a post type.
+				 *
+				 * @param array $args The arguments used when registering a post type.
+				 * @param string $post_type_key The post type slug.
+				 * @param array $post_type_data The post type data.
+				 *
+				 * @since 0.1.0-alpha
+				 */
+				$args = apply_filters( 'custom_ptt_post_type_args', $args, $post_type_key, $post_type_data );
+
+				$post_type_result = register_post_type( $post_type_key, $args );
+
+				if ( $post_type_result instanceof WP_Error ) {
+					throw new Exception( $post_type_result->get_error_message() );
 				}
+
+				// Only add to cache if registration was successful
+				$successfully_registered[ $post_type_key ] = $post_type_data;
+
+			} catch ( Exception $e ) {
+				// Log error in debug mode but continue processing other post types
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+					error_log( sprintf( 'Custom PTT Plugin - Error registering post type %s: %s', $post_type_key, $e->getMessage() ) );
+				}
+				// Continue to next post type instead of breaking the entire process
 				continue;
 			}
 		}
+
+		// Cache only successfully registered post types for performance
+		wp_cache_set( 'registered_post_types', $successfully_registered, self::CACHE_GROUP, HOUR_IN_SECONDS );
 
 		/**
 		 * Fires after the post types are registered.
@@ -85,7 +115,7 @@ class Post_Type implements Registerable {
 		 *
 		 * @since 0.1.0-alpha
 		 */
-		do_action( 'custom_ptt_registered_post_types', $post_types );
+		do_action( 'custom_ptt_registered_post_types', $successfully_registered );
 	}
 
 	/**
@@ -104,6 +134,25 @@ class Post_Type implements Registerable {
 		if ( $post_type_result instanceof WP_Error ) {
 			throw new Exception( esc_html( $post_type_result->get_error_message() ) );
 		}
+	}
+
+	/**
+	 * Validate cache integrity by comparing cached data with option data.
+	 *
+	 * @return bool True if cache is valid, false if corrupted or missing.
+	 * @since 0.2.1
+	 */
+	public function validate_cache_integrity(): bool {
+		$cached_data = wp_cache_get( 'registered_post_types', self::CACHE_GROUP );
+		$option_data = get_option( CUSTOM_PTT_POST_TYPE_OPTION_NAME, array() );
+		
+		// If no cache exists, consider it invalid
+		if ( false === $cached_data ) {
+			return false;
+		}
+		
+		// Compare cached data with option data
+		return $cached_data === $option_data;
 	}
 
 	/**
