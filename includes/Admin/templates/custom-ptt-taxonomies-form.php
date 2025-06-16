@@ -42,7 +42,7 @@
 					<input type="hidden" name="action" value="custom_ptt_save_taxonomy">
 
 					<div class="mb-4">
-						<label class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Taxonomy slug:', 'custom-post-types-taxonomies' ); ?></label>
+						<label for="taxonomy-slug" class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Taxonomy slug:', 'custom-post-types-taxonomies' ); ?></label>
 						<?php if ( ! empty( $taxonomy_data ) ) : ?>
 							<div class="bg-gray-50 border border-gray-300 rounded px-3 py-2 text-gray-700">
 								<code><?php echo esc_html( $taxonomy_data['taxonomy_slug'] ); ?></code>
