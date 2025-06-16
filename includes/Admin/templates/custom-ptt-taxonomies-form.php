@@ -47,6 +47,7 @@
 							<div class="bg-gray-50 border border-gray-300 rounded px-3 py-2 text-gray-700">
 								<code><?php echo esc_html( $taxonomy_data['taxonomy_slug'] ); ?></code>
 							</div>
+							<input type="hidden" name="taxonomy-slug" value="<?php echo esc_attr( $taxonomy_data['taxonomy_slug'] ); ?>">
 							<p class="text-xs text-gray-500 mt-1"><?php esc_html_e( 'The slug cannot be changed after creation to prevent data loss.', 'custom-post-types-taxonomies' ); ?></p>
 						<?php else : ?>
 							<input type="text" id="taxonomy-slug" name="taxonomy-slug" value="" class="form-input w-full" required>
