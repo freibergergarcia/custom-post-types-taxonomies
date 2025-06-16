@@ -66,7 +66,7 @@ class Taxonomy implements Registerable {
 					$this->register_single_taxonomy( $taxonomy_slug, $taxonomy_data );
 				} catch ( Exception $e ) {
 					if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-						error_log(
+						error_log( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 							sprintf( 
 								'Custom PTT Plugin - Error registering taxonomy %s: %s', 
 								$taxonomy_slug, 
@@ -88,7 +88,7 @@ class Taxonomy implements Registerable {
 
 		} catch ( Exception $e ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log(
+				error_log( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 					sprintf( 
 						'Custom PTT Plugin - Error in taxonomy registration process: %s', 
 						$e->getMessage() 
@@ -134,7 +134,7 @@ class Taxonomy implements Registerable {
 		 */
 		$args = apply_filters( 'custom_ptt_taxonomy_args', $args, $taxonomy_slug, $taxonomy_data );
 		
-		$args_hash   = md5( serialize( $args ) );
+		$args_hash   = md5( wp_json_encode( $args ) );
 		$cache_key   = "taxonomy_{$taxonomy_slug}_{$args_hash}";
 		$cached_args = wp_cache_get( $cache_key, self::CACHE_GROUP );
 		

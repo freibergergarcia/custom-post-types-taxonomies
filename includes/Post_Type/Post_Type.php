@@ -66,7 +66,7 @@ class Post_Type implements Registerable {
 				$this->register_single_post_type( $post_type_key, $post_type_data );
 			} catch ( Exception $e ) {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					error_log(
+					error_log( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 						sprintf( 
 							'Custom PTT Plugin - Error registering post type %s: %s', 
 							$post_type_key, 
@@ -139,7 +139,7 @@ class Post_Type implements Registerable {
 		 */
 		$args = apply_filters( 'custom_ptt_post_type_args', $args, $post_type_key, $post_type_data );
 		
-		$args_hash   = md5( serialize( $args ) );
+		$args_hash   = md5( wp_json_encode( $args ) );
 		$cache_key   = "post_type_{$post_type_key}_{$args_hash}";
 		$cached_args = wp_cache_get( $cache_key, self::CACHE_GROUP );
 		

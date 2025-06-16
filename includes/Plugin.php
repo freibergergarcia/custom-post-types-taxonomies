@@ -113,7 +113,6 @@ class Plugin {
 	 */
 	public function on_deactivation(): void {
 		wp_cache_flush();
-		flush_rewrite_rules();
 	}
 
 	/**

@@ -53,7 +53,7 @@ class Post_Type_Form_Handler implements Registerable {
 			'plural_label'   => isset( $_POST['plural-label'] ) ? \sanitize_text_field( \wp_unslash( $_POST['plural-label'] ) ) : '',
 			'singular_label' => isset( $_POST['singular-label'] ) ? \sanitize_text_field( \wp_unslash( $_POST['singular-label'] ) ) : '',
 			'post_type_slug' => isset( $_POST['post-type-slug'] ) ? \sanitize_text_field( \wp_unslash( $_POST['post-type-slug'] ) ) : '',
-			'taxonomies'     => isset( $_POST['taxonomies'] ) && is_array( $_POST['taxonomies'] ) ? array_map( '\sanitize_text_field', \wp_unslash( $_POST['taxonomies'] ) ) : array(),
+			'taxonomies'     => $this->sanitize_taxonomy_array(),
 		);
 
 		try {
@@ -147,5 +147,26 @@ class Post_Type_Form_Handler implements Registerable {
 				'all'
 			);
 		}
+	}
+
+	/**
+	 * Sanitize taxonomy array from POST data.
+	 *
+	 * @return array
+	 * @since 0.2.1
+	 */
+	private function sanitize_taxonomy_array(): array {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification is handled in handle_form_submission
+		if ( ! isset( $_POST['taxonomies'] ) || ! is_array( $_POST['taxonomies'] ) ) {
+			return array();
+		}
+
+		$sanitized_taxonomies = array();
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verification is handled in handle_form_submission, sanitization is done below
+		foreach ( \wp_unslash( $_POST['taxonomies'] ) as $taxonomy ) {
+			$sanitized_taxonomies[] = \sanitize_text_field( $taxonomy );
+		}
+
+		return $sanitized_taxonomies;
 	}
 }

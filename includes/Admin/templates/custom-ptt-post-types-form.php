@@ -81,8 +81,8 @@
 						<label class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Attach to Taxonomies:', 'custom-post-types-taxonomies' ); ?></label>
 						<div class="flex flex-col pl-4">
 							<?php
-							foreach ( $taxonomies as $taxonomy_slug => $taxonomy ) {
-								if ( ! $taxonomy instanceof WP_Taxonomy ) {
+							foreach ( $taxonomies as $taxonomy_slug => $taxonomy_obj ) {
+								if ( ! $taxonomy_obj instanceof WP_Taxonomy ) {
 									continue;
 								}
 								?>
@@ -94,7 +94,7 @@
 										<?php checked( in_array( $taxonomy_slug, $post_type_data['taxonomies'] ?? array(), true ) ); ?> 
 										class="form-checkbox">
 									<label for="taxonomy-<?php echo esc_attr( $taxonomy_slug ); ?>" 
-										class="text-sm"><?php echo esc_html( $taxonomy->labels->singular_name ); ?></label>
+										class="text-sm"><?php echo esc_html( $taxonomy_obj->labels->singular_name ); ?></label>
 								</div>
 							<?php } ?>
 						</div>

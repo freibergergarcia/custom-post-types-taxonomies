@@ -73,16 +73,16 @@
 							<?php
 							$post_types = get_post_types( array( 'public' => true ), 'objects' ); // Retrieve post types as objects to access labels
 
-							foreach ( $post_types as $post_type ) {
-								if ( in_array( $post_type->name, array( 'attachment', 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block' ), true ) ) {
+							foreach ( $post_types as $post_type_obj ) {
+								if ( in_array( $post_type_obj->name, array( 'attachment', 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block' ), true ) ) {
 									continue;
 								}
 
-								$is_checked = in_array( $post_type->name, $taxonomy_data['post_type'] ?? array(), true );
+								$is_checked = in_array( $post_type_obj->name, $taxonomy_data['post_type'] ?? array(), true );
 								?>
 							<div class="mb-2">
-								<input type="checkbox" id="post-type-<?php echo esc_attr( $post_type->name ); ?>" name="post-type[]" value="<?php echo esc_attr( $post_type->name ); ?>" <?php checked( $is_checked ); ?> class="form-checkbox">
-								<label for="post-type-<?php echo esc_attr( $post_type->name ); ?>" class="text-sm"><?php echo esc_html( $post_type->labels->singular_name ); ?></label>
+								<input type="checkbox" id="post-type-<?php echo esc_attr( $post_type_obj->name ); ?>" name="post-type[]" value="<?php echo esc_attr( $post_type_obj->name ); ?>" <?php checked( $is_checked ); ?> class="form-checkbox">
+								<label for="post-type-<?php echo esc_attr( $post_type_obj->name ); ?>" class="text-sm"><?php echo esc_html( $post_type_obj->labels->singular_name ); ?></label>
 							</div>
 								<?php
 							}
