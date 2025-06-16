@@ -356,6 +356,41 @@ class Taxonomy_Test extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test that invalid taxonomies are not cached.
+	 *
+	 * @since 0.2.1
+	 */
+	public function test_invalid_taxonomies_not_cached(): void {
+		$taxonomy_data = array(
+			'valid_category' => array(
+				'plural_label'   => 'Valid Categories',
+				'singular_label' => 'Valid Category',
+				'post_type'      => array( 'post' ),
+			),
+			'invalid_category' => array(
+				'plural_label'   => 'Invalid Categories',
+				'singular_label' => 'Invalid Category',
+				// Missing required post_type
+			),
+		);
+
+		update_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, $taxonomy_data );
+
+		$this->taxonomy->register_taxonomy_on_init();
+
+		// Verify cache contains only valid taxonomy
+		$cached_taxonomies = wp_cache_get( 'registered_taxonomies', 'custom_ptt_taxonomies' );
+		
+		// Should only contain the valid taxonomy
+		$this->assertArrayHasKey( 'valid_category', $cached_taxonomies );
+		$this->assertArrayNotHasKey( 'invalid_category', $cached_taxonomies );
+		
+		// Verify only valid taxonomy was registered
+		$this->assertTrue( taxonomy_exists( 'valid_category' ) );
+		$this->assertFalse( taxonomy_exists( 'invalid_category' ) );
+	}
+
+	/**
 	 * Test taxonomy registration with custom arguments.
 	 *
 	 * @since 0.2.1

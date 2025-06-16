@@ -174,4 +174,61 @@ class Post_Type_Test extends WP_UnitTestCase {
 		// Assert - Should return false for corrupted cache
 		$this->assertFalse( $is_valid );
 	}
+
+	/**
+	 * Test caching mechanism for post type registration.
+	 *
+	 * @since 0.2.1
+	 */
+	public function test_caching_mechanism_for_registration(): void {
+		$post_type_data = array(
+			'test_product' => array(
+				'plural_label'   => 'Test Products',
+				'singular_label' => 'Test Product',
+			),
+		);
+
+		update_option( CUSTOM_PTT_POST_TYPE_OPTION_NAME, $post_type_data );
+
+		// First call should set cache
+		$this->post_type->register_post_type_on_init();
+		
+		// Verify cache was set with successfully registered post types
+		$cached_post_types = wp_cache_get( 'registered_post_types', 'custom_ptt_post_types' );
+		$this->assertEquals( $post_type_data, $cached_post_types );
+
+		// Verify the post type was actually registered
+		$this->assertTrue( post_type_exists( 'test_product' ) );
+	}
+
+	/**
+	 * Test that registration continues gracefully when errors occur.
+	 *
+	 * @since 0.2.1
+	 */
+	public function test_graceful_error_handling_in_registration(): void {
+		$post_type_data = array(
+			'valid_product' => array(
+				'plural_label'   => 'Valid Products',
+				'singular_label' => 'Valid Product',
+			),
+			'invalid_product' => array(
+				'plural_label'   => array(), // Invalid - should be string
+				'singular_label' => 'Invalid Product',
+			),
+		);
+
+		update_option( CUSTOM_PTT_POST_TYPE_OPTION_NAME, $post_type_data );
+
+		// Should not throw exception - should handle errors gracefully
+		$this->post_type->register_post_type_on_init();
+
+		// Valid post type should be registered, invalid should be skipped
+		$this->assertTrue( post_type_exists( 'valid_product' ) );
+		
+		// Verify cache contains only successfully registered post type
+		$cached_post_types = wp_cache_get( 'registered_post_types', 'custom_ptt_post_types' );
+		$this->assertIsArray( $cached_post_types );
+		$this->assertArrayHasKey( 'valid_product', $cached_post_types );
+	}
 }

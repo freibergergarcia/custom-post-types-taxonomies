@@ -56,8 +56,7 @@ class Taxonomy implements Registerable {
 			return;
 		}
 
-		// Cache the taxonomies data for performance
-		wp_cache_set( 'registered_taxonomies', $taxonomies, self::CACHE_GROUP, HOUR_IN_SECONDS );
+		$successfully_registered = array();
 
 		foreach ( $taxonomies as $taxonomy_slug => $taxonomy_data ) {
 			try {
@@ -96,6 +95,10 @@ class Taxonomy implements Registerable {
 				if ( $tax_result instanceof WP_Error ) {
 					throw new Exception( $tax_result->get_error_message() );
 				}
+
+				// Only add to cache if registration was successful
+				$successfully_registered[ $taxonomy_slug ] = $taxonomy_data;
+
 			} catch ( Exception $e ) {
 				// Log error in debug mode but continue processing other taxonomies
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
@@ -105,6 +108,9 @@ class Taxonomy implements Registerable {
 				continue;
 			}
 		}
+
+		// Cache only successfully registered taxonomies for performance
+		wp_cache_set( 'registered_taxonomies', $successfully_registered, self::CACHE_GROUP, HOUR_IN_SECONDS );
 
 		/**
 		 * Fires after the taxonomies are registered.
