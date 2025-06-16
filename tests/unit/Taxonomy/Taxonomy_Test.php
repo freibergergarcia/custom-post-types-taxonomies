@@ -303,30 +303,10 @@ class Taxonomy_Test extends WP_UnitTestCase {
 
 		update_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, $taxonomy_data );
 
-		// Capture error log output
-		$error_logged = false;
-		
-		// Mock error_log function to capture calls
-		$original_handler = set_error_handler(
-			function ( $errno, $errstr ) use ( &$error_logged ) {
-				if ( strpos( $errstr, 'Custom PTT Plugin - Error registering taxonomy' ) !== false ) {
-						$error_logged = true;
-				}
-				return false; // Let default handler process
-			} 
-		);
-
 		$this->taxonomy->register_taxonomy_on_init();
 
 		// Invalid taxonomy should not be registered due to missing post_type
 		$this->assertFalse( taxonomy_exists( 'debug_category' ) );
-
-		// Restore original error handler
-		if ( $original_handler ) {
-			set_error_handler( $original_handler );
-		} else {
-			restore_error_handler();
-		}
 	}
 
 	/**
