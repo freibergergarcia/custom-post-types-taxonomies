@@ -47,7 +47,7 @@ class Taxonomy_Form_Handler implements Registerable {
 
 		if (
 			! isset( $_POST['custom_ptt_taxonomy_nonce'] )
-			|| ! wp_verify_nonce( $_POST['custom_ptt_taxonomy_nonce'], 'custom_ptt_save_taxonomy' )
+			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['custom_ptt_taxonomy_nonce'] ) ), 'custom_ptt_save_taxonomy' )
 			|| ! check_admin_referer( 'custom_ptt_save_taxonomy', 'custom_ptt_taxonomy_nonce' )
 		) {
 			wp_die( esc_html__( 'Security check failed. Please try again.', 'custom-post-types-taxonomies' ) );
@@ -76,6 +76,7 @@ class Taxonomy_Form_Handler implements Registerable {
 				esc_html__( 'Taxonomy updated successfully.', 'custom-post-types-taxonomies' )
 			);
 			wp_redirect( admin_url( 'admin.php?page=custom-post-types-taxonomies&status=success' ) );
+			exit;
 
 		} catch ( Exception $e ) {
 			Notices::add_admin_notice(
@@ -83,8 +84,8 @@ class Taxonomy_Form_Handler implements Registerable {
 				$e->getMessage()
 			);
 			wp_redirect( admin_url( 'admin.php?page=custom-post-types-taxonomies&status=error' ) );
+			exit;
 		}
-		exit;
 	}
 
 	/**

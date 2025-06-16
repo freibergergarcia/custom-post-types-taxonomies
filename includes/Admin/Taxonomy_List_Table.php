@@ -87,10 +87,10 @@ class Taxonomy_List_Table extends WP_List_Table {
 		$order   = 'asc';
 		if (
 			isset( $_REQUEST['custom_ptt_taxonomy_nonce'] ) &&
-			wp_verify_nonce( $_REQUEST['custom_ptt_taxonomy_nonce'], 'custom_ptt_save_taxonomy' )
+			wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['custom_ptt_taxonomy_nonce'] ) ), 'custom_ptt_save_taxonomy' )
 		) {
-			$orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'name';
-			$order   = isset( $_GET['order'] ) ? sanitize_text_field( $_GET['order'] ) : 'asc';
+			$orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : 'name';
+			$order   = isset( $_GET['order'] ) ? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : 'asc';
 		}
 
 		$taxonomies = get_taxonomies( array( '_builtin' => false ), 'objects' );

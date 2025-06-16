@@ -22,6 +22,9 @@
         <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
     </rule>
 
+    <!-- Add VIP specific rules -->
+    <rule ref="WordPress-VIP-Go"/>
+
     <!-- Ensure PHP 8.0 compatibility -->
     <config name="testVersion" value="8.0" />
     <rule ref="PHPCompatibilityWP">

@@ -81,7 +81,7 @@ class Post_Type_Form_Page implements Registerable {
 	 * @since 0.1.0-alpha
 	 */
 	public function render_form(): void {
-		$post_type_name = isset( $_GET['custom_post_type'] ) ? sanitize_text_field( $_GET['custom_post_type'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$post_type_name = isset( $_GET['custom_post_type'] ) ? sanitize_text_field( wp_unslash( $_GET['custom_post_type'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		$post_type_data = null;
 		$post_type      = get_post_type_object( $post_type_name );
