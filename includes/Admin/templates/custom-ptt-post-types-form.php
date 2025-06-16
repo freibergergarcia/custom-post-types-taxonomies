@@ -14,10 +14,10 @@
 		<?php
 		if (
 			isset( $_REQUEST['custom_ptt_post_type_nonce'] ) &&
-			wp_verify_nonce( $_REQUEST['custom_ptt_post_type_nonce'], 'custom_ptt_save_post_type' ) &&
+			wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['custom_ptt_post_type_nonce'] ) ), 'custom_ptt_save_post_type' ) &&
 			is_null( $post_type_data ) &&
 			isset( $_GET['action'] ) &&
-			'edit' === sanitize_text_field( $_GET['action'] )
+			'edit' === sanitize_text_field( wp_unslash( $_GET['action'] ) )
 		) {
 			?>
 
@@ -34,7 +34,7 @@
 
 			<div class="mt-10 w-full">
 				<h1 class="text-2xl font-bold mb-6">
-					<?php echo ! empty( $post_type_data ) ? esc_html__( 'Edit Post Type', 'custom-post-types-post-types' ) : esc_html__( 'Add New Post Type', 'custom-post-types-post-types' ); ?>
+					<?php echo ! empty( $post_type_data ) ? esc_html__( 'Edit Post Type', 'custom-post-types-taxonomies' ) : esc_html__( 'Add New Post Type', 'custom-post-types-taxonomies' ); ?>
 				</h1>
 
 				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-2xl mx-auto">
@@ -42,22 +42,30 @@
 					<input type="hidden" name="action" value="custom_ptt_save_post_type">
 
 					<div class="mb-4">
-						<label for="post-type-slug" class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Post Type slug:', 'custom-post-types-post-types' ); ?></label>
-						<input type="text" id="post-type-slug" name="post-type-slug" value="<?php echo esc_attr( $post_type_data['post_type_slug'] ?? '' ); ?>" class="form-input w-full" required>
+						<label class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Post Type slug:', 'custom-post-types-taxonomies' ); ?></label>
+						<?php if ( ! empty( $post_type_data ) ) : ?>
+							<div class="bg-gray-50 border border-gray-300 rounded px-3 py-2 text-gray-700">
+								<code><?php echo esc_html( $post_type_data['post_type_slug'] ); ?></code>
+							</div>
+							<p class="text-xs text-gray-500 mt-1"><?php esc_html_e( 'The slug cannot be changed after creation to prevent data loss.', 'custom-post-types-taxonomies' ); ?></p>
+						<?php else : ?>
+							<input type="text" id="post-type-slug" name="post-type-slug" value="" class="form-input w-full" required>
+							<p class="text-xs text-gray-500 mt-1"><?php esc_html_e( 'This will be the permanent identifier for your post type.', 'custom-post-types-taxonomies' ); ?></p>
+						<?php endif; ?>
 					</div>
 
 					<div class="mb-4">
-						<label for="plural-label" class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Plural Label:', 'custom-post-types-post-types' ); ?></label>
+						<label for="plural-label" class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Plural Label:', 'custom-post-types-taxonomies' ); ?></label>
 						<input type="text" id="plural-label" name="plural-label" value="<?php echo esc_attr( $post_type_data['plural_label'] ?? '' ); ?>" class="form-input w-full">
 					</div>
 
 					<div class="mb-4">
-						<label for="singular-label" class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Singular Label:', 'custom-post-types-post-types' ); ?></label>
+						<label for="singular-label" class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Singular Label:', 'custom-post-types-taxonomies' ); ?></label>
 						<input type="text" id="singular-label" name="singular-label" value="<?php echo esc_attr( $post_type_data['singular_label'] ?? '' ); ?>" class="form-input w-full" required>
 					</div>
 
 					<div class="mb-4">
-						<label for="post-type-key" class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Post Type Key:', 'custom-post-types-post-types' ); ?></label>
+						<label for="post-type-key" class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Post Type Key:', 'custom-post-types-taxonomies' ); ?></label>
 						<input type="text" id="post-type-key" name="post-type-key" 
 						<?php
 						if ( ! empty( $post_type_data['post_type_key'] ) ) {
@@ -70,27 +78,32 @@
 					</div>
 
 					<div class="mb-6">
-						<label class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Attach to Taxonomies:', 'custom-post-types-post-types' ); ?></label>
+						<label class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Attach to Taxonomies:', 'custom-post-types-taxonomies' ); ?></label>
 						<div class="flex flex-col pl-4">
 							<?php
 							foreach ( $taxonomies as $taxonomy_slug => $taxonomy ) {
 								if ( ! $taxonomy instanceof WP_Taxonomy ) {
 									continue;
 								}
-
 								?>
 								<div class="mb-2">
-									<input type="checkbox" id="taxonomy-<?php echo esc_attr( $taxonomy->rewrite->slug ); ?>" name="taxonomies[]" value="<?php echo esc_attr( $taxonomy->rewrite->slug ); ?>" <?php checked( in_array( $taxonomy->rewrite->slug, $post_type_data['taxonomies'] ?? array(), true ) ); ?> class="form-checkbox">
-									<label for="taxonomy-<?php echo esc_attr( $taxonomy->rewrite->slug ); ?>" class="text-sm"><?php echo esc_html( $taxonomy->labels->singular_name ); ?></label>
+									<input type="checkbox" 
+										id="taxonomy-<?php echo esc_attr( $taxonomy_slug ); ?>" 
+										name="taxonomies[]" 
+										value="<?php echo esc_attr( $taxonomy_slug ); ?>" 
+										<?php checked( in_array( $taxonomy_slug, $post_type_data['taxonomies'] ?? array(), true ) ); ?> 
+										class="form-checkbox">
+									<label for="taxonomy-<?php echo esc_attr( $taxonomy_slug ); ?>" 
+										class="text-sm"><?php echo esc_html( $taxonomy->labels->singular_name ); ?></label>
 								</div>
 							<?php } ?>
 						</div>
 					</div>
 
 					<?php if ( isset( $post_type_data ) ) { ?>
-						<?php submit_button( esc_attr__( 'Update Post Type', 'custom-post-types-post-types' ), 'primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline', 'submit', false ); ?>
+						<?php submit_button( esc_attr__( 'Update Post Type', 'custom-post-types-taxonomies' ), 'primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline', 'submit', false ); ?>
 					<?php } else { ?>
-						<?php submit_button( esc_attr__( 'Add Post Type', 'custom-post-types-post-types' ), 'primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline', 'submit', false ); ?>
+						<?php submit_button( esc_attr__( 'Add Post Type', 'custom-post-types-taxonomies' ), 'primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline', 'submit', false ); ?>
 					<?php } ?>
 
 				</form>

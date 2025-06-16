@@ -20,6 +20,13 @@ use WP_Error;
 class Taxonomy implements Registerable {
 
 	/**
+	 * Cache group for taxonomies.
+	 *
+	 * @var string
+	 */
+	private const CACHE_GROUP = 'custom_ptt_taxonomies';
+
+	/**
 	 * Register the taxonomy.
 	 *
 	 * @return void
@@ -42,51 +49,105 @@ class Taxonomy implements Registerable {
 	 * @since 0.1.0-alpha
 	 */
 	public function register_taxonomy_on_init(): void {
+		try {
+			$taxonomies = wp_cache_get( 'registered_taxonomies', self::CACHE_GROUP );
+			
+			if ( false === $taxonomies ) {
+				$taxonomies = get_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, array() );
+				wp_cache_set( 'registered_taxonomies', $taxonomies, self::CACHE_GROUP, HOUR_IN_SECONDS );
+			}
 
-		$taxonomies = get_option( CUSTOM_PTT_TAXONOMY_OPTION_NAME, array() );
-		if ( empty( $taxonomies ) ) {
-			return;
-		}
+			if ( empty( $taxonomies ) ) {
+				return;
+			}
 
-		foreach ( $taxonomies as $taxonomy_slug => $taxonomy_data ) {
-			$labels = array(
-				'name'          => $taxonomy_data['plural_label'],
-				'singular_name' => $taxonomy_data['singular_label'],
-			);
-
-			$args = array(
-				'labels'            => $labels,
-				'public'            => true,
-				'show_ui'           => true,
-				'show_in_menu'      => true,
-				'show_in_nav_menus' => true,
-				'show_in_rest'      => true,
-			);
-			$args = wp_parse_args( $taxonomy_data, $args );
+			foreach ( $taxonomies as $taxonomy_slug => $taxonomy_data ) {
+				try {
+					$this->register_single_taxonomy( $taxonomy_slug, $taxonomy_data );
+				} catch ( Exception $e ) {
+					if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+						error_log(
+							sprintf( 
+								'Custom PTT Plugin - Error registering taxonomy %s: %s', 
+								$taxonomy_slug, 
+								$e->getMessage() 
+							) 
+						);
+					}
+					continue;
+				}
+			}
 
 			/**
-			 * Filters the arguments used when registering a taxonomy.
+			 * Fires after the taxonomies are registered.
 			 *
-			 * @param array $args The arguments used when registering a taxonomy.
-			 * @param string $taxonomy_slug The taxonomy slug.
-			 * @param array $taxonomy_data The taxonomy data.
+			 * @param array $taxonomies The taxonomies that were registered.
 			 * @since 0.1.0-alpha
 			 */
-			$args = apply_filters( 'custom_ptt_taxonomy_args', $args, $taxonomy_slug, $taxonomy_data );
+			do_action( 'custom_ptt_registered_taxonomies', $taxonomies );
 
-			$tax_result = register_taxonomy( $taxonomy_slug, $taxonomy_data['post_type'], $args );
-
-			if ( $tax_result instanceof WP_Error ) {
-				throw new Exception( $tax_result->get_error_message() );
+		} catch ( Exception $e ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log(
+					sprintf( 
+						'Custom PTT Plugin - Error in taxonomy registration process: %s', 
+						$e->getMessage() 
+					) 
+				);
 			}
+			throw $e;
 		}
+	}
+
+	/**
+	 * Register a single taxonomy.
+	 *
+	 * @param string $taxonomy_slug The taxonomy slug.
+	 * @param array  $taxonomy_data The taxonomy data.
+	 * @throws Exception If taxonomy registration fails.
+	 * @return void
+	 */
+	private function register_single_taxonomy( string $taxonomy_slug, array $taxonomy_data ): void {
+		$labels = array(
+			'name'          => $taxonomy_data['plural_label'],
+			'singular_name' => $taxonomy_data['singular_label'],
+		);
+
+		$args = array(
+			'labels'            => $labels,
+			'public'            => true,
+			'show_ui'           => true,
+			'show_in_menu'      => true,
+			'show_in_nav_menus' => true,
+			'show_in_rest'      => true,
+		);
+		
+		$args = wp_parse_args( $taxonomy_data, $args );
 
 		/**
-		 * Fires after the taxonomies are registered.
+		 * Filters the arguments used when registering a taxonomy.
 		 *
-		 * @param array $taxonomies The taxonomies that were registered.
+		 * @param array  $args          The arguments used when registering a taxonomy.
+		 * @param string $taxonomy_slug The taxonomy slug.
+		 * @param array  $taxonomy_data The taxonomy data.
 		 * @since 0.1.0-alpha
 		 */
-		do_action( 'custom_ptt_registered_taxonomies', $taxonomies );
+		$args = apply_filters( 'custom_ptt_taxonomy_args', $args, $taxonomy_slug, $taxonomy_data );
+		
+		$args_hash   = md5( serialize( $args ) );
+		$cache_key   = "taxonomy_{$taxonomy_slug}_{$args_hash}";
+		$cached_args = wp_cache_get( $cache_key, self::CACHE_GROUP );
+		
+		if ( false === $cached_args ) {
+			wp_cache_set( $cache_key, $args, self::CACHE_GROUP, HOUR_IN_SECONDS );
+		} else {
+			$args = $cached_args;
+		}
+
+		$tax_result = register_taxonomy( $taxonomy_slug, $taxonomy_data['post_type'], $args );
+
+		if ( $tax_result instanceof WP_Error ) {
+			throw new Exception( esc_html( $tax_result->get_error_message() ) );
+		}
 	}
 }

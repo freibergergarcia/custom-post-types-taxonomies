@@ -11,12 +11,13 @@
 
 	<div class="wrap max-w-lg mx-auto">
 		<?php
+		$nonce = isset( $_REQUEST['custom_ptt_taxonomy_nonce'] ) ? sanitize_key( $_REQUEST['custom_ptt_taxonomy_nonce'] ) : '';
 		if (
-			isset( $_REQUEST['custom_ptt_taxonomy_nonce'] ) &&
-			wp_verify_nonce( $_REQUEST['custom_ptt_taxonomy_nonce'], 'custom_ptt_save_taxonomy' ) &&
+			$nonce &&
+			wp_verify_nonce( $nonce, 'custom_ptt_save_taxonomy' ) &&
 			is_null( $taxonomy_data ) &&
 			isset( $_GET['action'] ) &&
-			'edit' === sanitize_text_field( $_GET['action'] )
+			'edit' === sanitize_text_field( wp_unslash( $_GET['action'] ) )
 		) {
 			?>
 
@@ -41,8 +42,16 @@
 					<input type="hidden" name="action" value="custom_ptt_save_taxonomy">
 
 					<div class="mb-4">
-						<label for="taxonomy-slug" class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Taxonomy slug:', 'custom-post-types-taxonomies' ); ?></label>
-						<input type="text" id="taxonomy-slug" name="taxonomy-slug" value="<?php echo esc_attr( $taxonomy_data['taxonomy_slug'] ?? '' ); ?>" class="form-input w-full" required>
+						<label class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Taxonomy slug:', 'custom-post-types-taxonomies' ); ?></label>
+						<?php if ( ! empty( $taxonomy_data ) ) : ?>
+							<div class="bg-gray-50 border border-gray-300 rounded px-3 py-2 text-gray-700">
+								<code><?php echo esc_html( $taxonomy_data['taxonomy_slug'] ); ?></code>
+							</div>
+							<p class="text-xs text-gray-500 mt-1"><?php esc_html_e( 'The slug cannot be changed after creation to prevent data loss.', 'custom-post-types-taxonomies' ); ?></p>
+						<?php else : ?>
+							<input type="text" id="taxonomy-slug" name="taxonomy-slug" value="" class="form-input w-full" required>
+							<p class="text-xs text-gray-500 mt-1"><?php esc_html_e( 'This will be the permanent identifier for your taxonomy.', 'custom-post-types-taxonomies' ); ?></p>
+						<?php endif; ?>
 					</div>
 
 					<!-- Plural Label -->
