@@ -9,9 +9,6 @@ namespace Custom_PTT;
  *
  * A collection of utility methods for the Custom PTT plugin.
  *
- * This trait provides utility methods that can be reused across different
- * classes within the Custom PTT plugin.
- *
  * @package Custom_PTT
  * @since 0.1.0-alpha
  */
@@ -25,13 +22,15 @@ trait Utilities {
 	 *
 	 * @param string $snake_case_string The snake_case string to be formatted.
 	 * @return string The formatted Title Case string.
+	 * @throws \InvalidArgumentException If string is empty.
 	 *
 	 * @since 0.1.0-alpha
 	 */
 	public function format_snake_case_to_title_case( string $snake_case_string ): string {
-		$words             = str_replace( '_', ' ', $snake_case_string );
-		$title_case_string = ucwords( $words );
+		if ( empty( $snake_case_string ) ) {
+			throw new \InvalidArgumentException( 'String cannot be empty' );
+		}
 
-		return $title_case_string;
+		return ucwords( str_replace( '_', ' ', $snake_case_string ) );
 	}
 }
