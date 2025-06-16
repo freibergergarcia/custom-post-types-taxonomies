@@ -20,6 +20,14 @@ use WP_Error;
 class Taxonomy implements Registerable {
 
 	/**
+	 * Cache group for taxonomy caching.
+	 *
+	 * @var string
+	 * @since 0.2.1
+	 */
+	const CACHE_GROUP = 'custom_ptt_taxonomies';
+
+	/**
 	 * Register the taxonomy.
 	 *
 	 * @return void
@@ -48,36 +56,53 @@ class Taxonomy implements Registerable {
 			return;
 		}
 
+		// Cache the taxonomies data for performance
+		wp_cache_set( 'registered_taxonomies', $taxonomies, self::CACHE_GROUP, HOUR_IN_SECONDS );
+
 		foreach ( $taxonomies as $taxonomy_slug => $taxonomy_data ) {
-			$labels = array(
-				'name'          => $taxonomy_data['plural_label'],
-				'singular_name' => $taxonomy_data['singular_label'],
-			);
+			try {
+				$labels = array(
+					'name'          => $taxonomy_data['plural_label'],
+					'singular_name' => $taxonomy_data['singular_label'],
+				);
 
-			$args = array(
-				'labels'            => $labels,
-				'public'            => true,
-				'show_ui'           => true,
-				'show_in_menu'      => true,
-				'show_in_nav_menus' => true,
-				'show_in_rest'      => true,
-			);
-			$args = wp_parse_args( $taxonomy_data, $args );
+				$args = array(
+					'labels'            => $labels,
+					'public'            => true,
+					'show_ui'           => true,
+					'show_in_menu'      => true,
+					'show_in_nav_menus' => true,
+					'show_in_rest'      => true,
+				);
+				$args = wp_parse_args( $taxonomy_data, $args );
 
-			/**
-			 * Filters the arguments used when registering a taxonomy.
-			 *
-			 * @param array $args The arguments used when registering a taxonomy.
-			 * @param string $taxonomy_slug The taxonomy slug.
-			 * @param array $taxonomy_data The taxonomy data.
-			 * @since 0.1.0-alpha
-			 */
-			$args = apply_filters( 'custom_ptt_taxonomy_args', $args, $taxonomy_slug, $taxonomy_data );
+				/**
+				 * Filters the arguments used when registering a taxonomy.
+				 *
+				 * @param array $args The arguments used when registering a taxonomy.
+				 * @param string $taxonomy_slug The taxonomy slug.
+				 * @param array $taxonomy_data The taxonomy data.
+				 * @since 0.1.0-alpha
+				 */
+				$args = apply_filters( 'custom_ptt_taxonomy_args', $args, $taxonomy_slug, $taxonomy_data );
 
-			$tax_result = register_taxonomy( $taxonomy_slug, $taxonomy_data['post_type'], $args );
+				// Validate that post_type is set
+				if ( ! isset( $taxonomy_data['post_type'] ) || empty( $taxonomy_data['post_type'] ) ) {
+					throw new Exception( sprintf( 'Missing required post_type for taxonomy: %s', $taxonomy_slug ) );
+				}
 
-			if ( $tax_result instanceof WP_Error ) {
-				throw new Exception( $tax_result->get_error_message() );
+				$tax_result = register_taxonomy( $taxonomy_slug, $taxonomy_data['post_type'], $args );
+
+				if ( $tax_result instanceof WP_Error ) {
+					throw new Exception( $tax_result->get_error_message() );
+				}
+			} catch ( Exception $e ) {
+				// Log error in debug mode but continue processing other taxonomies
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( sprintf( 'Custom PTT Plugin - Error registering taxonomy %s: %s', $taxonomy_slug, $e->getMessage() ) );
+				}
+				// Continue to next taxonomy instead of breaking the entire process
+				continue;
 			}
 		}
 

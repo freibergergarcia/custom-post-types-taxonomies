@@ -18,6 +18,14 @@ use WP_Error;
 class Post_Type implements Registerable {
 
 	/**
+	 * Cache group for post type caching.
+	 *
+	 * @var string
+	 * @since 0.2.1
+	 */
+	const CACHE_GROUP = 'custom_ptt_post_types';
+
+	/**
 	 * Register the post type.
 	 *
 	 * @return void
@@ -89,5 +97,87 @@ class Post_Type implements Registerable {
 		 * @since 0.1.0-alpha
 		 */
 		do_action( 'custom_ptt_registered_post_types', $post_types );
+	}
+
+	/**
+	 * Register a single post type.
+	 *
+	 * @param string $post_type_key The post type slug.
+	 * @param array  $post_type_data The post type data.
+	 * @throws Exception If post type registration fails.
+	 * @return void
+	 */
+	private function register_single_post_type( string $post_type_key, array $post_type_data ): void {
+		$args = $this->get_post_type_args( $post_type_key, $post_type_data );
+		
+		$post_type_result = register_post_type( $post_type_key, $args );
+
+		if ( $post_type_result instanceof WP_Error ) {
+			throw new Exception( esc_html( $post_type_result->get_error_message() ) );
+		}
+	}
+
+	/**
+	 * Validate cache integrity by comparing cached data with option data.
+	 *
+	 * @return bool True if cache is valid, false if corrupted or missing.
+	 * @since 0.2.1
+	 */
+	public function validate_cache_integrity(): bool {
+		$cached_data = wp_cache_get( 'registered_post_types', self::CACHE_GROUP );
+		$option_data = get_option( CUSTOM_PTT_POST_TYPE_OPTION_NAME, array() );
+		
+		// If no cache exists, consider it invalid
+		if ( false === $cached_data ) {
+			return false;
+		}
+		
+		// Compare cached data with option data
+		return $cached_data === $option_data;
+	}
+
+	/**
+	 * Get cached or fresh post type arguments.
+	 *
+	 * @param string $post_type_key The post type slug.
+	 * @param array  $post_type_data The post type data.
+	 * @return array
+	 */
+	private function get_post_type_args( string $post_type_key, array $post_type_data ): array {
+		$labels = array(
+			'name'          => $post_type_data['plural_label'],
+			'singular_name' => $post_type_data['singular_label'],
+		);
+
+		$default_args = array(
+			'labels'            => $labels,
+			'public'            => true,
+			'show_in_rest'      => true,
+			'show_in_admin_bar' => true,
+			'show_in_nav_menus' => true,
+		);
+		
+		$args = wp_parse_args( $post_type_data, $default_args );
+
+		/**
+		 * Filters the arguments used when registering a post type.
+		 *
+		 * @param array  $args           The arguments used when registering a post type.
+		 * @param string $post_type_key  The post type slug.
+		 * @param array  $post_type_data The post type data.
+		 * @since 0.1.0-alpha
+		 */
+		$args = apply_filters( 'custom_ptt_post_type_args', $args, $post_type_key, $post_type_data );
+		
+		$args_hash   = md5( wp_json_encode( $args ) );
+		$cache_key   = "post_type_{$post_type_key}_{$args_hash}";
+		$cached_args = wp_cache_get( $cache_key, self::CACHE_GROUP );
+		
+		if ( false === $cached_args ) {
+			wp_cache_set( $cache_key, $args, self::CACHE_GROUP, HOUR_IN_SECONDS );
+			return $args;
+		}
+
+		return $cached_args;
 	}
 }
