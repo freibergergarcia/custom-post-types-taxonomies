@@ -1,88 +1,86 @@
-# Custom post types and taxonomies (Custom PTT)
+=== Custom PTT ===
+Contributors: freibergergarcia
+Tags: custom post types, taxonomies, post types, custom taxonomies
+Requires at least: 5.8
+Tested up to: 6.8
+Requires PHP: 8.0
+Stable tag: 0.2.0
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The Custom PTT plugin is a simple WordPress Plugin to extend the functionality of WordPress by creating Custom Taxonomies and Custom Post Types.
+A simple WordPress Plugin to extend the functionality of WordPress by creating Custom Taxonomies and Custom Post Types.
 
-![Unit Tests](https://github.com/freibergergarcia/custom-post-types-taxonomies/actions/workflows/run-phpunit.yml/badge.svg)
-![PHP Code Sniffer](https://github.com/freibergergarcia/custom-post-types-taxonomies/actions/workflows/run-phpcs.yml/badge.svg)
+== Description ==
 
-## Features
-
-Once the plugin is activate, it doesn't generate any code to be placced anywhere in the `theme` or `plugin` files.  
+Once the plugin is activated, it doesn't generate any code to be placed anywhere in the `theme` or `plugin` files.  
 
 **We initialize custom Post Types and custom Taxonomies by the use of WordPress hooks**.
 
+= Key Features =
+- WordPress VIP compatible
+- Performance optimized with object caching
+- Follows WordPress VIP coding standards
+- Comprehensive error handling and logging
 - Easily add Custom Taxonomies
 - Easily add Custom Post Types
-- Extend with a built-in filters and actions in case you would like to modify the default arguments
+- Extend with built-in filters and actions
 
-### Filters and Actions
+= Performance Features =
+- Object caching for taxonomy and post type registrations
+- Smart cache invalidation based on arguments
+- Optimized database queries
+- Proper error handling and logging
 
-#### Taxonomies
+= Filters and Actions =
 
-`custom_ptt_taxonomy_args` filter is available to modify the default arguments used when registering a taxonomy.
+== Taxonomies ==
+
 ```php 
-/**
- * Filters the arguments used when registering a taxonomy.
- *
- * @param array $args The arguments used when registering a taxonomy.
- * @param string $taxonomy_slug The taxonomy slug.
- * @param array $taxonomy_data The taxonomy data.
- * @since 0.1.0-alpha
- */
- $args = apply_filters( 'custom_ptt_taxonomy_args', $args, $taxonomy_slug, $taxonomy_data );
+// Modify taxonomy registration arguments
+apply_filters('custom_ptt_taxonomy_args', $args, $taxonomy_slug, $taxonomy_data);
+
+// After taxonomies are registered
+do_action('custom_ptt_registered_taxonomies', $taxonomies);
 ```
 
-`custom_ptt_registered_taxonomies` action fires after the taxonomies are registrered
+== Post Types ==
+
 ```php 
-/**
-* Fires after the taxonomies are registered.
-*
-* @param array $taxonomies The taxonomies that were registered.
-* @since 0.1.0-alpha
-*/
-do_action( 'custom_ptt_registered_taxonomies', $taxonomies );
+// Modify post type registration arguments
+apply_filters('custom_ptt_post_type_args', $args, $post_type_key, $post_type_data);
+
+// After post types are registered
+do_action('custom_ptt_registered_post_types', $post_types);
 ```
 
-#### Post Types
+== Installation ==
 
-`custom_ptt_post_type_args` filter is available to modify the default arguments used when registering a post type.
-```php 
-/**
-* Filters the arguments used when registering a post type.
-*
-* @param array $args The arguments used when registering a post type.
- * @param string $post_type_key The post type slug.
-* @param array $post_type_data The post type data.
-*
-* @since 0.1.0-alpha
-*/
-$args = apply_filters( 'custom_ptt_post_type_args', $args, $post_type_key, $post_type_data );
-```
-
-`custom_ptt_registered_post_types` action fires after the post types are registrered
-```php 
-/**
-* Fires after the post types are registered.
-*
-* @param array $post_types The post types that were registered.
-*
-* @since 0.1.0-alpha
-*/
-do_action( 'custom_ptt_registered_post_types', $post_types );
-```
-
-## Installation
-
-Composer install is all you need to get started.
-```
+```bash
 composer install
 ```
 
-## Contributing
+== Development ==
 
-Anyone is welcome to contribute to Custom PTT. Please follow our guidelines, which are specified on the [phpcs.xml.dist](phpcs.xml.dist) file.
-PR's should be raised to the `develop` branch.
+= Code Standards =
+```bash
+composer phpcs
+composer phpcbf  # Auto-fix
+```
 
-## License
+= Testing =
+```bash
+composer unit
+composer coverage
+```
 
-This project is licensed under the GNU General Public License v2.0 - see the [LICENSE](LICENSE) file for details.
+== Changelog ==
+
+= 0.2.0 =
+* Added Container Singleton pattern for dependency injection
+* Improved VIP compatibility and performance optimization
+* Enhanced error handling and logging
+* Added object caching for post types and taxonomies
+
+== License ==
+
+GNU General Public License v2.0 - see the [LICENSE](LICENSE) file for details.

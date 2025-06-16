@@ -11,12 +11,13 @@
 
 	<div class="wrap max-w-lg mx-auto">
 		<?php
+		$nonce = isset( $_REQUEST['custom_ptt_taxonomy_nonce'] ) ? sanitize_key( $_REQUEST['custom_ptt_taxonomy_nonce'] ) : '';
 		if (
-			isset( $_REQUEST['custom_ptt_taxonomy_nonce'] ) &&
-			wp_verify_nonce( $_REQUEST['custom_ptt_taxonomy_nonce'], 'custom_ptt_save_taxonomy' ) &&
+			$nonce &&
+			wp_verify_nonce( $nonce, 'custom_ptt_save_taxonomy' ) &&
 			is_null( $taxonomy_data ) &&
 			isset( $_GET['action'] ) &&
-			'edit' === sanitize_text_field( $_GET['action'] )
+			'edit' === sanitize_text_field( wp_unslash( $_GET['action'] ) )
 		) {
 			?>
 
@@ -42,7 +43,16 @@
 
 					<div class="mb-4">
 						<label for="taxonomy-slug" class="block text-gray-700 text-sm font-bold mb-2"><?php esc_html_e( 'Taxonomy slug:', 'custom-post-types-taxonomies' ); ?></label>
-						<input type="text" id="taxonomy-slug" name="taxonomy-slug" value="<?php echo esc_attr( $taxonomy_data['taxonomy_slug'] ?? '' ); ?>" class="form-input w-full" required>
+						<?php if ( ! empty( $taxonomy_data ) ) : ?>
+							<div class="bg-gray-50 border border-gray-300 rounded px-3 py-2 text-gray-700">
+								<code><?php echo esc_html( $taxonomy_data['taxonomy_slug'] ); ?></code>
+							</div>
+							<input type="hidden" name="taxonomy-slug" value="<?php echo esc_attr( $taxonomy_data['taxonomy_slug'] ); ?>">
+							<p class="text-xs text-gray-500 mt-1"><?php esc_html_e( 'The slug cannot be changed after creation to prevent data loss.', 'custom-post-types-taxonomies' ); ?></p>
+						<?php else : ?>
+							<input type="text" id="taxonomy-slug" name="taxonomy-slug" value="" class="form-input w-full" required>
+							<p class="text-xs text-gray-500 mt-1"><?php esc_html_e( 'This will be the permanent identifier for your taxonomy.', 'custom-post-types-taxonomies' ); ?></p>
+						<?php endif; ?>
 					</div>
 
 					<!-- Plural Label -->
@@ -64,16 +74,16 @@
 							<?php
 							$post_types = get_post_types( array( 'public' => true ), 'objects' ); // Retrieve post types as objects to access labels
 
-							foreach ( $post_types as $post_type ) {
-								if ( in_array( $post_type->name, array( 'attachment', 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block' ), true ) ) {
+							foreach ( $post_types as $post_type_obj ) {
+								if ( in_array( $post_type_obj->name, array( 'attachment', 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block' ), true ) ) {
 									continue;
 								}
 
-								$is_checked = in_array( $post_type->name, $taxonomy_data['post_type'] ?? array(), true );
+								$is_checked = in_array( $post_type_obj->name, $taxonomy_data['post_type'] ?? array(), true );
 								?>
 							<div class="mb-2">
-								<input type="checkbox" id="post-type-<?php echo esc_attr( $post_type->name ); ?>" name="post-type[]" value="<?php echo esc_attr( $post_type->name ); ?>" <?php checked( $is_checked ); ?> class="form-checkbox">
-								<label for="post-type-<?php echo esc_attr( $post_type->name ); ?>" class="text-sm"><?php echo esc_html( $post_type->labels->singular_name ); ?></label>
+								<input type="checkbox" id="post-type-<?php echo esc_attr( $post_type_obj->name ); ?>" name="post-type[]" value="<?php echo esc_attr( $post_type_obj->name ); ?>" <?php checked( $is_checked ); ?> class="form-checkbox">
+								<label for="post-type-<?php echo esc_attr( $post_type_obj->name ); ?>" class="text-sm"><?php echo esc_html( $post_type_obj->labels->singular_name ); ?></label>
 							</div>
 								<?php
 							}
