@@ -6,7 +6,7 @@ test.describe('Taxonomy Functionality', () => {
 
 	test('Test 1: Taxonomies page loads and shows empty state', async ({ page }) => {
 		// Navigate to the main taxonomies page
-		await page.goto('http://localhost:8888/wp-admin/admin.php?page=custom-post-types-taxonomies');
+		await page.goto('http://localhost:8889/wp-admin/admin.php?page=custom-post-types-taxonomies');
 
 		// Should see the main heading (avoid Query Monitor h1)
 		await expect(page.locator('h1').filter({ hasText: 'Custom Taxonomies' }).or(page.locator('h1').filter({ hasText: 'custom ptt' }))).toBeVisible();
@@ -73,7 +73,7 @@ test.describe('Taxonomy Functionality', () => {
 
 	test('Test 4: Form validation - require taxonomy slug', async ({ page }) => {
 		// Navigate to the form
-		await page.goto('http://localhost:8888/wp-admin/admin.php?page=add-custom-post-types-taxonomies-taxonomies');
+		await page.goto('http://localhost:8889/wp-admin/admin.php?page=add-custom-post-types-taxonomies-taxonomies');
 
 		// Fill only some fields, leave taxonomy-slug empty
 		await page.fill('#singular-label', 'Test Category');
@@ -93,7 +93,7 @@ test.describe('Taxonomy Functionality', () => {
 
 	test('Test 5: Form validation - require singular label', async ({ page }) => {
 		// Navigate to the form
-		await page.goto('http://localhost:8888/wp-admin/admin.php?page=add-custom-post-types-taxonomies-taxonomies');
+		await page.goto('http://localhost:8889/wp-admin/admin.php?page=add-custom-post-types-taxonomies-taxonomies');
 
 		// Fill taxonomy slug but leave singular label empty
 		await page.fill('#taxonomy-slug', 'test_category_validation');

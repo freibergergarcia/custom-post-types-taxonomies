@@ -15,7 +15,7 @@ async function globalSetup() {
 
 	// Navigate to WordPress login
 	console.log('📍 Navigating to WordPress login...');
-	await page.goto('http://localhost:8888/wp-admin');
+	await page.goto('http://localhost:8889/wp-admin');
 
 	// Wait for login form to be visible
 	await expect(page.locator('#user_login')).toBeVisible();
@@ -30,55 +30,41 @@ async function globalSetup() {
 	await expect(page.locator('#wpadminbar')).toBeVisible();
 	console.log('✅ Login successful');
 
-	// Ensure plugin is activated using WP CLI (more reliable for CI)
-	console.log('🔍 Ensuring Custom PTT plugin is activated...');
+	// Activate plugin using browser automation (CI/CD friendly)
+	console.log('🔍 Activating Custom PTT plugin via browser...');
 
 	try {
-		// Use fetch to make a request to wp-admin/admin-ajax.php to run WP CLI command
-		// This is a workaround since we can't run wp-cli directly from Playwright
-
-		// Instead, let's check via the admin interface
-		await page.goto('http://localhost:8888/wp-admin/plugins.php');
+		// Navigate to plugins page
+		await page.goto('http://localhost:8889/wp-admin/plugins.php');
 
 		// Wait for plugins page to load
-		await page.waitForSelector('.wp-list-table');
+		await page.waitForSelector('.wp-list-table', { timeout: 10000 });
 
-		// Look for our plugin with more flexible selectors
-		const pluginRow = page.locator('tr').filter({
-			hasText: 'custom-post-types-taxonomies'
-		}).or(page.locator('tr').filter({
-			hasText: 'Custom Post Types and Taxonomies'
-		}));
+
+		// Look for our plugin row using the data-slug attribute
+		const pluginRow = page.locator('tr[data-slug="custom-ptt"]');
 
 		if (await pluginRow.first().isVisible()) {
-			// Check if it has an "Activate" link (meaning it's not active)
-			const activateLink = pluginRow.locator('a').filter({ hasText: 'Activate' });
+			// Check if plugin needs activation using the specific ID
+			const activateLink = page.locator('#activate-custom-ptt');
 
 			if (await activateLink.isVisible()) {
-				console.log('🔌 Activating Custom PTT plugin...');
 				await activateLink.first().click();
 
-				// Wait for activation and check for success
-				await page.waitForSelector('.notice-success, .notice-error', { timeout: 10000 });
+				// Wait for page navigation/reload after activation
+				await page.waitForLoadState('networkidle', { timeout: 15000 });
 
-				const hasSuccess = await page.locator('.notice-success').isVisible();
-				if (hasSuccess) {
-					console.log('✅ Plugin activated successfully');
-				} else {
-					console.log('⚠️ Plugin activation may have failed');
-				}
-			} else {
-				console.log('✅ Plugin already active');
+				// Verify activation by checking if row class changed from 'inactive' to 'active'
+				await page.waitForSelector('tr[data-slug="custom-ptt"]:not(.inactive)', { timeout: 10000 });
+				console.log('✅ Plugin activated successfully');
 			}
-		} else {
-			console.log('⚠️ Plugin not found in plugins list');
 		}
 	} catch (error) {
-		console.log('⚠️ Error during plugin activation check:', error.message);
+		console.log('⚠️ Error during plugin activation:', error.message);
 	}
 
 	// Navigate to dashboard to ensure we're in a good state
-	await page.goto('http://localhost:8888/wp-admin/');
+	await page.goto('http://localhost:8889/wp-admin/');
 	await expect(page.locator('#wpadminbar')).toBeVisible();
 
 	// Check if our plugin menu items exist

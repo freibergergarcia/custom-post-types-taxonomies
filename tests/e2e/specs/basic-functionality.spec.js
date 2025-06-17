@@ -6,7 +6,7 @@ test.describe('Basic Plugin Functionality', () => {
 
 	test('Test 1: Can login and see WordPress admin', async ({ page }) => {
 		// Navigate to WordPress admin dashboard
-		await page.goto('http://localhost:8888/wp-admin/');
+		await page.goto('http://localhost:8889/wp-admin/');
 
 		// Should see the admin bar indicating we're logged in
 		await expect(page.locator('#wpadminbar')).toBeVisible();
@@ -20,7 +20,7 @@ test.describe('Basic Plugin Functionality', () => {
 
 	test('Test 2: Plugin is active and menu exists', async ({ page }) => {
 		// Navigate to WordPress admin dashboard
-		await page.goto('http://localhost:8888/wp-admin/');
+		await page.goto('http://localhost:8889/wp-admin/');
 
 		// Look for our plugin menu item "Custom PTT" using specific selector
 		const pluginMenu = page.locator('a.toplevel_page_custom-post-types-taxonomies');

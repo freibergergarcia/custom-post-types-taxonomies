@@ -25,12 +25,12 @@ jobs:
     - name: Install Playwright browsers
       run: npx playwright install --with-deps
     
-    - name: Start wp-env
-      run: npm run start-env-ci
+    - name: Start wp-env for E2E
+      run: npm run start-env-e2e
     
     - name: Wait for WordPress to be ready
       run: |
-        timeout 60 bash -c 'until curl -s http://localhost:8888 > /dev/null; do sleep 2; done'
+        timeout 60 bash -c 'until curl -s http://localhost:8889 > /dev/null; do sleep 2; done'
         sleep 5  # Give a bit more time for full initialization
     
     - name: Activate plugin
