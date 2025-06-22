@@ -16,6 +16,32 @@ jobs:
       with:
         fetch-depth: 0  # Fetch full history for changelog generation
     
+    - name: Check release permissions
+      run: |
+        ALLOWED_USERS=("freibergergarcia")
+        if [[ ! " ${ALLOWED_USERS[@]} " =~ " ${{ github.actor }} " ]]; then
+          echo "❌ Error: Only repository maintainers can create releases"
+          echo "Current user: ${{ github.actor }}"
+          echo "Allowed users: ${ALLOWED_USERS[*]}"
+          exit 1
+        fi
+        echo "✅ User ${{ github.actor }} has release permissions"
+    
+    - name: Check source branch
+      run: |
+        # Get the branch name from which the tag was created
+        BRANCH=$(git branch -r --contains ${{ github.sha }} | grep -v HEAD | head -1 | sed 's/.*\///')
+        echo "Tag created from branch: $BRANCH"
+        
+        ALLOWED_BRANCHES=("main" "develop")
+        if [[ ! " ${ALLOWED_BRANCHES[@]} " =~ " $BRANCH " ]]; then
+          echo "❌ Error: Releases only allowed from main or develop branches"
+          echo "Current branch: $BRANCH"
+          echo "Allowed branches: ${ALLOWED_BRANCHES[*]}"
+          exit 1
+        fi
+        echo "✅ Release from allowed branch: $BRANCH"
+    
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
@@ -31,10 +57,22 @@ jobs:
     
     - name: Validate version format
       run: |
-        if [[ ! "${{ steps.version.outputs.version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-          echo "Error: Invalid version format. Expected x.y.z, got ${{ steps.version.outputs.version }}"
+        VERSION="${{ steps.version.outputs.version }}"
+        if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "❌ Error: Invalid version format. Expected x.y.z, got $VERSION"
           exit 1
         fi
+        echo "✅ Valid version format: $VERSION"
+    
+    - name: Check for existing release
+      run: |
+        VERSION="${{ steps.version.outputs.version }}"
+        if git tag -l | grep -q "^v$VERSION$"; then
+          echo "❌ Error: Tag v$VERSION already exists"
+          git tag -l | grep "^v"
+          exit 1
+        fi
+        echo "✅ Version $VERSION is available"
     
     - name: Update plugin version
       run: |
@@ -114,14 +152,24 @@ jobs:
           echo EOF
         } >> $GITHUB_OUTPUT
     
-    - name: Commit version updates
+    - name: Create release commit (on main branch only)
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add custom-post-types-taxonomies.php composer.json README.md
-        git commit -m "Release version ${{ steps.version.outputs.version }}" || echo "No changes to commit"
+        BRANCH=$(git branch -r --contains ${{ github.sha }} | grep -v HEAD | head -1 | sed 's/.*\///')
+        
+        if [[ "$BRANCH" == "main" ]]; then
+          echo "✅ Creating release commit on main branch"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add custom-post-types-taxonomies.php composer.json README.md
+          git commit -m "Release version ${{ steps.version.outputs.version }}" || echo "No changes to commit"
+          git push origin main
+        else
+          echo "⚠️ Release from develop branch - no commit back to source"
+          echo "Version files updated for release assets only"
+        fi
     
     - name: Create GitHub Release
+      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
