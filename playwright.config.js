@@ -70,7 +70,7 @@ module.exports = defineConfig({
 	webServer: {
 		command: 'npm run start-env-e2e',
 		url: 'http://localhost:8889',
-		reuseExistingServer: !process.env.CI,
+		reuseExistingServer: true,
 		timeout: 120 * 1000, // 2 minutes for wp-env to start
 	},
 
