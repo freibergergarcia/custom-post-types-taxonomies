@@ -33,6 +33,9 @@ jobs:
         timeout 60 bash -c 'until curl -s http://localhost:8889 > /dev/null; do sleep 2; done'
         sleep 5  # Give a bit more time for full initialization
     
+    - name: Install PHP dependencies
+      run: npm run composer-install
+    
     - name: Activate plugin
       run: |
         npx wp-env run cli wp plugin activate custom-post-types-taxonomies
