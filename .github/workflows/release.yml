@@ -1,0 +1,159 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: Create Release
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch full history for changelog generation
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Extract version from tag
+      id: version
+      run: |
+        VERSION=${GITHUB_REF#refs/tags/v}
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        echo "Extracted version: $VERSION"
+    
+    - name: Validate version format
+      run: |
+        if [[ ! "${{ steps.version.outputs.version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "Error: Invalid version format. Expected x.y.z, got ${{ steps.version.outputs.version }}"
+          exit 1
+        fi
+    
+    - name: Update plugin version
+      run: |
+        VERSION="${{ steps.version.outputs.version }}"
+        
+        # Update main plugin file
+        sed -i "s/\* Version:.*/* Version:           $VERSION/" custom-post-types-taxonomies.php
+        
+        # Update composer.json
+        sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" composer.json
+        
+        # Update README.md stable tag
+        sed -i "s/Stable tag: .*/Stable tag: $VERSION/" README.md
+        
+        # Add new changelog entry
+        sed -i "/== Changelog ==/a\\\\\\n= $VERSION =\\\\\\n* Updated to version $VERSION\\\\\\n* See GitHub releases for detailed changes\\\\\\n" README.md
+    
+    - name: Install dependencies
+      run: |
+        npm install
+        composer install --no-dev --optimize-autoloader
+    
+    - name: Run tests
+      run: |
+        composer phpcs
+        composer unit
+    
+    - name: Create plugin ZIP
+      run: |
+        # Create clean directory for plugin
+        mkdir -p release/custom-post-types-taxonomies
+        
+        # Copy plugin files (exclude dev files)
+        rsync -av --exclude-from=.gitignore \
+          --exclude='.git*' \
+          --exclude='node_modules' \
+          --exclude='tests' \
+          --exclude='coverage' \
+          --exclude='playwright-report' \
+          --exclude='test-results' \
+          --exclude='.wp-env*' \
+          --exclude='composer.lock' \
+          --exclude='package-lock.json' \
+          --exclude='playwright.config.js' \
+          --exclude='.eslintrc.js' \
+          --exclude='phpunit.xml' \
+          --exclude='CLAUDE.md' \
+          . release/custom-post-types-taxonomies/
+        
+        # Create ZIP file
+        cd release
+        zip -r ../custom-post-types-taxonomies-${{ steps.version.outputs.version }}.zip custom-post-types-taxonomies/
+        cd ..
+        
+        # Verify ZIP contents
+        echo "ZIP file contents:"
+        unzip -l custom-post-types-taxonomies-${{ steps.version.outputs.version }}.zip
+    
+    - name: Generate changelog
+      id: changelog
+      run: |
+        # Get commits since last tag
+        PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
+        
+        if [ -n "$PREVIOUS_TAG" ]; then
+          echo "## Changes since $PREVIOUS_TAG" > CHANGELOG.md
+          git log --pretty=format:"* %s (%h)" $PREVIOUS_TAG..HEAD >> CHANGELOG.md
+        else
+          echo "## Changes in this release" > CHANGELOG.md
+          git log --pretty=format:"* %s (%h)" --max-count=10 >> CHANGELOG.md
+        fi
+        
+        # Set changelog as output (escape newlines)
+        {
+          echo 'changelog<<EOF'
+          cat CHANGELOG.md
+          echo EOF
+        } >> $GITHUB_OUTPUT
+    
+    - name: Commit version updates
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add custom-post-types-taxonomies.php composer.json README.md
+        git commit -m "Release version ${{ steps.version.outputs.version }}" || echo "No changes to commit"
+    
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.version.outputs.tag }}
+        release_name: Release ${{ steps.version.outputs.version }}
+        body: |
+          # Custom PTT ${{ steps.version.outputs.version }}
+          
+          ${{ steps.changelog.outputs.changelog }}
+          
+          ## Installation
+          
+          Download the `custom-post-types-taxonomies-${{ steps.version.outputs.version }}.zip` file below and install it through your WordPress admin panel.
+          
+          ## Requirements
+          
+          - WordPress 5.8+
+          - PHP 8.0+
+          
+          ---
+          
+          *This release was automatically generated*
+        draft: false
+        prerelease: false
+    
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./custom-post-types-taxonomies-${{ steps.version.outputs.version }}.zip
+        asset_name: custom-post-types-taxonomies-${{ steps.version.outputs.version }}.zip
+        asset_content_type: application/zip
