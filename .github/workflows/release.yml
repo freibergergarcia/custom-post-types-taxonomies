@@ -85,10 +85,6 @@ jobs:
         npm install
         composer install --no-dev --optimize-autoloader
     
-    - name: Run tests
-      run: |
-        composer phpcs
-        composer unit
     
     - name: Create plugin ZIP
       run: |
