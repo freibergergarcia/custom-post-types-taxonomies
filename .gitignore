@@ -14,3 +14,7 @@ package-lock.json
 .idea
 .cursorrules
 instructions.md
+# Playwright auth state files
+/tests/e2e/fixtures/admin-auth-state.json
+/test-results/
+/playwright-report/
