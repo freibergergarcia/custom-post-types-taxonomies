@@ -68,9 +68,30 @@ composer phpcbf  # Auto-fix
 ```
 
 = Testing =
+
+PHP Unit Tests:
 ```bash
-composer unit
-composer coverage
+composer unit          # Run PHPUnit tests
+composer coverage      # Generate coverage report
+```
+
+End-to-End Tests:
+```bash
+npm run test-e2e       # Run Playwright E2E tests
+npm run test-e2e-headed # Run E2E tests with visible browser
+npm run test-e2e-debug # Debug E2E tests step by step
+```
+
+All Tests:
+```bash
+npm run test           # Run both unit and E2E tests
+```
+
+WordPress Environment:
+```bash
+npm run start-env      # Start local WordPress environment
+npm run stop-env       # Stop WordPress environment
+npm run test-php       # Run unit tests in wp-env
 ```
 
 == Changelog ==
