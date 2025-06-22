@@ -9,6 +9,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     name: Create Release
+    permissions:
+      contents: write
+      releases: write
     
     steps:
     - name: Checkout code
